@@ -3,7 +3,7 @@ import styles from './page.module.css'
 
 export default function Home() {
 
-  return <>The Page</>;
+  return <div className="text-3xl font-bold">The Page</div>;
   return (
     <div className={styles.container}>
       <main className={styles.main}>

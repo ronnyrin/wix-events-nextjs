@@ -7,17 +7,21 @@ export async function middleware(request: NextRequest) {
   if (wixSession) {
     return NextResponse.next();
   }
-
-  const wixClient = createClient(publicClientAuth({
-    // this is a hack for now, using the site url as the client id
-    // once there is a proper way to get the client id, we should use that
-    clientId: "netanelg4.wixsite.com/my-fitness-site",
-  }));
-
-  wixSession = await wixClient.newVisitorSession();
-
   const response = NextResponse.next();
-  response.cookies.set('wixSession', wixSession);
+  try {
+    const wixClient = createClient(publicClientAuth({
+      // this is a hack for now, using the site url as the client id
+      // once there is a proper way to get the client id, we should use that
+      clientId: "netanelg4.wixsite.com/my-fitness-site-2",
+    }));
 
+    console.log('*** dawdada');
+    wixSession = await wixClient.newVisitorSession();
+
+    response.cookies.set('wixSession', wixSession);
+
+  } catch (e) {
+    console.error(e);
+  }
   return response;
 }

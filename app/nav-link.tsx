@@ -12,10 +12,11 @@ export function NavLink(
   props: NavLinkProps
 ) {
   const pathname = usePathname();
+  const {activeClassName, children, ...linkProps} = props;
 
   return (
     <Link
-      {...props}
+      {...linkProps}
       className={pathname === props.href ? props.activeClassName : ""}
     >
       {props.children}
