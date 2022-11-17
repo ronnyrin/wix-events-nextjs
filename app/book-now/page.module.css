@@ -1,0 +1,17 @@
+.hero {
+  height: 380px;
+  background-color: rgba(74, 76, 103, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: helvetica-w01-bold, helvetica-w02-bold, helvetica-lt-w10-bold,
+    sans-serif;
+}
+
+.hero > h1 {
+  line-height: 54px;
+  letter-spacing: 0.1em;
+  font-size: 54px;
+  font-weight: 400;
+}

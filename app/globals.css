@@ -2,6 +2,8 @@ html,
 body {
   padding: 0;
   margin: 0;
+  font: normal normal normal 18px/1.4em helvetica-w01-light, helvetica-w02-light,
+    sans-serif;
 }
 
 a {
