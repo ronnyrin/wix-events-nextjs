@@ -15,7 +15,6 @@ export async function middleware(request: NextRequest) {
       clientId: "netanelg4.wixsite.com/my-fitness-site-2",
     }));
 
-    console.log('*** dawdada');
     wixSession = await wixClient.newVisitorSession();
 
     response.cookies.set('wixSession', wixSession);
