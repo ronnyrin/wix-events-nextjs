@@ -1,6 +1,6 @@
-import { createClient, publicClientAuth } from "@wix/sdk";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import {createWixVisitorSession} from "./auth";
 
 export async function middleware(request: NextRequest) {
   let wixSession = request.cookies.get("wixSession");
@@ -9,13 +9,7 @@ export async function middleware(request: NextRequest) {
   }
   const response = NextResponse.next();
   try {
-    const wixClient = createClient(publicClientAuth({
-      // this is a hack for now, using the site url as the client id
-      // once there is a proper way to get the client id, we should use that
-      clientId: "netanelg4.wixsite.com/my-fitness-site-2",
-    }));
-
-    wixSession = await wixClient.newVisitorSession();
+    wixSession = await createWixVisitorSession();
 
     response.cookies.set('wixSession', wixSession);
 
