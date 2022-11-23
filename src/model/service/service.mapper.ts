@@ -38,8 +38,8 @@ export function mapServiceInfo(serviceResponse: GetServiceResponse) {
     },
     slug: serviceResponse.slugs?.[0].name,
     type: mapServiceType(schedule!),
-    categoryId: serviceResponse!.category!.id,
-    categoryName: serviceResponse!.category!.name,
+    categoryId: serviceResponse!.category!.id!,
+    categoryName: serviceResponse!.category!.name!,
     payment: mapServicePayment(serviceResponse),
     staffMembers: mapStaffMembers(serviceResponse),
   };
