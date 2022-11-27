@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import {createWixVisitorSession} from "./auth";
 
 export async function middleware(request: NextRequest) {
-  let wixSession = request.cookies.get("wixSession");
+  let wixSession = request.cookies.get("svSession");
   if (wixSession) {
     return NextResponse.next();
   }
@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
   try {
     wixSession = await createWixVisitorSession();
 
-    response.cookies.set('wixSession', wixSession);
+    response.cookies.set('svSession', wixSession);
 
   } catch (e) {
     console.error(e);

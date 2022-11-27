@@ -2,7 +2,7 @@ import { mapServiceOfferedAsDto } from './service-offered-as.mapper';
 import { mapServicePricingPlansDto } from './service-pricing-plans.mapper';
 import { mapServicePaymentDto } from './service-payment.mapper';
 import {ServiceType} from "@model/service/service-types.internal";
-import {GetServiceResponse, Schedule, ScheduleStatus} from "@model/service/types";
+import {CommonImage, GetServiceResponse, Schedule, ScheduleStatus} from "@model/service/types";
 
 export function mapServiceType(schedule: Schedule): ServiceType {
   return schedule.tags
@@ -17,6 +17,8 @@ export function mapServiceType(schedule: Schedule): ServiceType {
 
 export type ServiceInfoViewModel = ReturnType<typeof mapServiceInfo>;
 
+export type ServiceImage = CommonImage;
+
 
 export function mapServiceInfo(serviceResponse: GetServiceResponse) {
   const schedule = serviceResponse.schedules?.find(
@@ -24,7 +26,9 @@ export function mapServiceInfo(serviceResponse: GetServiceResponse) {
   );
 
   const { info } = serviceResponse.service!;
-  let media = info?.media?.mainMedia?.image ?? info?.images?.[0];
+  let mainMedia = info?.media?.mainMedia?.image ?? info?.images?.[0];
+  let coverMedia = info?.media?.coverMedia?.image ?? info?.images?.[0];
+  let otherMediaItems = info?.media?.items?.filter(item => !!item?.image).map(({image}) => image) as CommonImage[] | undefined ?? info?.images;
   const { name, description, tagLine } = serviceResponse.service!.info!;
 
   return {
@@ -34,7 +38,11 @@ export function mapServiceInfo(serviceResponse: GetServiceResponse) {
       name,
       description,
       tagLine,
-      media,
+      media: {
+        mainMedia,
+        otherMediaItems,
+        coverMedia,
+      },
     },
     slug: serviceResponse.slugs?.[0].name,
     type: mapServiceType(schedule!),

@@ -1,10 +1,9 @@
 import {mapServiceInfo, ServiceInfoViewModel} from "@model/service/service.mapper";
 import {PagingMetadataV2} from "@model/service/types";
-import {cookies} from "next/headers";
 
 const BOOKINGS_SERVICES_API = "https://www.wixapis.com/bookings/v1/catalog/services";
 
-export const getServices = (wixSession?: string): Promise<{ services: ServiceInfoViewModel[], pagingMetadata: PagingMetadataV2 }> =>
+export const getServices = (wixSession: string): Promise<{ services: ServiceInfoViewModel[], pagingMetadata: PagingMetadataV2 }> =>
   fetchServices({
     input: {
       query: {
@@ -20,13 +19,21 @@ export const getServices = (wixSession?: string): Promise<{ services: ServiceInf
     pagingMetadata
   }));
 
-export const getServiceBySlug = (serviceSlug: string, wixSession?: string): Promise<ServiceInfoViewModel | null> =>
+export const getServiceBySlug = (serviceSlug: string, wixSession: string): Promise<ServiceInfoViewModel | null> =>
+  getServiceByFilter({
+    "slugs.name": serviceSlug,
+  }, wixSession);
+
+export const getServiceById = (serviceId: string, wixSession: string): Promise<ServiceInfoViewModel | null> =>
+  getServiceByFilter({
+    "service.id": serviceId,
+  }, wixSession);
+
+const getServiceByFilter = (filter: any, wixSession: string): Promise<ServiceInfoViewModel | null> =>
   fetchServices({
     input: {
       query: {
-        filter: {
-          "slugs.name": serviceSlug,
-        },
+        filter,
         paging: {
           offset: 0,
           limit: 1,
@@ -37,14 +44,13 @@ export const getServiceBySlug = (serviceSlug: string, wixSession?: string): Prom
     }, wixSession
   }).then(({services: [service]}) => (service ? mapServiceInfo(service) : null));
 
-const fetchServices = ({input, wixSession}: { input: any, wixSession?: string }) => {
-  const svSession = wixSession ?? cookies().get("wixSession");
+const fetchServices = ({input, wixSession}: { input: any, wixSession: string }) => {
 
   return fetch(
     BOOKINGS_SERVICES_API, {
       method: "POST",
       headers: {
-        Cookie: "svSession=" + svSession,
+        Cookie: "svSession=" + wixSession,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(input),

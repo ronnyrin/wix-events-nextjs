@@ -39,7 +39,7 @@ export default function ServiceList({categoryId, services}: { categoryId?: strin
         <ul className="flex flex-wrap -mb-px justify-center">
           <li className="mr-2">
             {categories.length > 1 ? categories.map((category) => (
-              <a href={`/book-now/${category.id}`} aria-current={!!selectedCategoryId}
+              <a href={`/book-now/category/${category.id}`} aria-current={!!selectedCategoryId}
                  className={`inline-block p-4 rounded-t-lg border-b-2 ${
                    category.selected ? 
                      'active text-blue-600 border-blue-600' : 
@@ -54,7 +54,7 @@ export default function ServiceList({categoryId, services}: { categoryId?: strin
         {servicesToDisplay.map((service, index) => (
           <div key={service.id} className="max-w-sm rounded overflow-hidden shadow-lg mx-auto">
             <a href={`/service/${service.slug}`}>
-            <Image media={service.info.media} width={640} height={320}/>
+            <Image media={service.info.media.mainMedia} width={640} height={320}/>
             </a>
             <div className="px-6 py-4">
               <div className="font-bold text-xl mb-2">{service.info.name}</div>
@@ -64,7 +64,7 @@ export default function ServiceList({categoryId, services}: { categoryId?: strin
             </div>
             <div className="px-6 pt-4 pb-2">
               <a
-                href={`/service/${service.slug}`}
+                href={`/calendar/${service.id}`}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                 Book Now
               </a>
