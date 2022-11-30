@@ -8,7 +8,7 @@ import {
 
 export function oneTimePricing(
   paymentOptions: PaymentOptions,
-  rate: Rate,
+  rate: Rate
 ): {
   isFree: boolean;
   isVariedPricing?: boolean;
@@ -28,20 +28,12 @@ export function oneTimePricing(
   };
 }
 
-export function mapServicePaymentDto(
-  serviceResponse: GetServiceResponse,
-) {
+export function mapServicePaymentDto(serviceResponse: GetServiceResponse) {
   const rate = serviceResponse!.schedules!.find(
-    (serviceSchedule) => serviceSchedule.status === ScheduleStatus.CREATED,
+    (serviceSchedule) => serviceSchedule.status === ScheduleStatus.CREATED
   )!.rate!;
-  const {
-    isFree,
-    priceText,
-    currency,
-    price,
-    deposit,
-    isVariedPricing,
-  } = oneTimePricing(serviceResponse!.service!.paymentOptions!, rate);
+  const { isFree, priceText, currency, price, deposit, isVariedPricing } =
+    oneTimePricing(serviceResponse!.service!.paymentOptions!, rate);
   const minPrice = serviceResponse.minPrice
     ? mapServiceMoneyDto(serviceResponse.minPrice)
     : undefined;
@@ -67,7 +59,6 @@ export const mapServiceMoneyDto = (money: Money) => {
     formattedValue: money.formattedValue,
   };
 };
-
 
 export function mapPaymentFromRate(rate: Rate, paymentOptions: PaymentOptions) {
   let currency = null,

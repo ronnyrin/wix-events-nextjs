@@ -1,5 +1,5 @@
-import {cookies} from "next/headers";
+import { cookies } from 'next/headers';
 
 export const useServerAuthSession = (): string => {
-  return cookies().get("svSession")!;
+  return cookies().get('svSession')!;
 };

@@ -46,10 +46,10 @@ export interface Location {
   name?: String;
 }
 export enum LocationType {
-  UNDEFINED = "UNDEFINED",
-  OWNER_BUSINESS = "OWNER_BUSINESS",
-  OWNER_CUSTOM = "OWNER_CUSTOM",
-  CUSTOM = "CUSTOM"
+  UNDEFINED = 'UNDEFINED',
+  OWNER_BUSINESS = 'OWNER_BUSINESS',
+  OWNER_CUSTOM = 'OWNER_CUSTOM',
+  CUSTOM = 'CUSTOM',
 }
 export interface Paging {
   limit?: Int;
@@ -110,8 +110,8 @@ export interface SlotResource {
   scheduleId?: String;
 }
 export enum SortOrder {
-  ASC = "ASC",
-  DESC = "DESC"
+  ASC = 'ASC',
+  DESC = 'DESC',
 }
 export interface Sorting {
   fieldName?: String;

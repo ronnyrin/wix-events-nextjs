@@ -1,18 +1,22 @@
-import {GetServiceResponse, PaymentOptions, PricingPlan} from '@model/service/types';
-import {OfferedAsType} from "@model/service/service-types.internal";
+import {
+  GetServiceResponse,
+  PaymentOptions,
+  PricingPlan,
+} from '@model/service/types';
+import { OfferedAsType } from '@model/service/service-types.internal';
 
 export function determinePaymentOptionsBy(
   pricingPlans: PricingPlan[],
-  paymentOptions: PaymentOptions,
+  paymentOptions: PaymentOptions
 ) {
   return [
     ...insertIf(
       !!(pricingPlans?.length && paymentOptions.wixPaidPlan),
-      OfferedAsType.PRICING_PLAN,
+      OfferedAsType.PRICING_PLAN
     ),
     ...insertIf(
       isPayable(!!paymentOptions.wixPayInPerson, !!paymentOptions.wixPayOnline),
-      OfferedAsType.ONE_TIME,
+      OfferedAsType.ONE_TIME
     ),
   ];
 }
@@ -21,7 +25,7 @@ export function mapServiceOfferedAsDto(serviceResponse: GetServiceResponse) {
   const paymentOptions = serviceResponse!.service!.paymentOptions;
   return determinePaymentOptionsBy(
     serviceResponse!.pricingPlans!,
-    paymentOptions!,
+    paymentOptions!
   );
 }
 

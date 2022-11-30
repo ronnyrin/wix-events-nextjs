@@ -1,5 +1,5 @@
-import styles from "./nav-bar.module.css";
-import { NavLink, NavLinkProps } from "./nav-link";
+import styles from './nav-bar.module.css';
+import { NavLink, NavLinkProps } from './nav-link';
 
 const StyledNavLink = (props: NavLinkProps) => (
   <NavLink activeClassName={styles.active} {...props} />
@@ -7,7 +7,7 @@ const StyledNavLink = (props: NavLinkProps) => (
 
 export function NavBar() {
   return (
-    <nav className={styles["top-nav"]}>
+    <nav className={styles['top-nav']}>
       <ul>
         <li>
           <StyledNavLink href="/">Home</StyledNavLink>
@@ -30,7 +30,7 @@ export function NavBar() {
         <li>
           <StyledNavLink href="/contact">Contact</StyledNavLink>
         </li>
-        <li style={{ float: "right" }}>
+        <li style={{ float: 'right' }}>
           <StyledNavLink href="/login">Login</StyledNavLink>
         </li>
       </ul>

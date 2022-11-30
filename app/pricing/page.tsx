@@ -1,3 +1,3 @@
 export default function PricingPage() {
-    return <>Pricing Page</>;
+  return <>Pricing Page</>;
 }

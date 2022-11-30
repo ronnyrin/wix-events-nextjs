@@ -8,15 +8,15 @@ export function mapServicePricingPlansDto(
   serviceResponse: GetServiceResponse,
   options: { onlyActive?: boolean } = {
     onlyActive: false,
-  },
+  }
 ) {
   const schedule = serviceResponse!.schedules!.find(
-    (serviceSchedule) => serviceSchedule.status === ScheduleStatus.CREATED,
+    (serviceSchedule) => serviceSchedule.status === ScheduleStatus.CREATED
   );
   let pricingPlans = serviceResponse.pricingPlans || [];
   if (options.onlyActive) {
     pricingPlans = pricingPlans.filter(
-      (pricingPlan) => pricingPlan.status === PricingPlanStatus.ACTIVE,
+      (pricingPlan) => pricingPlan.status === PricingPlanStatus.ACTIVE
     );
   }
   const pricingPlansDto = pricingPlans.map((pricingPlan) => ({

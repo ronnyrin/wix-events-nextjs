@@ -1,0 +1,6 @@
+@import '~react-day-picker/dist/style.css';
+
+.rdp {
+  --rdp-cell-size: 50px;
+  margin: 0;
+}

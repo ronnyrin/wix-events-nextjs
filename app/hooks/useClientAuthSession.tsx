@@ -1,8 +1,8 @@
-'use client'
-import {useContext} from "react";
-import {WixSessionContext} from "@app/components/Provider/WixBookingsClientProvider";
+'use client';
+import { useContext } from 'react';
+import { WixSessionContext } from '@app/components/Provider/WixBookingsClientProvider';
 
 export const useClientAuthSession = (): string => {
-  const {wixSession} = useContext(WixSessionContext);
+  const { wixSession } = useContext(WixSessionContext);
   return wixSession;
 };
