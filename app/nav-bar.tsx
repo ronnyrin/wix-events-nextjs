@@ -13,22 +13,16 @@ export function NavBar() {
           <StyledNavLink href="/">Home</StyledNavLink>
         </li>
         <li>
-          <StyledNavLink href="#about">About</StyledNavLink>
+          <StyledNavLink href="/#about">About</StyledNavLink>
         </li>
         <li>
-          <StyledNavLink href="#instructors">Instructors</StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink href="/blog">Blog</StyledNavLink>
+          <StyledNavLink href="/#instructors">Instructors</StyledNavLink>
         </li>
         <li>
           <StyledNavLink href="/pricing">Plans & Pricing</StyledNavLink>
         </li>
         <li>
           <StyledNavLink href="/book-now">Book Now</StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink href="/contact">Contact</StyledNavLink>
         </li>
         <li style={{ float: 'right' }}>
           <StyledNavLink href="/login">Login</StyledNavLink>

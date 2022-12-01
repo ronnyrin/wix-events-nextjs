@@ -6,6 +6,8 @@ import {
   Money,
 } from '@model/service/types';
 
+export type ServicePaymentDto = ReturnType<typeof mapServicePaymentDto>;
+
 export function oneTimePricing(
   paymentOptions: PaymentOptions,
   rate: Rate

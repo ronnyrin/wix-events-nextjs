@@ -1,5 +1,4 @@
 import './globals.css';
-import styles from './layout.module.css';
 import { NavBar } from './nav-bar';
 
 export default function RootLayout({
@@ -15,10 +14,10 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
-        <header className={styles.header}>
+        <header>
           <NavBar />
         </header>
-        <main className={styles.main}>{children}</main>
+        <main className="max-w-[980px] mx-auto">{children}</main>
       </body>
     </html>
   );

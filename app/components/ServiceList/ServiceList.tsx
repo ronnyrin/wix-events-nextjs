@@ -1,5 +1,6 @@
 import WixMediaImage from '@app/components/Image/WixMediaImage';
 import { ServiceInfoViewModel } from '@model/service/service.mapper';
+import { useServiceFormattedPrice } from '@app/hooks/useServiceFormattedPrice';
 
 const ALL_SERVICES_CATEGORY_ID = 'ALL';
 
@@ -71,36 +72,42 @@ export default function ServiceList({
       </div>
       <div className="my-3 container m-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {servicesToDisplay.map((service, index) => (
-          <div
-            key={service.id}
-            className="max-w-sm rounded overflow-hidden shadow-lg mx-auto"
-          >
-            <a href={`/service/${service.slug}`}>
-              <WixMediaImage
-                media={service.info.media.mainMedia}
-                width={640}
-                height={320}
-              />
-            </a>
-            <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">{service.info.name}</div>
-              <p className="text-gray-700 text-base">{service.info.tagLine}</p>
-              <p className="text-gray-700 text-base">
-                {service.payment.paymentDetails.price +
-                  service.payment.paymentDetails.currency}
-              </p>
-            </div>
-            <div className="px-6 pt-4 pb-2">
-              <a
-                href={`/calendar/${service.slug}`}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-              >
-                Book Now
-              </a>
-            </div>
-          </div>
+          <ServiceCard service={service} key={service.id} />
         ))}
       </div>
     </>
   );
 }
+
+const ServiceCard = ({ service }: { service: ServiceInfoViewModel }) => {
+  const formattedPrice = useServiceFormattedPrice(
+    service!.payment!.paymentDetails
+  );
+
+  return (
+    <div className="max-w-sm rounded overflow-hidden shadow-lg mx-auto">
+      <a href={`/service/${service.slug}`}>
+        <WixMediaImage
+          media={service.info.media.mainMedia}
+          width={640}
+          height={320}
+        />
+      </a>
+      <div className="px-6 py-4">
+        <div className="font-bold text-xl mb-2">{service.info.name}</div>
+        <p className="text-gray-700 text-base">{service.info.tagLine}</p>
+        <p className="text-gray-700 text-base">
+          {formattedPrice.userFormattedPrice}
+        </p>
+      </div>
+      <div className="px-6 pt-4 pb-2">
+        <a
+          href={`/calendar/${service.slug}`}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+        >
+          Book Now
+        </a>
+      </div>
+    </div>
+  );
+};

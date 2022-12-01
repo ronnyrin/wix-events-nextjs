@@ -1,12 +1,15 @@
 'use client';
 // use direct import since tree-shaking seems not to work
 import { Carousel, Flowbite, useTheme } from 'flowbite-react';
-import Image from 'next/image';
 
 export default function ImageGalleryClient({
   items,
+  width,
+  height,
 }: {
   items: { src: string; alt?: string }[];
+  width: number;
+  height: number;
 }) {
   const { theme } = useTheme();
   return (
@@ -25,7 +28,7 @@ export default function ImageGalleryClient({
       >
         <Carousel slide={false}>
           {items.map(({ src, alt }, index) => (
-            <Image key={index} src={src} alt={alt ?? ''} />
+            <img key={index} src={src} alt={alt ?? ''} />
           ))}
         </Carousel>
       </Flowbite>

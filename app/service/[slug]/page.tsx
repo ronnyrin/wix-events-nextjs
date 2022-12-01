@@ -2,10 +2,14 @@ import WixMediaImage from '@app/components/Image/WixMediaImage';
 import { getServiceBySlug } from '@model/service/service-api';
 import ImageGallery from '@app/components/Image/ImageGallery/ImageGallery';
 import { useServerAuthSession } from '@app/hooks/useServerAuthSession';
+import { useServiceFormattedPrice } from '@app/hooks/useServiceFormattedPrice';
 
 export default async function ServicePage({ params }: any) {
   const wixSession = useServerAuthSession();
   const service = await getServiceBySlug(params.slug, wixSession);
+  const formattedPrice = useServiceFormattedPrice(
+    service!.payment!.paymentDetails
+  );
 
   return (
     <>
@@ -34,8 +38,7 @@ export default async function ServicePage({ params }: any) {
             )}
             <p className="text-gray-700 text-sm">{service.info.description}</p>
             <p className="text-gray-700 text-base">
-              {service.payment.paymentDetails.price +
-                service.payment.paymentDetails.currency}
+              {formattedPrice.userFormattedPrice}
             </p>
           </div>
           <div className="px-6 pt-4 pb-2">

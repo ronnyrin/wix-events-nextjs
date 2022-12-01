@@ -1,6 +1,5 @@
 import { ServiceImage } from '@model/service/service.mapper';
 import { media as wixMedia } from '@wix/sdk';
-import Image from 'next/image';
 
 export function getImageUrlForMedia(
   media?: ServiceImage,
@@ -32,10 +31,10 @@ export default function WixMediaImage({
   return (
     <div className="flex items-center justify-center ">
       <div className="overflow-hidden aspect-video cursor-pointer relative group">
-        <Image
+        <img
           className="object-cover w-full aspect-video group-hover:scale-110 transition duration-300 ease-in-out"
           src={imageUrl}
-          alt={media?.altText ?? 'no image'}
+          alt={media?.altText ?? 'no info available for image'}
         />
       </div>
     </div>
