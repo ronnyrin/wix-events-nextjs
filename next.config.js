@@ -13,6 +13,7 @@ const nextConfig = {
       },
     ];
   },
+  env: {},
   reactStrictMode: true,
   swcMinify: true,
   experimental: {

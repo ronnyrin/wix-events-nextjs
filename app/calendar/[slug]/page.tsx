@@ -10,6 +10,13 @@ export default async function ServicePage({ params }: any) {
 
   return (
     <>
+      <section className="align-middle box-border p-7 pt-16 text-center">
+        <h2 className="text-3xl mb-4">Style My Ride - Consultation</h2>
+        <p className="text-sm">
+          Check out our availability and book the date and time that works for
+          you
+        </p>
+      </section>
       {service ? (
         <div
           key={service.id}

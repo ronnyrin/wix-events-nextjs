@@ -1,7 +1,7 @@
 'use client';
 import { ServiceInfoViewModel } from '@model/service/service.mapper';
 import { WixBookingsClientProvider } from '@app/components/Provider/WixBookingsClientProvider';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAvailability } from '@app/hooks/useAvailability';
 import {
   addMonths,
@@ -16,9 +16,13 @@ import {
 // react-day-picker/dist/index.js incorrectly uses "require"
 import { DayPicker } from 'react-day-picker/dist/index.esm';
 import { useServiceFormattedPrice } from '@app/hooks/useServiceFormattedPrice';
-import { useFormattedTimezone } from '@app/hooks/useFormattedTimezone';
+import {
+  useFormattedTimezone,
+  useUserTimezone,
+} from '@app/hooks/useFormattedTimezone';
 import { SlotAvailability } from '@model/availability/types';
 import { Spinner } from 'flowbite-react';
+import JSURL from 'jsurl';
 
 type CalendarDateRange = { from: string; to: string };
 
@@ -53,7 +57,8 @@ export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
     from: formatISO(startOfDay(selectedDate)),
     to: formatISO(endOfDay(selectedDate)),
   });
-  const timezoneStr = useFormattedTimezone();
+  const timezone = useUserTimezone();
+  const timezoneStr = useFormattedTimezone(timezone);
   useEffect(() => {
     // re-fetching existing range is cached
     setDateRange(getCalendarMonthRangeForDate(selectedDate!));
@@ -68,6 +73,23 @@ export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
       )
     );
   }, [selectedTime, dayData]);
+  const goToCheckout = useCallback(() => {
+    const checkoutUrl = new URL(process.env.NEXT_PUBLIC_BOOKINGS_CHECKOUT_URL!);
+    const slotData = JSURL.stringify({
+      serviceId: service.id,
+      slot: { slot: selectedSlot?.slot },
+      timezone,
+    });
+    checkoutUrl.searchParams.set('selectedSlot', slotData);
+
+    // TODO: USE PR VERSION TILL BOOKINGS EXPOSE A FORMAL API FOR DEEP LINK
+    checkoutUrl.searchParams.set(
+      'bookings-form-widget-override',
+      '8f195c0a4352e33353b8a8e7dbe2e2d17025ddc023572140c14eba1f'
+    );
+
+    window.location.href = checkoutUrl.toString();
+  }, [selectedSlot?.slot, service?.id, timezone]);
 
   return (
     <div className="flex flex-wrap">
@@ -77,7 +99,7 @@ export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
           <span className="text-gray-500 text-xs">Timezone: {timezoneStr}</span>
         </div>
         <div className="flex flex-wrap gap-x-6">
-          <section>
+          <section className="mt-4">
             <DayPicker
               modifiers={{
                 daysWithSlots: (date) =>
@@ -100,7 +122,7 @@ export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
             />
           </section>
           <section className="flex-1 w-60 min-w-fit max-w-full">
-            <div>{format(selectedDate, 'EEEE, d MMMM')}</div>
+            <div className="mt-6">{format(selectedDate, 'EEEE, d MMMM')}</div>
             {isDayDataLoading ? (
               <div className="w-full h-36 flex items-center justify-center">
                 <Spinner color="gray" />
@@ -145,14 +167,25 @@ export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
       </div>
       <section className="m-6 w-56">
         <div className="border-b pb-2">
-          <h2 className="font-bold text-lg">Booking Summary</h2>
+          <h2 className="font-bold text-lg text-center">Booking Summary</h2>
         </div>
-        <div>
-          {format(selectedDate, 'd MMMM yyyy')}
-          {selectedTime ? ' at ' + selectedTime : ''}
-        </div>
-        <div>{service.info.name}</div>
-        <div>{formattedPrice.userFormattedPrice}</div>
+        <section className="mt-6">
+          <div>
+            {format(selectedDate, 'd MMMM yyyy')}
+            {selectedTime ? ' at ' + selectedTime : ''}
+          </div>
+          <div>{service.info.name}</div>
+          <div>{formattedPrice.userFormattedPrice}</div>
+          <div>
+            <button
+              disabled={!selectedSlot}
+              className="btn-main w-full"
+              onClick={goToCheckout}
+            >
+              Book Now
+            </button>
+          </div>
+        </section>
       </section>
     </div>
   );

@@ -17,6 +17,6 @@
 }
 
 .rdp-caption_label {
-  @apply text-lg;
+  @apply text-base;
   @apply pt-1;
 }
