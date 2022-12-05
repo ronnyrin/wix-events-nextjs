@@ -1,14 +1,13 @@
-import styles from './nav-bar.module.css';
-import { NavLink, NavLinkProps } from './nav-link';
+import { NavLink, NavLinkProps } from './NavLink';
 
 const StyledNavLink = (props: NavLinkProps) => (
-  <NavLink activeClassName={styles.active} {...props} />
+  <NavLink activeClassName={''} {...props} />
 );
 
 export function NavBar() {
   return (
-    <nav className={styles['top-nav']}>
-      <ul>
+    <nav>
+      <ul className="flex flex-row gap-8 text-xs justify-end">
         <li>
           <StyledNavLink href="/">Home</StyledNavLink>
         </li>

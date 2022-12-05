@@ -19,4 +19,5 @@
 .rdp-caption_label {
   @apply text-base;
   @apply pt-1;
+  @apply font-normal;
 }

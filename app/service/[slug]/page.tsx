@@ -16,7 +16,7 @@ export default async function ServicePage({ params }: any) {
       {service ? (
         <div
           key={service.id}
-          className="full-w rounded overflow-hidden shadow-lg max-w-7xl mx-auto"
+          className="full-w rounded overflow-hidden max-w-7xl mx-auto"
         >
           {service.info.media.coverMedia && (
             <section className="max-h-96 overflow-hidden">

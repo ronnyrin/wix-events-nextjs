@@ -45,9 +45,6 @@ export default function ServiceList({
 
   return (
     <>
-      <section className="container h-80 min-w-full bg-purple-400 flex justify-center items-center font-sans">
-        <h1 className="text-4xl text-white">Book Now</h1>
-      </section>
       <div className="text-sm text-center text-gray-500 border-b border-gray-200">
         <ul className="flex flex-wrap -mb-px justify-center">
           <li className="mr-2">
@@ -85,7 +82,7 @@ const ServiceCard = ({ service }: { service: ServiceInfoViewModel }) => {
   );
 
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg mx-auto">
+    <div className="max-w-sm rounded overflow-hidden mx-auto">
       <a href={`/service/${service.slug}`}>
         <WixMediaImage
           media={service.info.media.mainMedia}

@@ -94,12 +94,12 @@ export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
   return (
     <div className="flex flex-wrap">
       <div className="m-6 max-w-full flex-grow">
-        <div className="border-b pb-2 flex flex-wrap gap-4 items-baseline justify-center">
-          <h2 className="font-bold text-lg">Select a Date and Time</h2>
+        <div className="border-b pb-2 flex flex-wrap gap-4 items-baseline justify-between">
+          <h2 className="text-lg">Select a Date and Time</h2>
           <span className="text-gray-500 text-xs">Timezone: {timezoneStr}</span>
         </div>
         <div className="flex flex-wrap gap-x-6">
-          <section className="mt-4">
+          <section className="mt-2">
             <DayPicker
               modifiers={{
                 daysWithSlots: (date) =>
@@ -122,7 +122,7 @@ export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
             />
           </section>
           <section className="flex-1 w-60 min-w-fit max-w-full">
-            <div className="mt-6">{format(selectedDate, 'EEEE, d MMMM')}</div>
+            <div className="mt-4">{format(selectedDate, 'EEEE, d MMMM')}</div>
             {isDayDataLoading ? (
               <div className="w-full h-36 flex items-center justify-center">
                 <Spinner color="gray" />
@@ -148,7 +148,7 @@ export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
                     onClick={() => setSelectedTime(formattedTime)}
                   >
                     <div
-                      className={`px-3 py-1.5 w-full border text-center ${
+                      className={`px-3 py-1.5 w-full border-2 text-center ${
                         formattedTime === selectedTime
                           ? 'border-gray-700 bg-gray-100'
                           : 'hover:border-gray-600'
@@ -165,24 +165,31 @@ export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
           </section>
         </div>
       </div>
-      <section className="m-6 w-56">
+      <section className="m-6 w-56 flex-grow">
         <div className="border-b pb-2">
-          <h2 className="font-bold text-lg text-center">Booking Summary</h2>
+          <h2 className="text-lg">Booking Summary</h2>
         </div>
-        <section className="mt-6">
+        <section className="mt-4">
+          <div>{service.info.name}</div>
           <div>
             {format(selectedDate, 'd MMMM yyyy')}
             {selectedTime ? ' at ' + selectedTime : ''}
           </div>
-          <div>{service.info.name}</div>
-          <div>{formattedPrice.userFormattedPrice}</div>
-          <div>
+          <section className="text-xs mt-1">
+            <div>{formattedPrice.userFormattedPrice}</div>
+            {selectedSlot && (
+              <>
+                <div>{selectedSlot.slot?.resource?.name}</div>
+              </>
+            )}
+          </section>
+          <div className="mt-7">
             <button
               disabled={!selectedSlot}
               className="btn-main w-full"
               onClick={goToCheckout}
             >
-              Book Now
+              Next
             </button>
           </div>
         </section>
