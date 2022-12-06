@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "yarn build"
   publish = ".next"
 
 [template]
@@ -7,5 +7,5 @@
 
 [template.environment]
   BOOKINGS_API_KEY = "Wix API Key: manage.wix.com/account/api-keys"
-  BOOKINGS_SITE_ID = "Account ID: manage.wix.com/account/api-keys"
+  BOOKINGS_SITE_ID = "The site id to use"
   NEXT_PUBLIC_BOOKINGS_CHECKOUT_URL = "The url of the Bookings form page in the live site"
