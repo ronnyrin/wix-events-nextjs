@@ -3,12 +3,13 @@ import {
   ServiceInfoViewModel,
 } from '@model/service/service.mapper';
 import { PagingMetadataV2 } from '@model/service/types';
+import { WixSession } from '../../auth';
 
 const BOOKINGS_SERVICES_API =
   'https://www.wixapis.com/bookings/v1/catalog/services';
 
 export const getServices = (
-  wixSession: string
+  wixSession: WixSession
 ): Promise<{
   services: ServiceInfoViewModel[];
   pagingMetadata: PagingMetadataV2;
@@ -31,7 +32,7 @@ export const getServices = (
 
 export const getServiceBySlug = (
   serviceSlug: string,
-  wixSession: string
+  wixSession: WixSession
 ): Promise<ServiceInfoViewModel | null> =>
   getServiceByFilter(
     {
@@ -42,7 +43,7 @@ export const getServiceBySlug = (
 
 export const getServiceById = (
   serviceId: string,
-  wixSession: string
+  wixSession: WixSession
 ): Promise<ServiceInfoViewModel | null> =>
   getServiceByFilter(
     {
@@ -53,7 +54,7 @@ export const getServiceById = (
 
 const getServiceByFilter = (
   filter: any,
-  wixSession: string
+  wixSession: WixSession
 ): Promise<ServiceInfoViewModel | null> =>
   fetchServices({
     input: {
@@ -77,13 +78,14 @@ const fetchServices = ({
   wixSession,
 }: {
   input: any;
-  wixSession: string;
+  wixSession: WixSession;
 }) => {
   return fetch(BOOKINGS_SERVICES_API, {
     method: 'POST',
     headers: {
-      Cookie: 'svSession=' + wixSession,
       'Content-Type': 'application/json',
+      Authorization: wixSession.apiKey,
+      'wix-site-id': wixSession.siteId,
     },
     body: JSON.stringify(input),
   }).then((res) => res.json());

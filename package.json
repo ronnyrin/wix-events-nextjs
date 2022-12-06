@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^4.18.0",
-    "@wix/sdk": "https://cdn.dev.wixpress.com/@wix/sdk/4cb5476324adf679eb625c81e830141cdafedfcbec1d39d55e658495.tar.gz",
+    "@wix/sdk": "latest",
     "cookie": "^0.5.0",
     "date-fns": "^2.29.3",
     "flowbite": "^1.5.4",

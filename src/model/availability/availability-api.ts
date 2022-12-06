@@ -2,6 +2,7 @@ import {
   QueryAvailabilityRequest,
   QueryAvailabilityResponse,
 } from '@model/availability/types';
+import { WixSession } from '../../auth';
 
 // TODO: CORS WA till using SDK
 const BOOKINGS_AVAILABILITY_API =
@@ -23,7 +24,7 @@ export const getServiceAvailability = (
     timezone?: string;
     slotsPerDay?: number;
   },
-  wixSession: string
+  wixSession: WixSession
 ): Promise<QueryAvailabilityResponse> =>
   queryAvailability({
     input: {
@@ -45,13 +46,14 @@ const queryAvailability = ({
   wixSession,
 }: {
   input: QueryAvailabilityRequest;
-  wixSession: string;
+  wixSession: WixSession;
 }) =>
   fetch(BOOKINGS_AVAILABILITY_API, {
     method: 'POST',
     headers: {
-      Cookie: 'svSession=' + wixSession,
       'Content-Type': 'application/json',
+      Authorization: wixSession.apiKey,
+      'wix-site-id': wixSession.siteId,
     },
     body: JSON.stringify(input),
   }).then((res) => res.json());

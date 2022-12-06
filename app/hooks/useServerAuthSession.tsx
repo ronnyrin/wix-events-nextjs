@@ -1,5 +1,5 @@
-import { cookies } from 'next/headers';
+import { createWixVisitorSession, WixSession } from '../../src/auth';
 
-export const useServerAuthSession = (): string => {
-  return cookies().get('svSession')!;
+export const useServerAuthSession = (): WixSession => {
+  return createWixVisitorSession();
 };

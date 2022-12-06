@@ -4,7 +4,7 @@ import Calendar from '@app/components/Calendar/Calendar';
 import { useServerAuthSession } from '@app/hooks/useServerAuthSession';
 import { Suspense } from 'react';
 
-export default async function ServicePage({ params }: any) {
+export default async function CalendarPage({ params }: any) {
   const wixSession = useServerAuthSession();
   const service = await getServiceBySlug(params.slug, wixSession);
 

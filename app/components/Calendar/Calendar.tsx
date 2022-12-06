@@ -23,6 +23,7 @@ import {
 import { SlotAvailability } from '@model/availability/types';
 import { Spinner } from 'flowbite-react';
 import JSURL from 'jsurl';
+import { WixSession } from '../../../src/auth';
 
 type CalendarDateRange = { from: string; to: string };
 
@@ -203,7 +204,7 @@ export default function Calendar({
   wixSession,
 }: {
   service: ServiceInfoViewModel;
-  wixSession: string;
+  wixSession: WixSession;
 }) {
   return (
     <WixBookingsClientProvider wixSession={wixSession}>

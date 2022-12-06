@@ -626,26 +626,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/sdk-types@https://cdn.dev.wixpress.com/@wix/sdk-types/3428a80556fd6d68472ea21146a371690dde71a7546dc3957e83d546.tar.gz":
-  version: 0.0.0-3428a80556fd6d68472ea21146a371690dde71a7546dc3957e83d546
-  resolution: "@wix/sdk-types@https://cdn.dev.wixpress.com/@wix/sdk-types/3428a80556fd6d68472ea21146a371690dde71a7546dc3957e83d546.tar.gz"
+"@wix/sdk-types@npm:^1.1.13":
+  version: 1.1.13
+  resolution: "@wix/sdk-types@npm:1.1.13"
   dependencies:
     "@babel/runtime": ^7.0.0
-  checksum: dcfee1a779c3cc86ac2de1646be1dcd0257027214cb4b1bd22fe6c0d08d81781dcd5839d39b29ed59818590542df54770321c57267bc0b7609477b3492b6a672
+  checksum: b163f4f92b92c305b81d844daf99a2457972dc05536c3acad15ae63aac6c7f595f9f1c59d36835d2847151f9034aa069f74c485e74fd2e93c504b5381f5656d6
   languageName: node
   linkType: hard
 
-"@wix/sdk@https://cdn.dev.wixpress.com/@wix/sdk/4cb5476324adf679eb625c81e830141cdafedfcbec1d39d55e658495.tar.gz":
-  version: 0.0.0-4cb5476324adf679eb625c81e830141cdafedfcbec1d39d55e658495
-  resolution: "@wix/sdk@https://cdn.dev.wixpress.com/@wix/sdk/4cb5476324adf679eb625c81e830141cdafedfcbec1d39d55e658495.tar.gz"
+"@wix/sdk@npm:latest":
+  version: 1.1.13
+  resolution: "@wix/sdk@npm:1.1.13"
   dependencies:
     "@babel/runtime": ^7.0.0
     "@wix/image-kit": ^1.23.0
-    "@wix/sdk-types": "https://cdn.dev.wixpress.com/@wix/sdk-types/3428a80556fd6d68472ea21146a371690dde71a7546dc3957e83d546.tar.gz"
+    "@wix/sdk-types": ^1.1.13
     querystring: ^0.2.1
-    set-cookie-parser: ^2.5.1
     type-fest: ^2.19.0
-  checksum: d47e3a9921378cd0ac4b3b1a02fcbca860b7b800cb5bba7723132ea1a37bf4bd2c33bfbf9838c0c54a635b5620ab61149ad23d6b99f9a9fae138ca3f49cd0a3b
+  checksum: 543d8e281ecfc4bf4b96d7658ecaf9c053b616d0a012d064e378db6f01f9b6354a614189e9fc2dfb187f7d787c95c18ffa8e1560da8b75f6c80d57efff334e0b
   languageName: node
   linkType: hard
 
@@ -4208,13 +4207,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"set-cookie-parser@npm:^2.5.1":
-  version: 2.5.1
-  resolution: "set-cookie-parser@npm:2.5.1::__archiveUrl=https%3A%2F%2Frepo.dev.wixpress.com%2Fartifactory%2Fapi%2Fnpm%2Fnpm-repos%2Fset-cookie-parser%2F-%2Fset-cookie-parser-2.5.1.tgz"
-  checksum: b99c37f976e68ae6eb7c758bf2bbce1e60bb54e3eccedaa25f2da45b77b9cab58d90674cf9edd7aead6fbeac6308f2eb48713320a47ca120d0e838d0194513b6
-  languageName: node
-  linkType: hard
-
 "shebang-command@npm:^2.0.0":
   version: 2.0.0
   resolution: "shebang-command@npm:2.0.0::__archiveUrl=https%3A%2F%2Frepo.dev.wixpress.com%2Fartifactory%2Fapi%2Fnpm%2Fnpm-repos%2Fshebang-command%2F-%2Fshebang-command-2.0.0.tgz"
@@ -4801,7 +4793,7 @@ __metadata:
     "@types/node": 18.11.8
     "@types/react": 18.0.24
     "@types/react-dom": 18.0.8
-    "@wix/sdk": "https://cdn.dev.wixpress.com/@wix/sdk/4cb5476324adf679eb625c81e830141cdafedfcbec1d39d55e658495.tar.gz"
+    "@wix/sdk": latest
     autoprefixer: ^10.4.13
     cookie: ^0.5.0
     date-fns: ^2.29.3

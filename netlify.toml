@@ -1,0 +1,14 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "netlify-plugin-cypress"
+
+[template]
+  incoming-hooks = ["WixBookings"]
+
+[template.environment]
+  BOOKINGS_API_KEY = "Wix API Key - get from https://manage.wix.com/account/api-keys"
+  BOOKINGS_SITE_ID = "Wix Account ID - get from https://manage.wix.com/account/api-keys"
+  NEXT_PUBLIC_BOOKINGS_CHECKOUT_URL = "The url of the Bookings form page in the live site"

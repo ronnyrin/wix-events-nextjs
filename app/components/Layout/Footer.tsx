@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 const Footer = () => (
   <footer className="w-full m-h-56 bg-turquoise">
     <div className="_1_UPn">
@@ -69,10 +71,11 @@ const Footer = () => (
                   className="_26AQd"
                   rel="noreferrer"
                 >
-                  <img
-                    src="https://static.wixstatic.com/media/0fdef751204647a3bbd7eaa2827ed4f9.png/v1/fill/w_33,h_33,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/0fdef751204647a3bbd7eaa2827ed4f9.png"
+                  <Image
+                    width={25}
+                    height={25}
                     alt="Facebook"
-                    className="width: 25px; height: 25px; object-fit: cover; object-position: 50% 50%;"
+                    src="https://static.wixstatic.com/media/0fdef751204647a3bbd7eaa2827ed4f9.png/v1/fill/w_33,h_33,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/0fdef751204647a3bbd7eaa2827ed4f9.png"
                   />
                 </a>
               </li>
@@ -84,10 +87,11 @@ const Footer = () => (
                   className="_26AQd"
                   rel="noreferrer"
                 >
-                  <img
+                  <Image
+                    width={25}
+                    height={25}
                     src="https://static.wixstatic.com/media/c7d035ba85f6486680c2facedecdcf4d.png/v1/fill/w_33,h_33,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/c7d035ba85f6486680c2facedecdcf4d.png"
                     alt="Twitter"
-                    className="width: 25px; height: 25px; object-fit: cover; object-position: 50% 50%;"
                   />
                 </a>
               </li>
@@ -99,10 +103,11 @@ const Footer = () => (
                   className="_26AQd"
                   rel="noreferrer"
                 >
-                  <img
+                  <Image
+                    width={25}
+                    height={25}
                     src="https://static.wixstatic.com/media/01c3aff52f2a4dffa526d7a9843d46ea.png/v1/fill/w_33,h_33,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/01c3aff52f2a4dffa526d7a9843d46ea.png"
                     alt="Instagram"
-                    className="width: 25px; height: 25px; object-fit: cover; object-position: 50% 50%;"
                   />
                 </a>
               </li>
@@ -114,10 +119,11 @@ const Footer = () => (
                   className="_26AQd"
                   rel="noreferrer"
                 >
-                  <img
+                  <Image
+                    width={25}
+                    height={25}
                     src="https://static.wixstatic.com/media/78aa2057f0cb42fbbaffcbc36280a64a.png/v1/fill/w_33,h_33,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/78aa2057f0cb42fbbaffcbc36280a64a.png"
                     alt="YouTube"
-                    className="width: 25px; height: 25px; object-fit: cover; object-position: 50% 50%;"
                   />
                 </a>
               </li>
