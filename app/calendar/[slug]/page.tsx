@@ -9,11 +9,11 @@ export default async function CalendarPage({ params }: any) {
   const service = await getServiceBySlug(params.slug, wixSession);
 
   return (
-    <>
+    <div className="bg-white">
       {service ? (
         <>
           <section className="align-middle box-border p-7 pt-16 text-left">
-            <h1 className="text-4xl mb-4">{service?.info?.name}</h1>
+            <h1 className="mb-4">{service?.info?.name}</h1>
             <p className="text-sm">
               Check out our availability and book the date and time that works
               for you
@@ -34,6 +34,6 @@ export default async function CalendarPage({ params }: any) {
           The service was not found
         </div>
       )}
-    </>
+    </div>
   );
 }

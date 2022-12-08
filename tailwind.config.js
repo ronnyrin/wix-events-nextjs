@@ -19,7 +19,8 @@ module.exports = {
         ...widthExtension,
       },
       colors: {
-        turquoise: '#57BBBF',
+        'turquoise-100': '#57BBBF',
+        'turquoise-200': 'rgb(49,127,129)',
       },
       gridTemplateColumns: {
         'auto-sm': 'repeat(auto-fill,minmax(120px,1fr))',

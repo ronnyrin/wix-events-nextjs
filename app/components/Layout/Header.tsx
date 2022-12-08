@@ -8,7 +8,7 @@ const Header = () => (
           <div className="font-lulo mb-3">ALLAN JOHNSON</div>
           <div className="text-xs tracking-widest">Personal Life Coach</div>
         </div>
-        <div className="flex-grow mr-8">
+        <div className="flex-grow pb-5 pr-5">
           <NavBar />
         </div>
       </div>

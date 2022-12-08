@@ -19,7 +19,7 @@ export default function RootLayout({
       {wixSession.siteId && wixSession.apiKey ? (
         <body className="parallax-background">
           <Header />
-          <main className="max-w-full-content mx-auto bg-white">
+          <main className="max-w-full-content mx-auto bg-transparent min-h-[600px]">
             {children}
           </main>
           <Footer />

@@ -28,10 +28,10 @@
   .btn-main {
     @apply text-white;
     @apply border-2;
-    @apply border-gray-700;
+    @apply border-black;
     @apply text-sm;
     @apply font-medium;
-    @apply bg-gray-700;
+    @apply bg-black;
     @apply hover:bg-white;
     @apply hover:text-gray-900;
     @apply focus:outline-none;
@@ -50,15 +50,23 @@
   }
 
   .font-lulo {
-    font-family: lulo-clean-w01-one-bold;
+    font-family: lulo-clean-w01-one-bold, sans-serif;
   }
 
   h1 {
     @apply font-lulo;
+    @apply text-4xl;
   }
 
   .h-header {
     @apply h-[128px];
+  }
+
+  .header-line {
+    @apply w-9;
+    @apply h-[2px];
+    @apply bg-black;
+    @apply mb-2;
   }
 }
 

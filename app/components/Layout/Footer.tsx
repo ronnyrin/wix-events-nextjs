@@ -1,74 +1,52 @@
+import './footer.css';
 import Image from 'next/image';
 
 const Footer = () => (
-  <footer className="w-full m-h-56 bg-turquoise">
-    <div className="_1_UPn">
-      <div
-        data-mesh-id="SITE_FOOTERinlineContent"
-        data-testid="inline-content"
-        className=""
-      >
-        <div
-          data-mesh-id="SITE_FOOTERinlineContent-gridContainer"
-          data-testid="mesh-container-content"
-        >
-          <div id="comp-irvzf950" className="_2UdPt"></div>
-          <div
-            id="comp-irvyvkhz"
-            className="_1Q9if _3bcaz"
-            data-testid="richTextElement"
-          >
-            <p className="font_6">Contact</p>
-          </div>
-          <div
-            id="comp-isk9y3ew"
-            className="_1Q9if _3bcaz"
-            data-testid="richTextElement"
-          >
-            <p className="line-height:1.7em; font-size:15px;">
-              <span className="letter-spacing:0.02em;">
-                500 Terry Francois Street
-              </span>
+  <footer className="w-fullm-h-56 bg-turquoise-100 leading-7">
+    <div className="max-w-full-content mx-auto flex gap-2 pt-11 pb-20">
+      <div className="flex-1">
+        <div className="pl-6">
+          <div className="header-line"></div>
+          <p className="font-lulo mb-10">Contact</p>
+          <div className="text-sm tracking-wide mb-5">
+            <p>
+              <span>500 Terry Francois Street</span>
             </p>
 
-            <p className="line-height:1.7em; font-size:15px;">
-              <span className="letter-spacing:0.02em;">
-                San Francisco, CA 94158
-              </span>
+            <p>
+              <span>San Francisco, CA 94158</span>
             </p>
 
-            <p className="line-height:1.7em; font-size:15px;">
-              <span className="letter-spacing:0.02em;">​​</span>
+            <p>
+              <span>​​</span>
             </p>
 
-            <p className="line-height:1.7em; font-size:15px;">
-              <span className="letter-spacing:0.02em;">Tel: 123-456-7890</span>
+            <p>
+              <span>Tel: 123-456-7890</span>
             </p>
 
-            <p className="line-height:1.7em; font-size:15px;">
-              <span className="letter-spacing:0.02em;">Fax: 123-456-7890</span>
+            <p>
+              <span>Fax: 123-456-7890</span>
             </p>
 
-            <p className="line-height:1.7em; font-size:15px;">
-              <span className="letter-spacing:0.02em;">​</span>
+            <p>
+              <span>​</span>
             </p>
 
-            <p className="line-height:1.7em; font-size:15px;">
-              <span className="letter-spacing:0.02em;">
+            <p>
+              <span>
                 <a href="mailto:info@mysite.com" target="_self">
                   info@mysite.com
                 </a>
               </span>
             </p>
           </div>
-          <div id="comp-irx48avy" className="_2O-Ry">
-            <ul className="xb9fU" aria-label="Social Bar">
-              <li id="dataItem-irx48awd1-comp-irx48avy" className="_3lu8e">
+          <div className="mb-16">
+            <ul aria-label="Social Bar" className="flex gap-4">
+              <li>
                 <a
-                  data-testid="linkElement"
                   href="http://www.facebook.com/wix"
                   target="_blank"
-                  className="_26AQd"
                   rel="noreferrer"
                 >
                   <Image
@@ -79,12 +57,10 @@ const Footer = () => (
                   />
                 </a>
               </li>
-              <li id="dataItem-irx48awg-comp-irx48avy" className="_3lu8e">
+              <li>
                 <a
-                  data-testid="linkElement"
                   href="http://www.twitter.com/wix"
                   target="_blank"
-                  className="_26AQd"
                   rel="noreferrer"
                 >
                   <Image
@@ -95,12 +71,10 @@ const Footer = () => (
                   />
                 </a>
               </li>
-              <li id="dataItem-irx48awi-comp-irx48avy" className="_3lu8e">
+              <li>
                 <a
-                  data-testid="linkElement"
                   href="https://instagram.com/wix/"
                   target="_blank"
-                  className="_26AQd"
                   rel="noreferrer"
                 >
                   <Image
@@ -111,12 +85,10 @@ const Footer = () => (
                   />
                 </a>
               </li>
-              <li id="dataItem-iskaxscj-comp-irx48avy" className="_3lu8e">
+              <li>
                 <a
-                  data-testid="linkElement"
                   href="https://www.youtube.com/user/Wix"
                   target="_blank"
-                  className="_26AQd"
                   rel="noreferrer"
                 >
                   <Image
@@ -129,17 +101,11 @@ const Footer = () => (
               </li>
             </ul>
           </div>
-          <div
-            id="comp-irvzpphf"
-            className="_2Hij5 _3bcaz"
-            data-testid="richTextElement"
-          >
-            <p className="line-height:1.6em; font-size:14px;">
-              <span className="text-decoration:underline;"></span>
-              <span className="letter-spacing:0.04em;">
-                © 2023 by Personal Life Coach. Powered and secured by{' '}
-              </span>
-              <span className="text-decoration:underline;">
+          <div className="text-xs mb-16">
+            <p>© 2023 by Personal Life Coach.</p>
+            <p>
+              <span>Powered and secured by </span>
+              <span>
                 <a
                   href="https://wix.com/?utm_campaign=vir_created_with"
                   target="_blank"
@@ -150,125 +116,85 @@ const Footer = () => (
               </span>
             </p>
           </div>
-          <div id="comp-knzxx5ja" className="_11gHK">
-            <div
-              data-mesh-id="comp-knzxx5jainlineContent"
-              data-testid="inline-content"
-              className=""
-            >
-              <div
-                data-mesh-id="comp-knzxx5jainlineContent-gridContainer"
-                data-testid="mesh-container-content"
+        </div>
+      </div>
+      <div className="flex-1">
+        <form>
+          <div className="pr-9">
+            <div className="footer-form-field">
+              <label htmlFor="contact-form-name" className="footer-form-label">
+                Enter Your Name
+              </label>
+              <input
+                className="footer-form-input"
+                id="contact-form-name"
+                type="text"
+                name="name"
+                placeholder=""
+                aria-required="false"
+                maxLength={100}
+              />
+            </div>
+            <div className="footer-form-field">
+              <label
+                htmlFor="contact-form-email"
+                className="footer-form-label"
+                aria-required
               >
-                <form id="comp-knzxx5lg" className="yBJuM">
-                  <div
-                    data-mesh-id="comp-knzxx5lginlineContent"
-                    data-testid="inline-content"
-                    className=""
-                  >
-                    <div
-                      data-mesh-id="comp-knzxx5lginlineContent-gridContainer"
-                      data-testid="mesh-container-content"
-                    >
-                      <div id="comp-knzxx5pa" className="_2dBhC _2nVk2">
-                        <label htmlFor="input_comp-knzxx5pa" className="aHD7c">
-                          Enter Your Name{' '}
-                        </label>
-                        <div className="XRJUI">
-                          <input
-                            type="text"
-                            name="enter-your name "
-                            id="input_comp-knzxx5pa"
-                            className="_1SOvY has-custom-focus"
-                            value=""
-                            placeholder=""
-                            aria-required="false"
-                            maxLength={100}
-                          />
-                        </div>
-                      </div>
-                      <div id="comp-knzxx5qe" className="_2dBhC _2nVk2 _65cjg">
-                        <label htmlFor="input_comp-knzxx5qe" className="aHD7c">
-                          Enter Your Email
-                        </label>
-                        <div className="XRJUI">
-                          <input
-                            type="email"
-                            name="email"
-                            id="input_comp-knzxx5qe"
-                            className="_1SOvY has-custom-focus"
-                            value=""
-                            placeholder=""
-                            required
-                            aria-required="true"
-                            pattern="^.+@.+\.[a-zA-Z]{2,63}$"
-                            maxLength={250}
-                          />
-                        </div>
-                      </div>
-                      <div id="comp-ko2nashb" className="_2dBhC _2nVk2">
-                        <label htmlFor="input_comp-ko2nashb" className="aHD7c">
-                          Enter Your Subject
-                        </label>
-                        <div className="XRJUI">
-                          <input
-                            type="text"
-                            name="enter-your subject"
-                            id="input_comp-ko2nashb"
-                            className="_1SOvY has-custom-focus"
-                            value=""
-                            placeholder=""
-                            aria-required="false"
-                          />
-                        </div>
-                      </div>
-                      <div id="comp-knzxx5qq" className="bItEI _1mQNr">
-                        <label
-                          htmlFor="textarea_comp-knzxx5qq"
-                          className="_20uhs"
-                        >
-                          Message
-                        </label>
-                        <textarea
-                          id="textarea_comp-knzxx5qq"
-                          className="_1VWbH has-custom-focus"
-                          placeholder=""
-                          aria-required="false"
-                        ></textarea>
-                      </div>
-                      <div
-                        className="_2UgQw"
-                        id="comp-knzxx5rc"
-                        aria-disabled="false"
-                      >
-                        <button
-                          aria-disabled="false"
-                          data-testid="buttonElement"
-                          className="_1fbEI"
-                        >
-                          <span className="_1Qjd7">Submit</span>
-                        </button>
-                      </div>
-                      <div
-                        id="comp-knzxx5rt"
-                        className="_1Q9if _3bcaz"
-                        data-testid="richTextElement"
-                      >
-                        <p className="text-align:right; font-size:15px;">
-                          <span className="font-family:avenir-lt-w01_35-light1475496,sans-serif;">
-                            <span className="color_15">
-                              Thanks for submitting!
-                            </span>
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
+                Enter Your Email
+              </label>
+              <input
+                className="footer-form-input"
+                id="contact-form-email"
+                type="email"
+                name="email"
+                required
+                aria-required="true"
+                pattern="^.+@.+\.[a-zA-Z]{2,63}$"
+                maxLength={250}
+              />
+            </div>
+            <div className="footer-form-field">
+              <label
+                htmlFor="contact-form-subject"
+                className="footer-form-label"
+              >
+                Enter Your Subject
+              </label>
+              <input
+                className="footer-form-input"
+                id="contact-form-subject"
+                type="text"
+                name="subject"
+                placeholder=""
+                aria-required="false"
+              />
+            </div>
+            <div className="footer-form-field">
+              <label
+                htmlFor="contact-form-message"
+                className="footer-form-label"
+              >
+                Message
+              </label>
+              <textarea
+                className="footer-form-input h-32"
+                id="contact-form-message"
+                name="message"
+                placeholder=""
+                aria-required="false"
+              />
+            </div>
+            <div aria-disabled="false" className="flex justify-end mt-4 mb-10">
+              <button
+                className="btn-main w-full p-1 w-32"
+                aria-disabled="false"
+              >
+                <span>Submit</span>
+              </button>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </footer>
