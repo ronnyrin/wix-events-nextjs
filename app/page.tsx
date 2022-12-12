@@ -38,10 +38,11 @@ export default function Home() {
                 About me
               </h2>
               <p className="text-sm flex-1 leading-7">
-                I&apos;m a paragraph. Click here to add your own text and edit
-                me. It’s easy. Just click “Edit Text” or double click me to add
-                your own content and make changes to the font. Feel free to drag
-                and drop me anywhere you like on your page.
+                I&apos;m a paragraph. Lorem ipsum dolor sit amet, consectetur
+                adipiscing elit. Phasellus in felis in sem iaculis elementum
+                vitae a tortor. Duis mattis, nisi vitae ornare imperdiet, arcu
+                erat consectetur diam, sed mattis ligula est non metus.
+                Vestibulum interdum in ex sit amet vestibulum. Donec tellus.
               </p>
               <p>&nbsp;</p>
               <p className="text-sm flex-1 leading-7">
