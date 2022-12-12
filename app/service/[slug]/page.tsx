@@ -12,7 +12,7 @@ export default async function ServicePage({ params }: any) {
   );
 
   return (
-    <>
+    <div className="max-w-full-content mx-auto">
       {service ? (
         <div
           key={service.id}
@@ -55,6 +55,6 @@ export default async function ServicePage({ params }: any) {
           The service was not found
         </div>
       )}
-    </>
+    </div>
   );
 }

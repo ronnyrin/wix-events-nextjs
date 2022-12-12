@@ -1,3 +1,7 @@
 export default function LoginPage() {
-  return <>Login is a future capability</>;
+  return (
+    <div className="max-w-full-content mx-auto">
+      Login is a future capability
+    </div>
+  );
 }

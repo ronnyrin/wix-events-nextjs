@@ -9,7 +9,7 @@ export default async function CalendarPage({ params }: any) {
   const service = await getServiceBySlug(params.slug, wixSession);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white max-w-full-content mx-auto">
       {service ? (
         <>
           <section className="align-middle box-border p-7 pt-16 text-left">
@@ -24,7 +24,7 @@ export default async function CalendarPage({ params }: any) {
             key={service.id}
             className="full-w rounded overflow-hidden max-w-7xl mx-auto"
           >
-            <Suspense fallback={'Loading 2'}>
+            <Suspense fallback={'Loading...'}>
               <Calendar service={service} wixSession={wixSession} />
             </Suspense>
           </div>

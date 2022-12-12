@@ -4,6 +4,10 @@ import { useServerAuthSession } from '@app/hooks/useServerAuthSession';
 
 export default async function BookNowPage({ params }: any) {
   const wixSession = useServerAuthSession();
-  const { services } = await getServices(wixSession);
-  return <ServiceList categoryId={params?.category} services={services} />;
+  const { services } = await getServices({ limit: 250 }, wixSession);
+  return (
+    <div className="max-w-full-content mx-auto">
+      <ServiceList categoryId={params?.category} services={services} />
+    </div>
+  );
 }

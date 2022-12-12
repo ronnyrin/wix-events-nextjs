@@ -6,9 +6,12 @@ import { PagingMetadataV2 } from '@model/service/types';
 import { WixSession } from '../../auth';
 
 const BOOKINGS_SERVICES_API =
-  'https://www.wixapis.com/bookings/v1/catalog/services';
+  typeof window === 'undefined'
+    ? 'https://www.wixapis.com/bookings/v1/catalog/services'
+    : '/api/v1/catalog/services';
 
 export const getServices = (
+  { limit = 100 },
   wixSession: WixSession
 ): Promise<{
   services: ServiceInfoViewModel[];
@@ -19,7 +22,7 @@ export const getServices = (
       query: {
         paging: {
           offset: 0,
-          limit: 100,
+          limit,
         },
       },
       isBookOnlineAllowed: false,

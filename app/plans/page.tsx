@@ -1,6 +1,6 @@
 export default function PlansPage() {
   return (
-    <div>
+    <div className="max-w-full-content mx-auto">
       <div className="px-5">
         <div className="header-line my-8"></div>
         <h1 className="mb-7 mt-10 tracking-tighter">Plans</h1>
