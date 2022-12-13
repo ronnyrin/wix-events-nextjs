@@ -1,8 +1,17 @@
-import WixMediaImage from '@app/components/Image/WixMediaImage';
 import { getServiceBySlug } from '@model/service/service-api';
 import ImageGallery from '@app/components/Image/ImageGallery/ImageGallery';
 import { useServerAuthSession } from '@app/hooks/useServerAuthSession';
 import { useServiceFormattedPrice } from '@app/hooks/useServiceFormattedPrice';
+import { OfferedAsType } from '@model/service/service-types.internal';
+
+const offeredAsToPaymentOptions = (offeredAs: string) =>
+  offeredAs === OfferedAsType.OFFLINE
+    ? 'Offline'
+    : offeredAs === OfferedAsType.ONLINE
+    ? 'Online'
+    : offeredAs === OfferedAsType.PRICING_PLAN
+    ? 'Paid Plans'
+    : 'Other';
 
 export default async function ServicePage({ params }: any) {
   const wixSession = useServerAuthSession();
@@ -12,42 +21,48 @@ export default async function ServicePage({ params }: any) {
   );
 
   return (
-    <div className="max-w-full-content mx-auto">
+    <div className="max-w-full-content mx-auto bg-white px-28">
       {service ? (
-        <div
-          key={service.id}
-          className="full-w rounded overflow-hidden max-w-7xl mx-auto"
-        >
-          {service.info.media.coverMedia && (
-            <section className="max-h-96 overflow-hidden">
-              <WixMediaImage media={service.info.media.coverMedia} />
-            </section>
-          )}
-          <div className="px-6 py-4">
-            <a
-              href={`/calendar/${service.slug}`}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-            >
-              Go To Calendar
-            </a>
-            <div className="font-bold text-xl mb-2">{service.info.name}</div>
-            {service.info.media?.otherMediaItems?.length && (
-              <section>
-                <ImageGallery mediaItems={service.info.media.otherMediaItems} />
-              </section>
-            )}
-            <p className="text-gray-700 text-sm">{service.info.description}</p>
-            <p className="text-gray-700 text-base">
-              {formattedPrice.userFormattedPrice}
-            </p>
+        <div className="full-w rounded overflow-hidden max-w-7xl mx-auto">
+          <div className="mt-14 mb-8 pb-8 border-b border-black w-full">
+            <h1 className="font-bold text-4xl mb-2">{service.info.name}</h1>
+            <p className="text-sm pt-4 empty:hidden">{service.info.tagLine}</p>
           </div>
-          <div className="px-6 pt-4 pb-2">
-            <a
-              href={`/calendar/${service.slug}`}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-            >
-              Go To Calendar
-            </a>
+          {service.info.description ? (
+            <>
+              <h2 className="font-lulo">Service Description</h2>
+              <p className="text-sm w-full mt-4">{service.info.description}</p>
+            </>
+          ) : null}
+          {service.info.media?.otherMediaItems?.length ? (
+            <section className="mt-10">
+              <ImageGallery mediaItems={service.info.media.otherMediaItems} />
+            </section>
+          ) : null}
+          <div className="w-full h-full pt-14 pb-10 text-center">
+            <div className="table text-base border-collapse mx-auto">
+              <div className="table-row">
+                <p className="table-cell border border-black p-4">
+                  {service.info.duration}
+                </p>
+                <p className="table-cell border border-black p-4">
+                  {formattedPrice.userFormattedPrice}
+                </p>
+                <p className="table-cell border border-black p-4 empty:hidden">
+                  {service.payment.offeredAs
+                    .map(offeredAsToPaymentOptions)
+                    .join(', ')}
+                </p>
+              </div>
+            </div>
+            <p className="pt-8 capitalize empty:hidden">
+              {service.info.daysWithSessions.join(', ')}
+            </p>
+            <div className="mt-14">
+              <a href={`/calendar/${service.slug}`} className="btn-main">
+                Go To Calendar
+              </a>
+            </div>
           </div>
         </div>
       ) : (

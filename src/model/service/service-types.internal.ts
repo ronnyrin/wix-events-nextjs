@@ -5,6 +5,7 @@ export enum ServiceType {
 }
 
 export enum OfferedAsType {
-  ONE_TIME = 'ONE_TIME',
+  ONLINE = 'ONE_TIME',
+  OFFLINE = 'ONE_TIME',
   PRICING_PLAN = 'PRICING_PLAN',
 }

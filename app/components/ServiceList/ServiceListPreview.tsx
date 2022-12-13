@@ -38,9 +38,12 @@ const ServiceCardPreview = ({ service }: { service: ServiceInfoViewModel }) => {
   return (
     <div className="w-full rounded-none overflow-hidden mx-auto border-8 border-black relative h-full min-h-[400px]">
       <div className="px-6 pt-4 text-center h-full pb-20">
-        <div className="font-bold text-xl mb-2 font-lulo">
+        <a
+          href={`/service/${service.slug}`}
+          className="font-bold text-xl mb-2 font-lulo hover:text-gray-700"
+        >
           {service.info.name}
-        </div>
+        </a>
         <p className="text-sm">{service.info.tagLine}</p>
         <div className="border-top border border-black w-full my-6"></div>
         <p className="text-gray-700 text-base capitalize">

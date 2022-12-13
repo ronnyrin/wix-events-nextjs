@@ -14,10 +14,8 @@ export function determinePaymentOptionsBy(
       !!(pricingPlans?.length && paymentOptions.wixPaidPlan),
       OfferedAsType.PRICING_PLAN
     ),
-    ...insertIf(
-      isPayable(!!paymentOptions.wixPayInPerson, !!paymentOptions.wixPayOnline),
-      OfferedAsType.ONE_TIME
-    ),
+    ...insertIf(!!paymentOptions.wixPayInPerson, OfferedAsType.OFFLINE),
+    ...insertIf(!!paymentOptions.wixPayOnline, OfferedAsType.ONLINE),
   ];
 }
 
