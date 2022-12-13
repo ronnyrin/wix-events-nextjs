@@ -6,17 +6,17 @@ import { PagingMetadataV2 } from '@model/service/types';
 import { WixSession } from '../../auth';
 
 const BOOKINGS_SERVICES_API =
-  typeof window === 'undefined'
-    ? 'https://www.wixapis.com/bookings/v1/catalog/services'
-    : '/api/v1/catalog/services';
+  'https://www.wixapis.com/bookings/v1/catalog/services';
+
+export type GetServicesResponse = {
+  services: ServiceInfoViewModel[];
+  pagingMetadata: PagingMetadataV2;
+};
 
 export const getServices = (
   { limit = 100 },
   wixSession: WixSession
-): Promise<{
-  services: ServiceInfoViewModel[];
-  pagingMetadata: PagingMetadataV2;
-}> =>
+): Promise<GetServicesResponse> =>
   fetchServices({
     input: {
       query: {
@@ -69,7 +69,7 @@ const getServiceByFilter = (
         },
       },
       includeDeleted: false,
-      isBookOnlineAllowed: false,
+      isBookOnlineAllowed: true,
     },
     wixSession,
   }).then(({ services: [service] }) =>

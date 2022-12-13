@@ -5,9 +5,11 @@ import { ServiceType } from '@model/service/service-types.internal';
 import {
   CommonImage,
   GetServiceResponse,
+  RecurringInterval,
   Schedule,
   ScheduleStatus,
 } from '@model/service/types';
+import { formatDuration, intervalToDuration } from 'date-fns';
 
 export function mapServiceType(schedule: Schedule): ServiceType {
   return schedule.tags
@@ -50,6 +52,8 @@ export function mapServiceInfo(serviceResponse: GetServiceResponse) {
         otherMediaItems,
         coverMedia,
       },
+      duration: formatDuration(getDuration(schedule)),
+      daysWithSessions: mapDays(schedule),
     },
     slug: serviceResponse.slugs?.[0].name,
     type: mapServiceType(schedule!),
@@ -84,4 +88,51 @@ function extractServiceVideoConferenceProvider(
   schedule: Schedule
 ): string | undefined {
   return schedule?.conferenceProvider?.providerId;
+}
+
+function isRecurringIntervalValid(recurringInterval: RecurringInterval) {
+  return (
+    !recurringInterval.end ||
+    new Date(recurringInterval.end).valueOf() > Date.now()
+  );
+}
+
+export const getNonExpiredIntervals = (schedule: Schedule) =>
+  schedule?.intervals?.filter(isRecurringIntervalValid) || [];
+
+function getDuration(schedule?: Schedule) {
+  return intervalToDuration({
+    start: 0,
+    end: getDurationInMinutes(schedule) * 60 * 1000,
+  });
+}
+
+function getDurationInMinutes(schedule?: Schedule): number {
+  return schedule
+    ? (mapServiceType(schedule) === ServiceType.INDIVIDUAL
+        ? schedule.availability?.constraints?.slotDurations?.[0]
+        : getNonExpiredIntervals(schedule)[0]?.interval?.duration) ?? 0
+    : 0;
+}
+
+export enum WeekDay {
+  MONDAY = 'mon',
+  TUESDAY = 'tue',
+  WEDNESDAY = 'wed',
+  THURSDAY = 'thu',
+  FRIDAY = 'fri',
+  SATURDAY = 'sat',
+  SUNDAY = 'sun',
+}
+
+function mapDays(schedule?: Schedule): WeekDay[] {
+  if (!schedule) {
+    return [];
+  }
+  const daysMap: any = {};
+  getNonExpiredIntervals(schedule).forEach(
+    (recurringInterval) =>
+      (daysMap[recurringInterval.interval!.daysOfWeek!.toLowerCase()] = true)
+  );
+  return Object.keys(daysMap) as WeekDay[];
 }
