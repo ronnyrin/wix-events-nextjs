@@ -52,7 +52,7 @@ export function mapServiceInfo(serviceResponse: GetServiceResponse) {
         otherMediaItems,
         coverMedia,
       },
-      duration: formatDuration(getDuration(schedule)),
+      formattedDuration: formatDuration(getDuration(schedule)),
       daysWithSessions: mapDays(schedule),
     },
     slug: serviceResponse.slugs?.[0].name,

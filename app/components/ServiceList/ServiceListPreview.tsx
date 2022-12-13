@@ -52,7 +52,9 @@ const ServiceCardPreview = ({ service }: { service: ServiceInfoViewModel }) => {
         <p className="text-gray-700 text-base">
           {formattedPrice.userFormattedPrice}
         </p>
-        <p className="text-gray-700 text-base">{service.info.duration}</p>
+        <p className="text-gray-700 text-base">
+          {service.info.formattedDuration}
+        </p>
       </div>
       <div className="w-full mx-auto pb-8 absolute bottom-0 text-center">
         <a href={`/calendar/${service.slug}`} className="btn-main">

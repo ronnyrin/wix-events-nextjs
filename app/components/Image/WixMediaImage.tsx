@@ -14,14 +14,14 @@ export function getImageUrlForMedia(
         height,
         {}
       )
-    : `https://fakeimg.pl/${width}x${height}/?text=No%20Image`;
+    : `https://fakeimg.pl/${width}x${height}/?text=%20`;
   return imageUrl;
 }
 
 export default function WixMediaImage({
   media,
-  width,
-  height,
+  width = media?.width ?? 640,
+  height = media?.height ?? 320,
 }: {
   media?: ServiceImage;
   width?: number;
@@ -30,9 +30,9 @@ export default function WixMediaImage({
   const imageUrl = getImageUrlForMedia(media, width, height);
   return (
     <div className="flex items-center justify-center ">
-      <div className="overflow-hidden aspect-video cursor-pointer relative group">
+      <div className="overflow-hidden  cursor-pointer relative group">
         <img
-          className="object-cover w-full aspect-video group-hover:scale-110 transition duration-300 ease-in-out"
+          className="object-cover w-full group-hover:scale-110 transition duration-300 ease-in-out "
           src={imageUrl}
           alt={media?.altText ?? 'no info available for image'}
         />

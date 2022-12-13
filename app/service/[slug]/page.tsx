@@ -43,7 +43,7 @@ export default async function ServicePage({ params }: any) {
             <div className="table text-base border-collapse mx-auto">
               <div className="table-row">
                 <p className="table-cell border border-black p-4">
-                  {service.info.duration}
+                  {service.info.formattedDuration}
                 </p>
                 <p className="table-cell border border-black p-4">
                   {formattedPrice.userFormattedPrice}

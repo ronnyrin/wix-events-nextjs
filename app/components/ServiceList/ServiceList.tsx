@@ -45,19 +45,19 @@ export default function ServiceList({
 
   return (
     <>
-      <div className="text-sm text-center text-gray-500 border-b border-gray-200">
-        <ul className="flex flex-wrap -mb-px justify-center">
-          <li className="mr-2">
+      <div className="text-sm text-center text-black">
+        <ul className="inline-flex flex-wrap justify-center border-b border-gray-200 mb-8">
+          <li className="mr-2 -mb-px ">
             {categories.length > 1
               ? categories.map((category) => (
                   <a
                     key={category.id}
                     href={`/book-now/category/${category.id}`}
                     aria-current={!!selectedCategoryId}
-                    className={`inline-block p-4 rounded-t-lg border-b-2 ${
+                    className={`inline-block p-4 rounded-t-lg border-b-[3px] hover:text-gray-600 ${
                       category.selected
-                        ? 'active text-blue-600 border-blue-600'
-                        : 'border-transparent hover:text-gray-600 hover:border-gray-300'
+                        ? 'active border-turquoise-200'
+                        : 'border-transparent hover:border-gray-300'
                     }`}
                   >
                     {category.name}
@@ -67,7 +67,7 @@ export default function ServiceList({
           </li>
         </ul>
       </div>
-      <div className="my-3 container m-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="p-3 container m-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {servicesToDisplay.map((service, index) => (
           <ServiceCard service={service} key={service.id} />
         ))}
@@ -82,26 +82,29 @@ const ServiceCard = ({ service }: { service: ServiceInfoViewModel }) => {
   );
 
   return (
-    <div className="max-w-sm rounded overflow-hidden mx-auto">
+    <div className="w-full rounded-none bg-white overflow-hidden mx-auto border border-white relative h-full min-h-[500px]">
       <a href={`/service/${service.slug}`}>
         <WixMediaImage
           media={service.info.media.mainMedia}
           width={640}
-          height={320}
+          height={480}
         />
       </a>
-      <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">{service.info.name}</div>
-        <p className="text-gray-700 text-base">{service.info.tagLine}</p>
-        <p className="text-gray-700 text-base">
-          {formattedPrice.userFormattedPrice}
-        </p>
-      </div>
-      <div className="px-6 pt-4 pb-2">
+      <div className="px-6 py-4 text-center pb-20">
         <a
-          href={`/calendar/${service.slug}`}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+          href={`/service/${service.slug}`}
+          className="font-bold text-xl mb-2 hover:text-gray-700"
         >
+          {service.info.name}
+        </a>
+        <div className="text-sm">
+          <p className="my-3">{service.info.tagLine}</p>
+          <p className="leading-8">{service.info.formattedDuration}</p>
+          <p className="leading-8">{formattedPrice.userFormattedPrice}</p>
+        </div>
+      </div>
+      <div className="w-full mx-auto pb-8 absolute bottom-0 text-center">
+        <a href={`/calendar/${service.slug}`} className="btn-main">
           Book Now
         </a>
       </div>
