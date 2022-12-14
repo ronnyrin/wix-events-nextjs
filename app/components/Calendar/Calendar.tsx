@@ -1,7 +1,7 @@
 'use client';
 import { ServiceInfoViewModel } from '@model/service/service.mapper';
 import { WixBookingsClientProvider } from '@app/components/Provider/WixBookingsClientProvider';
-import { useCallback, useEffect, useState } from 'react';
+import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { useAvailability } from '@app/hooks/useAvailability';
 import {
   addMonths,
@@ -21,7 +21,7 @@ import {
   useUserTimezone,
 } from '@app/hooks/useFormattedTimezone';
 import { SlotAvailability } from '@model/availability/types';
-import { Spinner } from 'flowbite-react';
+import { Spinner, Tooltip } from 'flowbite-react';
 import JSURL from 'jsurl';
 import { WixSession } from '../../../src/auth';
 
@@ -82,6 +82,7 @@ export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
       timezone,
     });
     checkoutUrl.searchParams.set('selectedSlot', slotData);
+    checkoutUrl.searchParams.set('origin', window.location.origin);
 
     // TODO: USE PR VERSION TILL BOOKINGS EXPOSE A FORMAL API FOR DEEP LINK
     checkoutUrl.searchParams.set(
@@ -138,27 +139,43 @@ export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
                           new Date(dayDataA.slot?.startDate ?? 0).getTime() -
                           new Date(dayDataB.slot?.startDate ?? 0).getTime()
                       )
-                      .map((slotData) =>
-                        format(new Date(slotData.slot!.startDate!), TIME_FORMAT)
-                      )
+                      .map((slotData) => ({
+                        formattedTime: format(
+                          new Date(slotData.slot!.startDate!),
+                          TIME_FORMAT
+                        ),
+                        bookable: slotData.bookable,
+                        bookingPolicyViolations:
+                          slotData.bookingPolicyViolations,
+                      }))
                   ),
-                ].map((formattedTime, index) => (
-                  <button
-                    key={index}
-                    aria-label={'Select ' + formattedTime}
-                    onClick={() => setSelectedTime(formattedTime)}
-                  >
-                    <div
-                      className={`px-3 py-1.5 w-full border-2 text-center ${
-                        formattedTime === selectedTime
-                          ? 'border-gray-700 bg-gray-100'
-                          : 'hover:border-gray-600'
+                ].map(
+                  (
+                    { formattedTime, bookable, bookingPolicyViolations },
+                    index
+                  ) => (
+                    <button
+                      key={index}
+                      className={`px-3 py-1.5 w-full border-2 flex justify-center ${
+                        bookable
+                          ? formattedTime === selectedTime
+                            ? 'border-gray-700 bg-gray-100'
+                            : 'hover:border-gray-600'
+                          : 'text-gray-200'
                       }`}
+                      disabled={!bookable}
+                      aria-label={'Select ' + formattedTime}
+                      onClick={() => setSelectedTime(formattedTime)}
                     >
-                      <span className="text-sm">{formattedTime}</span>
-                    </div>
-                  </button>
-                ))}
+                      <SlotTooltip
+                        bookable={bookable}
+                        bookingPolicyViolations={bookingPolicyViolations}
+                      >
+                        <span className="text-sm">{formattedTime}</span>
+                      </SlotTooltip>
+                    </button>
+                  )
+                )}
               </div>
             ) : (
               <div className="pt-4">No availability</div>
@@ -198,6 +215,29 @@ export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
     </div>
   );
 }
+
+const SlotTooltip = ({
+  bookable,
+  bookingPolicyViolations,
+  children,
+}: PropsWithChildren<
+  Pick<SlotAvailability, 'bookable' | 'bookingPolicyViolations'>
+>) =>
+  bookable ? (
+    <div className="w-fit">{children}</div>
+  ) : (
+    <Tooltip
+      content={
+        bookingPolicyViolations?.tooLateToBook
+          ? 'This slot cannot be booked anymore'
+          : bookingPolicyViolations?.tooLateToBook
+          ? 'It is too early to book this slot'
+          : 'This slot cannot be booked'
+      }
+    >
+      {children}
+    </Tooltip>
+  );
 
 export default function Calendar({
   service,
