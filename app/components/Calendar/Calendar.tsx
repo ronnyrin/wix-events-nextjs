@@ -1,7 +1,13 @@
 'use client';
 import { ServiceInfoViewModel } from '@model/service/service.mapper';
 import { WixBookingsClientProvider } from '@app/components/Provider/WixBookingsClientProvider';
-import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useAvailability } from '@app/hooks/useAvailability';
 import {
   addMonths,
@@ -35,6 +41,10 @@ const getCalendarMonthRangeForDate = (date: Date): CalendarDateRange => {
 };
 
 const TIME_FORMAT = 'hh:mm a';
+
+type SlotViewModel = {
+  formattedTime: string;
+} & Pick<SlotAvailability, 'bookable' | 'bookingPolicyViolations'>;
 
 export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -92,6 +102,31 @@ export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
 
     window.location.href = checkoutUrl.toString();
   }, [selectedSlot?.slot, service?.id, timezone]);
+  const slotsMap: { [key: string]: SlotViewModel[] } = useMemo(() => {
+    return (
+      dayData?.availabilityEntries
+        ?.sort(
+          (dayDataA, dayDataB) =>
+            new Date(dayDataA.slot?.startDate ?? 0).getTime() -
+            new Date(dayDataB.slot?.startDate ?? 0).getTime()
+        )
+        .map((slotData) => ({
+          formattedTime: format(
+            new Date(slotData.slot!.startDate!),
+            TIME_FORMAT
+          ),
+          bookable: slotData.bookable,
+          bookingPolicyViolations: slotData.bookingPolicyViolations,
+        }))
+        .reduce<{ [key: string]: SlotViewModel[] }>((acc, curr) => {
+          const slotsArr = acc[curr.formattedTime] ?? [];
+          // prefer bookable slots
+          slotsArr[curr.bookable ? 'unshift' : 'push'](curr);
+          acc[curr.formattedTime] = slotsArr;
+          return acc;
+        }, {}) ?? {}
+    );
+  }, [dayData]);
 
   return (
     <div className="flex flex-wrap">
@@ -131,51 +166,36 @@ export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
               </div>
             ) : dayData?.availabilityEntries?.length ? (
               <div className="grid grid-cols-auto-sm gap-2 pt-4">
-                {[
-                  ...new Set(
-                    dayData?.availabilityEntries
-                      ?.sort(
-                        (dayDataA, dayDataB) =>
-                          new Date(dayDataA.slot?.startDate ?? 0).getTime() -
-                          new Date(dayDataB.slot?.startDate ?? 0).getTime()
-                      )
-                      .map((slotData) => ({
-                        formattedTime: format(
-                          new Date(slotData.slot!.startDate!),
-                          TIME_FORMAT
-                        ),
-                        bookable: slotData.bookable,
-                        bookingPolicyViolations:
-                          slotData.bookingPolicyViolations,
-                      }))
-                  ),
-                ].map(
-                  (
-                    { formattedTime, bookable, bookingPolicyViolations },
-                    index
-                  ) => (
-                    <button
-                      key={index}
-                      className={`px-3 py-1.5 w-full border-2 flex justify-center ${
-                        bookable
-                          ? formattedTime === selectedTime
-                            ? 'border-gray-700 bg-gray-100'
-                            : 'hover:border-gray-600'
-                          : 'text-gray-200'
-                      }`}
-                      disabled={!bookable}
-                      aria-label={'Select ' + formattedTime}
-                      onClick={() => setSelectedTime(formattedTime)}
-                    >
-                      <SlotTooltip
-                        bookable={bookable}
-                        bookingPolicyViolations={bookingPolicyViolations}
+                {Object.keys(slotsMap)
+                  // If several slots in the same time, use the first, can change to pick by staff or location
+                  .map((slotTime) => slotsMap[slotTime][0])
+                  .map(
+                    (
+                      { formattedTime, bookable, bookingPolicyViolations },
+                      index
+                    ) => (
+                      <button
+                        key={index}
+                        className={`px-3 py-1.5 w-full border-2 flex justify-center ${
+                          bookable
+                            ? formattedTime === selectedTime
+                              ? 'border-gray-700 bg-gray-100'
+                              : 'hover:border-gray-600'
+                            : 'text-gray-200'
+                        }`}
+                        disabled={!bookable}
+                        aria-label={'Select ' + formattedTime}
+                        onClick={() => setSelectedTime(formattedTime)}
                       >
-                        <span className="text-sm">{formattedTime}</span>
-                      </SlotTooltip>
-                    </button>
-                  )
-                )}
+                        <SlotTooltip
+                          bookable={bookable}
+                          bookingPolicyViolations={bookingPolicyViolations}
+                        >
+                          <span className="text-sm">{formattedTime}</span>
+                        </SlotTooltip>
+                      </button>
+                    )
+                  )}
               </div>
             ) : (
               <div className="pt-4">No availability</div>
