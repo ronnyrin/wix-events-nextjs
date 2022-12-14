@@ -85,7 +85,9 @@ export function CalendarView({ service }: { service: ServiceInfoViewModel }) {
     );
   }, [selectedTime, dayData]);
   const goToCheckout = useCallback(() => {
-    const checkoutUrl = new URL(process.env.NEXT_PUBLIC_BOOKINGS_CHECKOUT_URL!);
+    const checkoutUrl = new URL(
+      decodeURIComponent(process.env.NEXT_PUBLIC_BOOKINGS_CHECKOUT_URL!)
+    );
     const slotData = JSURL.stringify({
       serviceId: service.id,
       slot: { slot: selectedSlot?.slot },
