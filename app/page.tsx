@@ -1,6 +1,7 @@
 import './page.css';
 import ServiceListPreview from '@app/components/ServiceList/ServiceListPreview';
 import { useServerAuthSession } from '@app/hooks/useServerAuthSession';
+import ScrollIntoView from '@app/components/ScrollIntoView/ScrollIntoView';
 
 export default function Home() {
   const wixSession = useServerAuthSession();
@@ -30,6 +31,7 @@ export default function Home() {
       </div>
 
       <div className="mt-[-175px]">
+        <ScrollIntoView hashName="#about" offset="-128px" />
         <div className="w-full bg-white h-full relative">
           <div className="max-w-full-content mx-auto h-full">
             <div className="pl-5 pr-24 py-2 w-2/4">

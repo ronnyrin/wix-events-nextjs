@@ -1,8 +1,10 @@
 import './footer.css';
 import Image from 'next/image';
+import ScrollIntoView from '@app/components/ScrollIntoView/ScrollIntoView';
 
 const Footer = () => (
   <footer className="w-fullm-h-56 bg-turquoise-100 leading-7">
+    <ScrollIntoView hashName="#contact" />
     <div className="max-w-full-content mx-auto flex gap-2 pt-11 pb-20">
       <div className="flex-1">
         <div className="pl-6">

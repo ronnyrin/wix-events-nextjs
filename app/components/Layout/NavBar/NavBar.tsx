@@ -1,8 +1,9 @@
 'use client';
 import { NavLink } from './NavLink';
 import { useState } from 'react';
-import { LinkProps } from 'next/link';
+import type { LinkProps } from 'next/link';
 import LoginAvatar from '@app/components/Layout/NavBar/LoginAvatar';
+import { usePathname } from 'next/navigation';
 
 const StyledNavLink = ({
   isActive,
@@ -22,11 +23,8 @@ const StyledNavLink = ({
 );
 
 export function NavBar() {
-  const [linkRef, setLinkRef] = useState<LinkProps['href']>(
-    typeof window !== 'undefined'
-      ? window?.location.pathname + window?.location.hash
-      : ''
-  );
+  const pathname = usePathname();
+  const [linkRef, setLinkRef] = useState<LinkProps['href']>(pathname);
   return (
     <nav>
       <ul className="flex flex-row gap-8 text-xs justify-end text-[15px] leading-[22px]">
