@@ -49,5 +49,21 @@ export const formatServicePrice = ({
   };
 };
 
-export const formatCurrency = (price: number = 0, currency: string = 'USD') =>
-  Intl.NumberFormat('en', { style: 'currency', currency }).format(price);
+export const formatCurrency = (
+  price: number | string = 0,
+  currency: string = 'USD'
+) =>
+  Intl.NumberFormat('en', { style: 'currency', currency }).format(
+    Number(price)
+  );
+
+export const formatCurrencyToParts = (
+  price: number | string = 0,
+  currency: string = 'USD'
+) => ({
+  currencySign:
+    Intl.NumberFormat('en', { style: 'currency', currency })
+      .formatToParts(Number(price))
+      .find(({ type }) => type === 'currency')?.value ?? '',
+  price: String(price),
+});
