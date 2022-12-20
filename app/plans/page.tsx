@@ -2,6 +2,7 @@ import { useServerAuthSession } from '@app/hooks/useServerAuthSession';
 import { getPaidPlans } from '@model/paid-plans/paid-plans-api';
 import { formatCurrencyToParts } from '@app/utils/price-formtter';
 import { Duration as PlanDuration, PeriodUnit } from '@model/paid-plans/types';
+import { getCheckoutUrl } from '@model/paid-plans/paid-plans-checkout';
 
 const durationPeriodFormatter = (
   period: PeriodUnit = PeriodUnit.UNDEFINED
@@ -32,7 +33,7 @@ export default async function PlansPage() {
   const wixSession = useServerAuthSession();
   const { plans } = await getPaidPlans({}, wixSession);
   return (
-    <div className="max-w-full-content mx-auto">
+    <div className="max-w-full-content mx-auto pb-8">
       <div className="px-5">
         <div className="pt-5 pb-12">
           <div className="header-line my-8"></div>
@@ -73,7 +74,12 @@ export default async function PlansPage() {
                           plan.pricing?.singlePaymentForDuration!
                         )}`}
                   </div>
-                  <a className="btn-main w-full cursor-pointer mt-5">Select</a>
+                  <a
+                    className="btn-main w-full cursor-pointer mt-5"
+                    href={getCheckoutUrl(plan)}
+                  >
+                    Select
+                  </a>
                 </div>
                 <div className="bg-white px-9 py-5 flex flex-col justify-start items-center w-full h-56 overflow-y-auto">
                   <ul>
@@ -105,7 +111,7 @@ const BenefitPrefix = () => (
     className="fill-green-600 inline-block"
   >
     <path
-      fill-rule="evenodd"
+      fillRule="evenodd"
       d="M10.785 14.961L8 12.176L8.707 11.469L10.785 13.547L15.293 9.039L16 9.746L10.785 14.961ZM12 4C7.582 4 4 7.582 4 12C4 16.418 7.582 20 12 20C16.419 20 20 16.418 20 12C20 7.582 16.419 4 12 4Z"
     ></path>
   </svg>
