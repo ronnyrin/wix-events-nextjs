@@ -1,5 +1,4 @@
 import './page.css';
-import ServiceListPreview from '@app/components/ServiceList/ServiceListPreview';
 import { useServerAuthSession } from '@app/hooks/useServerAuthSession';
 import ScrollIntoView from '@app/components/ScrollIntoView/ScrollIntoView';
 
@@ -10,18 +9,18 @@ export default function Home() {
       <div className="text-center w-full min-h-screen relative">
         <video autoPlay muted loop className="video-background">
           <source
-            src="https://video.wixstatic.com/video/11062b_9de2dbff3dda403b944bb98c41cb5764/1080p/mp4/file.mp4"
+            src="https://video.wixstatic.com/video/ac4509_e2e9678a88e04202ab38da85e5fca299/1080p/mp4/file.mp4"
             type="video/mp4"
           />
         </video>
         <div className="text-center">
           <div className="font-sans font-bold uppercase tracking-widest pt-16">
-            Ambition is the first step towards
+            EXPERIENCE
           </div>
-          <div className="font-lulo text-8xl pt-4">Success</div>
-          <div className="text-xl pt-6 tracking-wider">
-            Now Available for Online Coaching
+          <div className="font-sans font-bold uppercase tracking-widest pt-16">
+            Movement
           </div>
+          <div className="text-xl pt-6 tracking-wider">Music.Love.</div>
           <div className="pt-7">
             <a className="btn-main" href="/book-now">
               Book Now
@@ -71,7 +70,6 @@ export default function Home() {
           <h2 className="mb-7 mt-10 tracking-tighter title max-w-xs">
             How I Can Help You
           </h2>
-          <ServiceListPreview wixSession={wixSession} />
           <div className="flex my-8 justify-center">
             <a className="btn-main" href="/book-now">
               More Services

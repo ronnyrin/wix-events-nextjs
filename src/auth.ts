@@ -5,7 +5,7 @@ export type WixSession = {
 
 export const createWixVisitorSession = (): WixSession => {
   return {
-    apiKey: process.env.BOOKINGS_API_KEY!,
-    siteId: process.env.BOOKINGS_SITE_ID!,
+    apiKey: process.env.API_KEY!,
+    siteId: process.env.SITE_ID!,
   };
 };

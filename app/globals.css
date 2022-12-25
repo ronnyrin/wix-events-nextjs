@@ -26,12 +26,10 @@
   }
 
   .btn-main {
-    @apply text-white;
-    @apply border-2;
-    @apply border-black;
+    @apply text-black;
     @apply text-sm;
     @apply font-medium;
-    @apply bg-black;
+    @apply bg-yellow-100;
     @apply hover:bg-white;
     @apply hover:text-gray-900;
     @apply focus:outline-none;

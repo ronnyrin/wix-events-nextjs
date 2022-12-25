@@ -16,7 +16,7 @@ const StyledNavLink = ({
 }) => (
   <NavLink
     className={`${className ?? ''} ${
-      isActive ? 'text-turquoise-200' : 'hover:text-turquoise-200'
+      isActive ? 'text-white' : 'hover:text-yellow-100'
     }`}
     {...linkProps}
   />
@@ -27,18 +27,18 @@ export function NavBar() {
   const [linkRef, setLinkRef] = useState<LinkProps['href']>(pathname);
   return (
     <nav>
-      <ul className="flex flex-row gap-8 text-xs justify-end text-[15px] leading-[22px]">
+      <ul className="flex flex-row gap-8 text-s justify-center text-[20px] leading-[22px]">
         {[
-          { ref: '/#about', label: 'About' },
-          { ref: '/book-now', label: 'Services' },
-          { ref: '/plans', label: 'Plans' },
-          { ref: '/guides', label: 'Guides' },
+          { ref: '/#about', label: 'Home' },
+          { ref: '/#experience', label: 'Experience' },
+          { ref: '/#community', label: 'Community' },
           { ref: '/#contact', label: 'Contact' },
         ].map(({ ref, label }) => (
           <li key={ref}>
             <StyledNavLink
               isActive={ref === linkRef}
               href={ref}
+              className="text-white"
               onClick={() => setLinkRef(ref)}
             >
               {label}
@@ -59,6 +59,14 @@ export function NavBar() {
               <span>Log In</span>
             </div>
           </StyledNavLink>
+        </li>
+
+        <li>
+          <div className="">
+            <a className="btn-main" href="/register-now">
+              Register Now
+            </a>
+          </div>
         </li>
       </ul>
     </nav>

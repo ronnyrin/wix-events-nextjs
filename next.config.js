@@ -3,13 +3,19 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/api/v1/availability/query',
+        source: '/api/v1/events/query',
         destination:
-          'https://www.wixapis.com/availability-calendar/v1/availability/query',
+          'https://www.wixapis.com/events/v1/events/query',
       },
       {
-        source: '/api/v1/catalog/services',
-        destination: 'https://www.wixapis.com/bookings/v1/catalog/services',
+        source: '/api/v1/tickets/available',
+        destination:
+          'https://www.wixapis.com/events/api/v1/tickets/available',
+      },
+      {
+        source: '/v1/events/:id/tickets/reservation',
+        destination:
+            'https://www.wixapis.com/events/v1/events/:id/tickets/reservation'
       },
     ];
   },
