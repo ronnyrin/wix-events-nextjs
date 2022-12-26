@@ -1,27 +1,25 @@
-import { useState } from 'react';
-
 export function Counter({
   onChange,
   ticketId,
   price,
+  initialCount,
 }: {
   onChange: Function;
   ticketId: string;
   price: number;
+  initialCount: number;
 }) {
-  const [count, setCount] = useState(0);
-
   const increment = () => {
-    setCount(count + 1);
-    onChange({ [ticketId]: { quantity: count + 1, price } });
+    onChange({ [ticketId]: { quantity: initialCount + 1, price } });
   };
 
   const decrement = () => {
-    setCount(count - 1);
-    onChange({ [ticketId]: { quantity: count - 1, price } });
+    if (initialCount === 0) return;
+    onChange({ [ticketId]: { quantity: initialCount - 1, price } });
   };
+
   return (
-    <div className="custom-number-input h-10 w-32">
+    <div className="custom-number-input h-10 w-32" key={`${ticketId}-counter`}>
       <div className="flex flex-row h-10 w-full relative bg-transparent mt-1">
         <button
           data-action="decrement"
@@ -34,7 +32,8 @@ export function Counter({
           type="number"
           className="outline-none focus:outline-none border-white border-t border-b text-center w-full bg-transparent font-semibold text-md focus:text-black md:text-basecursor-default flex items-center text-white"
           name="custom-input-number"
-          value={count}
+          value={initialCount}
+          min={0}
         ></input>
         <button
           data-action="increment"

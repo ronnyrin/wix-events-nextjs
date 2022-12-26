@@ -2,8 +2,8 @@ export const formatCurrency = (
   price: number | string = 0,
   currency: string = 'USD'
 ) =>
-  Intl.NumberFormat('en', {
+  Intl.NumberFormat('en-ie', {
     style: 'currency',
     currency,
-    currencyDisplay: 'symbol',
+    notation: 'standard',
   }).format(Number(price));

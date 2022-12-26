@@ -20,7 +20,12 @@ export const getTicketsById = (
     input: { eventId: event.id, limit: 100 },
     wixSession,
   }).then(({ definitions }) =>
-    definitions.map((ticket: TicketDefinition) => ticketMapper(event, ticket))
+    definitions
+      .map((ticket: TicketDefinition) => ticketMapper(event, ticket))
+      .sort(
+        (a: ExtendedTicketDefinition, b: ExtendedTicketDefinition) =>
+          a.orderIndex! - b.orderIndex!
+      )
   );
 
 const queryAvailability = ({

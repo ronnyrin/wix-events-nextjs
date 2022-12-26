@@ -9,7 +9,7 @@ export default async function EventPage({ params }: any) {
   const event = await getEventBySlug(params.slug, wixSession);
   const tickets = event && (await getTicketsById(event, wixSession));
   return (
-    <div className="max-w-full-content mx-auto px-28">
+    <div className="max-w-full-content mx-auto px-14">
       {event ? (
         <div className="full-w overflow-hidden max-w-7xl mx-auto">
           <span>

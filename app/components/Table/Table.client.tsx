@@ -12,6 +12,7 @@ import { createReservation as api } from '@model/reservation/reservation-api';
 import { TicketReservationQuantity } from '@model/reservation/types';
 import { WixSession } from '../../../src/auth';
 import { formatCurrency } from '@app/utils/price-formtter';
+import { Price } from '@app/components/Price';
 
 export function TicketsTable({
   tickets,
@@ -49,7 +50,10 @@ export function TicketsTable({
           selectedTickets[key].quantity *
             (tickets.find((t) => t.id === key)!.wixFeeConfig!.type ===
             FeeType.FEE_ADDED_AT_CHECKOUT
-              ? tickets.find((t) => t.id === key)!.wixFeeForTicket!
+              ? tickets.find((t) => t.id === key)!.pricing?.pricingType ===
+                Type.DONATION
+                ? (selectedTickets[key].price * 2.5) / 100
+                : tickets.find((t) => t.id === key)!.wixFeeForTicket!
               : 0),
         0
       )
@@ -58,9 +62,7 @@ export function TicketsTable({
     setSubTotals(
       Object.keys(selectedTickets).reduce(
         (acc, key) =>
-          acc +
-          selectedTickets[key].quantity *
-            Number.parseFloat(tickets.find((t) => t.id === key)!.price!.value!),
+          acc + selectedTickets[key].quantity * selectedTickets[key].price,
         0
       )
     );
@@ -88,6 +90,7 @@ export function TicketsTable({
       return {
         ticketDefinitionId: id,
         quantity: selectedTickets[id].quantity,
+        priceOverride: selectedTickets[id].price.toString(),
       };
     });
     const id = await api({
@@ -117,69 +120,29 @@ export function TicketsTable({
               {ticket.name}
             </Table.Cell>
             <Table.Cell className="text-white">
-              {ticket.pricing?.pricingType === Type.STANDARD &&
-                formatCurrency(ticket.price!.value!, ticket.price!.currency)}
-              {ticket.pricing?.pricingType === Type.DONATION && (
-                <>
-                  <span>
-                    {Number.parseFloat(ticket.pricing?.minPrice?.value!) > 0
-                      ? `Write a price more than ${formatCurrency(
-                          ticket.pricing.minPrice?.value!,
-                          ticket.price?.currency
-                        )}`
-                      : 'Write a price'}
-                  </span>
-                  <input
-                    type="number"
-                    className="bg-transparent"
-                    min={ticket.pricing?.minPrice?.value ?? 0}
-                    onChange={() => 'ddd'}
-                  />
-                </>
-              )}
-              {event.registration?.ticketing?.config?.taxConfig?.type ===
-                TaxType.ADDED_AT_CHECKOUT &&
-                !ticket.free &&
-                ticket.pricing?.pricingType === Type.STANDARD && (
-                  <>
-                    {' '}
-                    <br />
-                    <span className="text-xs text-black">
-                      {' '}
-                      +{formatCurrency(ticket.tax, ticket.price?.currency)}{' '}
-                      {event.registration?.ticketing?.config?.taxConfig?.name}
-                    </span>
-                  </>
-                )}
-              {ticket.wixFeeConfig?.type === FeeType.FEE_ADDED_AT_CHECKOUT &&
-                !ticket.free && (
-                  <>
-                    {' '}
-                    <br />
-                    <span className="text-xs text-black">
-                      {' '}
-                      +
-                      {formatCurrency(
-                        ticket.wixFeeForTicket,
-                        ticket.price?.currency
-                      )}{' '}
-                      service fee
-                    </span>
-                  </>
-                )}
+              <Price
+                selectedTickets={selectedTickets}
+                ticket={ticket}
+                setTickets={setTickets}
+                event={event}
+              />
             </Table.Cell>
             <Table.Cell>
               <Counter
                 onChange={setTickets}
                 ticketId={ticket.id!}
-                price={Number.parseFloat(ticket.price?.value!)}
+                initialCount={selectedTickets[ticket.id!]?.quantity ?? 0}
+                price={
+                  selectedTickets[ticket.id!]?.price ||
+                  Number.parseFloat(ticket.price?.value!)
+                }
               />
             </Table.Cell>
             <Table.Cell className="text-white text-right">
               {formatCurrency(
                 (
-                  Number.parseFloat(ticket.price!.value!) *
-                  (selectedTickets[ticket.id!]?.quantity || 0)
+                  (selectedTickets[ticket.id!]?.price ?? 0) *
+                  (selectedTickets[ticket.id!]?.quantity ?? 0)
                 ).toString(),
                 ticket.price!.currency
               )}
