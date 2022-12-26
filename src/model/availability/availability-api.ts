@@ -1,5 +1,10 @@
-import { TicketDefinition } from '@model/availability/types';
+import {
+  ExtendedTicketDefinition,
+  TicketDefinition,
+} from '@model/availability/types';
 import { WixSession } from '../../auth';
+import { Event } from '@model/event/types';
+import { ticketMapper } from '@model/availability/ticket.mapper';
 
 // TODO: CORS WA till using SDK
 const EVENT_TICKET_AVAILABILITY_API =
@@ -8,13 +13,15 @@ const EVENT_TICKET_AVAILABILITY_API =
     : '/api/v1/tickets/available';
 
 export const getTicketsById = (
-  eventId: string,
+  event: Event,
   wixSession: WixSession
-): Promise<TicketDefinition[]> =>
+): Promise<ExtendedTicketDefinition[]> =>
   queryAvailability({
-    input: { eventId, limit: 100 },
+    input: { eventId: event.id, limit: 100 },
     wixSession,
-  }).then(({ definitions }) => definitions);
+  }).then(({ definitions }) =>
+    definitions.map((ticket: TicketDefinition) => ticketMapper(event, ticket))
+  );
 
 const queryAvailability = ({
   input,

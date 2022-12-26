@@ -1,7 +1,12 @@
-import { Event } from '@model/event/types';
+import {
+  Event,
+  EventFieldset,
+  QueryEventsV2Request,
+  QueryEventsV2Response,
+} from '@model/event/types';
 import { WixSession } from '../../auth';
 
-const EVENTS_SERVICES_API = 'https://www.wixapis.com/events/v1/events/query';
+const EVENTS_SERVICES_API = 'https://www.wixapis.com/events/v2/events/query';
 
 export const getEventBySlug = (
   eventSlug: string,
@@ -20,19 +25,27 @@ const getEventByFilter = (
 ): Promise<Event | null> =>
   fetchEvents({
     input: {
-      filter,
-      offset: 0,
-      limit: 1,
-      fieldset: ['FULL', 'DETAILS', 'REGISTRATION'],
+      query: {
+        filter,
+        paging: {
+          offset: 0,
+          limit: 1,
+        },
+      },
+      fieldset: [
+        EventFieldset.FULL,
+        EventFieldset.DETAILS,
+        EventFieldset.REGISTRATION,
+      ],
     },
     wixSession,
-  }).then(({ events: [event] }) => event);
+  }).then(({ events }: QueryEventsV2Response) => events![0]);
 
 const fetchEvents = ({
   input,
   wixSession,
 }: {
-  input: any;
+  input: QueryEventsV2Request;
   wixSession: WixSession;
 }) => {
   return fetch(EVENTS_SERVICES_API, {

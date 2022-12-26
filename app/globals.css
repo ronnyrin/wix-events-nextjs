@@ -60,6 +60,13 @@
     @apply text-4xl;
   }
 
+  h2 {
+    @apply font-lulo;
+    @apply text-2xl;
+  }
+
+
+
   .h-header {
     @apply h-[128px];
   }
@@ -72,7 +79,8 @@
   }
 
   .parallax-background {
-    @apply bg-site-background;
+    @apply bg-blue-100;
+    /*@apply bg-site-background;*/
     @apply bg-fixed;
     @apply bg-center;
     @apply bg-no-repeat;
@@ -85,6 +93,7 @@ body {
   padding: 0;
   margin: 0;
   font: normal normal normal 18px/1.4em avenir-lt-w01_35-light1475496, sans-serif;
+  @apply text-white;
 }
 
 a {

@@ -24,7 +24,7 @@ export default function RootLayout({
         <body className="parallax-background">
           <Header />
           <main className="bg-blue-100 min-h-[600px]">{children}</main>
-          <Footer />
+          {/*<Footer />*/}
         </body>
       ) : (
         <body className="">

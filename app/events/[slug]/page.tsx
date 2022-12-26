@@ -7,7 +7,7 @@ import { WixMediaImage } from '@app/components/Image/WixMediaImage';
 export default async function EventPage({ params }: any) {
   const wixSession = useServerAuthSession();
   const event = await getEventBySlug(params.slug, wixSession);
-  const tickets = event && (await getTicketsById(event.id!, wixSession));
+  const tickets = event && (await getTicketsById(event, wixSession));
   return (
     <div className="max-w-full-content mx-auto px-28">
       {event ? (
@@ -15,11 +15,14 @@ export default async function EventPage({ params }: any) {
           <span>
             {event.scheduling?.startDateFormatted} | {event.location?.name}
           </span>
-          <h1 className="text-white text-4xl mb-2">{event.title}</h1>
-          <h3 className="text-white">{event.description}</h3>
+          <h1 className="text-4xl mb-2">{event.title}</h1>
+          <h3>{event.description}</h3>
           <WixMediaImage media={event.mainImage} />
-          <p>TIME & LOCATION</p>
-          <p>{event.scheduling?.formatted}</p>
+          <h2 className="text-center mt-7">TIME & LOCATION</h2>
+          <p className="text-center">{event.scheduling?.formatted}</p>
+          <p className="text-center">
+            {event.location?.fullAddress?.formattedAddress}
+          </p>
           <TicketsTable
             tickets={tickets!}
             event={event}

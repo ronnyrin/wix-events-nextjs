@@ -906,58 +906,6 @@ export enum State {
   COMPONENT = 'COMPONENT',
 }
 
-/**
- * A coarse-grained representation of time duration divided into whole constituting components of days, hours, and minutes.
- * For example, 25.5 hours duration is represented as `{ days: 1, hours: 1, minutes: 30 }`.
- */
-export interface TimeDuration {
-  /** Number of days */
-  days?: number;
-  /** Number of hours */
-  hours?: number;
-  /** Number of minutes */
-  minutes?: number;
-}
-
-export interface EventEnded {
-  /** Event end timestamp in ISO UTC format. */
-  timestamp?: Date;
-  /** Event ID. */
-  eventId?: string;
-}
-
-export interface QueryEventsRequest {
-  /** Number of items to skip. See [Pagination](https://dev.wix.com/api/rest/getting-started/pagination). */
-  offset?: number;
-  /** Number of items to load per page. See [Pagination](https://dev.wix.com/api/rest/getting-started/pagination). */
-  limit?: number;
-  /**
-   * Controls which event properties are returned. See [Fieldset](https://dev.wix.com/api/rest/wix-events/wix-events/fieldset#wix-events_wix-events_fieldset_event-fieldset).
-   * Some fields require additional computation that affects latency.
-   * Use minimum set of required fieldset for best performance.
-   */
-  fieldset?: EventFieldset[];
-  /** Filter. See [supported fields and operators](https://dev.wix.com/api/rest/wix-events/wix-events/filter-and-sort#wix-events_wix-events_filter-and-sort_list-query-events). */
-  filter?: Record<string, any> | null;
-  /**
-   * Filter facets to include in the response.
-   * See [supported facets](https://dev.wix.com/api/rest/wix-events/wix-events/filter-and-sort#wix-events_wix-events_filter-and-sort_list-query-events).
-   */
-  facet?: string[];
-  /** User ID filter, by default any */
-  userId?: string[];
-  /**
-   * Sort order, defaults to `"created:asc"`.
-   * See [supported fields](https://dev.wix.com/api/rest/wix-events/wix-events/filter-and-sort#wix-events_wix-events_filter-and-sort_list-query-events).
-   */
-  sort?: string;
-  /**
-   * Whether draft events should be returned in the response.
-   * Requires WIX_EVENTS.MANAGE_EVENTS permission.
-   */
-  includeDrafts?: boolean;
-}
-
 export enum EventFieldset {
   FULL = 'FULL',
   /** Include `description`, `mainImage` and `calendarLinks` in the response. */
@@ -982,19 +930,6 @@ export enum EventFieldset {
   AGENDA = 'AGENDA',
   /** Include `categories` in the response. */
   CATEGORIES = 'CATEGORIES',
-}
-
-export interface QueryEventsResponse {
-  /** Total number of events that match the given filters. */
-  total?: number;
-  /** Offset. */
-  offset?: number;
-  /** Limit. */
-  limit?: number;
-  /** Events list */
-  events?: Event[];
-  /** Filter facets. */
-  facets?: Record<string, FacetCounts>;
 }
 
 export interface FacetCounts {
@@ -1098,77 +1033,4 @@ export interface Cursors {
   next?: string | null;
   /** Cursor pointing to previous page in the list of results. */
   prev?: string | null;
-}
-
-export interface ListEventsRequest {
-  /** Number of items to skip. See [Pagination](https://dev.wix.com/api/rest/getting-started/pagination). */
-  offset?: number;
-  /** Number of items to load per page. See [Pagination](https://dev.wix.com/api/rest/getting-started/pagination). */
-  limit?: number;
-  /**
-   * Controls which event properties are returned. See [Fieldset](https://dev.wix.com/api/rest/wix-events/wix-events/fieldset#wix-events_wix-events_fieldset_event-fieldset).
-   * Some fields require additional computation that affects latency of the service.
-   * Use minimum set of required fieldset for best performance.
-   */
-  fieldset?: EventFieldset[];
-  /** Event status. */
-  status?: EventStatus[];
-  /** Event URL slug. */
-  slug?: string;
-  /**
-   * Wix user filter, by default any.
-   * Allows to filter events by user relation to the event (within the site).
-   * @internal
-   */
-  userFilter?: UserFilter;
-  /**
-   * Filter facets to include in the response.
-   * See [supported facets](https://dev.wix.com/api/rest/wix-events/wix-events/filter-and-sort#wix-events_wix-events_filter-and-sort_list-query-events).
-   */
-  facet?: string[];
-  /** User ID filter, by default any */
-  userId?: string[];
-  /**
-   * Sort order, defaults to `"created:asc"`.
-   * See [supported fields](https://dev.wix.com/api/rest/wix-events/wix-events/filter-and-sort#wix-events_wix-events_filter-and-sort_list-query-events).
-   */
-  sort?: string;
-  /** Category filter. */
-  categoryFilter?: CategoryFilter;
-  /**
-   * Whether draft events should be returned in the response.
-   * Requires WIX_EVENTS.MANAGE_EVENTS permission.
-   */
-  includeDrafts?: boolean;
-  /** Recurrence status filter. */
-  recurrenceStatus?: Status[];
-  /** Recurring group id filter. */
-  recurringGroupId?: string[];
-}
-
-export interface UserFilter {
-  /** User who is related to event */
-  userId?: string;
-  /** Relation of user to event */
-  relation?: Relation[];
-}
-
-export enum Relation {
-  /**
-   * User is attending the event.
-   * User has RSVP with status YES or has ordered tickets.
-   */
-  ATTENDING = 'ATTENDING',
-}
-
-export interface CategoryFilter {
-  /**
-   * If true - only categorised events will be returned.
-   * If false - only not categorised events will be returned.
-   */
-  categorised?: boolean | null;
-  /** Category id filter. */
-  categoryId?: string[];
-  /** Category states filter. Default - any state. */
-  states?: State[];
 }

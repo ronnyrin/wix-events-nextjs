@@ -3,20 +3,22 @@ import { useState } from 'react';
 export function Counter({
   onChange,
   ticketId,
+  price,
 }: {
   onChange: Function;
   ticketId: string;
+  price: number;
 }) {
   const [count, setCount] = useState(0);
 
   const increment = () => {
     setCount(count + 1);
-    onChange({ [ticketId]: count + 1 });
+    onChange({ [ticketId]: { quantity: count + 1, price } });
   };
 
   const decrement = () => {
     setCount(count - 1);
-    onChange({ [ticketId]: count - 1 });
+    onChange({ [ticketId]: { quantity: count - 1, price } });
   };
   return (
     <div className="custom-number-input h-10 w-32">

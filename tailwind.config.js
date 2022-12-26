@@ -20,7 +20,7 @@ module.exports = {
       },
       colors: {
         'yellow-100': '#ffc657',
-        'blue-100': '#116dff'
+        'blue-100': '#5362ac',
       },
       gridTemplateColumns: {
         'auto-sm': 'repeat(auto-fill,minmax(120px,1fr))',

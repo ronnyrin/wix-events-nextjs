@@ -68,6 +68,55 @@ export interface TicketDefinition {
   saleStatus?: TicketSaleStatus;
   /** Ticket state. */
   state?: any;
+  /**
+   * Ticket pricing.
+   * @internal
+   */
+  pricing?: TicketPricing;
+}
+
+export interface TicketPricing extends TicketPricingPriceOneOf {
+  /**
+   * Ticket pricing type.
+   * @internal
+   * @readonly
+   */
+  pricingType?: Type;
+  /** Ticket price which is read only. */
+  fixedPrice?: Money;
+  /** Min price per ticket, customizable. */
+  minPrice?: Money;
+  /** Ticket pricing options. */
+  pricingOptions?: PricingOptions;
+}
+
+/** @oneof */
+export interface TicketPricingPriceOneOf {
+  /** Ticket price which is read only. */
+  fixedPrice?: Money;
+  /** Min price per ticket, customizable. */
+  minPrice?: Money;
+  /** Ticket pricing options. */
+  pricingOptions?: PricingOptions;
+}
+
+export interface PricingOptions {
+  /** Multiple ticket pricing options. */
+  options?: PricingOption[];
+}
+
+export interface PricingOption {
+  /** Ticket pricing option ID. */
+  id?: string | null;
+  /** Ticket pricing option name. */
+  name?: string | null;
+  /** Ticket pricing option price. */
+  price?: Money;
+}
+
+export interface ExtendedTicketDefinition extends TicketDefinition {
+  wixFeeForTicket?: number;
+  tax?: number;
 }
 
 export interface Dashboard {
