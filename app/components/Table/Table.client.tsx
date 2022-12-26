@@ -75,8 +75,12 @@ export function TicketsTable({
         Object.keys(selectedTickets).reduce(
           (acc, key) =>
             acc +
-            selectedTickets[key].quantity *
-              tickets.find((t) => t.id === key)!.tax!,
+            (selectedTickets[key].quantity *
+              selectedTickets[key].price *
+              Number.parseFloat(
+                event.registration?.ticketing?.config?.taxConfig?.rate!
+              )) /
+              100,
           0
         )
       );
@@ -175,7 +179,7 @@ export function TicketsTable({
               {event.registration?.ticketing?.config?.taxConfig?.name}
             </Table.Cell>
             <Table.Cell className="text-white text-right">
-              {formatCurrency(tax.toString(), tickets[0]!.price!.currency)}
+              {formatCurrency(tax, tickets[0]!.price!.currency)}
             </Table.Cell>
           </Table.Row>
         ) : null}
