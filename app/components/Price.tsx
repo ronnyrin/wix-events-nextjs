@@ -42,6 +42,22 @@ export function Price({
     }
   };
 
+  const fee =
+    ticket.pricing?.pricingType === Type.DONATION
+      ? Number((selectedTickets[ticket.id!]?.price * 2.5) / 100 || 0)
+      : ticket.wixFeeForTicket;
+
+  const tax =
+    ticket.pricing?.pricingType === Type.DONATION
+      ? Number(
+          (selectedTickets[ticket.id!]?.price *
+            Number.parseFloat(
+              event.registration?.ticketing?.config?.taxConfig?.rate || '0'
+            )) /
+            100 || 0
+        )
+      : ticket.tax;
+
   return (
     <>
       {ticket.pricing?.pricingType === Type.STANDARD &&
@@ -88,13 +104,17 @@ export function Price({
       {event.registration?.ticketing?.config?.taxConfig?.type ===
         TaxType.ADDED_AT_CHECKOUT &&
         !ticket.free &&
-        ticket.pricing?.pricingType === Type.STANDARD && (
+        (ticket.pricing?.pricingType === Type.STANDARD ||
+          event.registration?.ticketing?.config.taxConfig
+            .appliesToDonations) && (
           <>
-            {' '}
             <br />
             <span className="text-xs text-black">
               {' '}
-              +{formatCurrency(ticket.tax, ticket.price?.currency)}{' '}
+              +
+              {tax
+                ? formatCurrency(tax, ticket.price?.currency)
+                : `${event.registration?.ticketing?.config?.taxConfig.rate}%`}{' '}
               {event.registration?.ticketing?.config?.taxConfig?.name}
             </span>
           </>
@@ -102,20 +122,10 @@ export function Price({
       {ticket.wixFeeConfig?.type === FeeType.FEE_ADDED_AT_CHECKOUT &&
         !ticket.free && (
           <>
-            {' '}
             <br />
             <span className="text-xs text-black">
-              {' '}
-              +
-              {formatCurrency(
-                ticket.pricing?.pricingType === Type.DONATION
-                  ? Number(
-                      (selectedTickets[ticket.id!]?.price * 2.5) / 100 || 0
-                    )
-                  : ticket.wixFeeForTicket,
-                ticket.price?.currency
-              )}{' '}
-              service fee
+              +{fee ? formatCurrency(fee, ticket.price?.currency) + ' ' : ''}
+              Service fee
             </span>
           </>
         )}
