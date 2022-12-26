@@ -7,6 +7,7 @@ import { formatCurrency } from '@app/utils/price-formtter';
 import { Flowbite, Label, TextInput } from 'flowbite-react';
 import { TaxType } from '@model/event/types';
 import { Event } from '@model/event/types';
+import React from 'react';
 
 export function Price({
   ticket,
@@ -19,6 +20,28 @@ export function Price({
   event: Event;
   selectedTickets: Record<string, { quantity: number; price: number }>;
 }) {
+  const onPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = Number.parseFloat(e.target.value);
+    if (
+      val &&
+      val >= Number.parseFloat(ticket.pricing?.minPrice?.value ?? '0')
+    ) {
+      setTickets({
+        [ticket.id!]: {
+          quantity: 1,
+          price: Number.parseFloat(e.target.value),
+        },
+      });
+    } else {
+      setTickets({
+        [ticket.id!]: {
+          quantity: 0,
+          price: 0,
+        },
+      });
+    }
+  };
+
   return (
     <>
       {ticket.pricing?.pricingType === Type.STANDARD &&
@@ -57,16 +80,7 @@ export function Price({
               sizing="sm"
               addon="$"
               min={ticket.pricing?.minPrice?.value ?? 0}
-              onChange={(e) =>
-                Number.parseFloat(e.target.value) >=
-                  Number.parseFloat(ticket.pricing?.minPrice?.value ?? '0') &&
-                setTickets({
-                  [ticket.id!]: {
-                    quantity: 1,
-                    price: Number.parseFloat(e.target.value),
-                  },
-                })
-              }
+              onChange={onPriceChange}
             />
           </Flowbite>
         </>
