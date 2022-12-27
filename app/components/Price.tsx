@@ -1,6 +1,7 @@
 import {
   ExtendedTicketDefinition,
   FeeType,
+  PricingOption,
   Type,
 } from '@model/availability/types';
 import { formatCurrency } from '@app/utils/price-formtter';
@@ -57,6 +58,40 @@ export function Price({
             100 || 0
         )
       : ticket.tax;
+
+  const getSelectedPricingOptionsRange = (
+    pricingOptions: PricingOption[]
+  ): { min: { value: number }; max: { value: number } } =>
+    pricingOptions.reduce(
+      (range, { price }) => {
+        const amount = Number(price!.value);
+        if (range.min === undefined || Number(range.min.value) > amount) {
+          range.min = price!;
+        }
+        if (range.max === undefined || Number(range.max.value) < amount) {
+          range.max = price!;
+        }
+        return range;
+      },
+      { min: undefined, max: undefined } as any
+    );
+
+  if (ticket.pricing?.pricingOptions?.options?.length) {
+    const range = getSelectedPricingOptionsRange(
+      ticket.pricing?.pricingOptions.options
+    );
+    return (
+      <>
+        {`From ${formatCurrency(
+          range.min!.value,
+          ticket.pricing?.minPrice?.currency
+        )} to ${formatCurrency(
+          range.max.value,
+          ticket.pricing?.minPrice?.currency
+        )}`}
+      </>
+    );
+  }
 
   return (
     <>

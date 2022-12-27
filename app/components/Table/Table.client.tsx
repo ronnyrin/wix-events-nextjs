@@ -120,7 +120,7 @@ export function TicketsTable({
       <Table.Body>
         {tickets.map((ticket: ExtendedTicketDefinition) => (
           <Table.Row className="dark:bg-gray-800" key={ticket.id}>
-            <Table.Cell className="whitespace-nowrap font-medium text-white">
+            <Table.Cell className="whitespace-nowrap text-white">
               {ticket.name}
             </Table.Cell>
             <Table.Cell className="text-white">
@@ -132,24 +132,27 @@ export function TicketsTable({
               />
             </Table.Cell>
             <Table.Cell>
-              <Counter
-                onChange={setTickets}
-                ticketId={ticket.id!}
-                initialCount={selectedTickets[ticket.id!]?.quantity ?? 0}
-                price={
-                  selectedTickets[ticket.id!]?.price ||
-                  Number.parseFloat(ticket.price?.value!)
-                }
-              />
+              {!ticket.pricing?.pricingOptions?.options?.length && (
+                <Counter
+                  onChange={setTickets}
+                  ticketId={ticket.id!}
+                  initialCount={selectedTickets[ticket.id!]?.quantity ?? 0}
+                  price={
+                    selectedTickets[ticket.id!]?.price ||
+                    Number.parseFloat(ticket.price?.value!)
+                  }
+                />
+              )}
             </Table.Cell>
             <Table.Cell className="text-white text-right">
-              {formatCurrency(
-                (
-                  (selectedTickets[ticket.id!]?.price ?? 0) *
-                  (selectedTickets[ticket.id!]?.quantity ?? 0)
-                ).toString(),
-                ticket.price!.currency
-              )}
+              {!ticket.pricing?.pricingOptions?.options?.length &&
+                formatCurrency(
+                  (
+                    (selectedTickets[ticket.id!]?.price ?? 0) *
+                    (selectedTickets[ticket.id!]?.quantity ?? 0)
+                  ).toString(),
+                  ticket.price!.currency
+                )}
             </Table.Cell>
           </Table.Row>
         ))}
