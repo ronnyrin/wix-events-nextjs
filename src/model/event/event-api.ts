@@ -35,6 +35,7 @@ const getEventByFilter = (
       fieldset: [
         EventFieldset.FULL,
         EventFieldset.DETAILS,
+        EventFieldset.TEXTS,
         EventFieldset.REGISTRATION,
       ],
     },

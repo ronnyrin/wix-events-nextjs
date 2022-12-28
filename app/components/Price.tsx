@@ -15,10 +15,12 @@ export function Price({
   setTickets,
   event,
   selectedTickets,
+  disabled,
 }: {
   ticket: ExtendedTicketDefinition;
   setTickets: Function;
   event: Event;
+  disabled: boolean;
   selectedTickets: Record<string, { quantity: number; price: number }>;
 }) {
   const onPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,6 +95,17 @@ export function Price({
     );
   }
 
+  const donationText = disabled
+    ? 'You set the price'
+    : `WRITE A PRICE ${
+        Number.parseFloat(ticket.pricing?.minPrice?.value!) > 0
+          ? `MORE THAN ${formatCurrency(
+              ticket.pricing?.minPrice?.value!,
+              ticket.price?.currency
+            )}`
+          : ''
+      }`;
+
   return (
     <>
       {ticket.pricing?.pricingType === Type.STANDARD &&
@@ -101,39 +114,34 @@ export function Price({
         <>
           <Label
             htmlFor={`price-${ticket.id}`}
-            className="text-white uppercase"
-            value={
-              Number.parseFloat(ticket.pricing?.minPrice?.value!) > 0
-                ? `Write a price more than ${formatCurrency(
-                    ticket.pricing.minPrice?.value!,
-                    ticket.price?.currency
-                  )}`
-                : 'Write a price'
-            }
+            className="text-white"
+            value={donationText}
           />
-          <Flowbite
-            theme={{
-              theme: {
-                textInput: {
-                  field: {
-                    input: {
-                      base: 'bg-transparent text-white rounded-none',
+          {!disabled && (
+            <Flowbite
+              theme={{
+                theme: {
+                  textInput: {
+                    field: {
+                      input: {
+                        base: 'bg-transparent text-white rounded-none',
+                      },
                     },
                   },
                 },
-              },
-            }}
-          >
-            <TextInput
-              type="number"
-              id={`price-${ticket.id}`}
-              className="bg-transparent mt-1"
-              sizing="sm"
-              addon="$"
-              min={ticket.pricing?.minPrice?.value ?? 0}
-              onChange={onPriceChange}
-            />
-          </Flowbite>
+              }}
+            >
+              <TextInput
+                type="number"
+                id={`price-${ticket.id}`}
+                className="bg-transparent mt-1"
+                sizing="sm"
+                addon="$"
+                min={ticket.pricing?.minPrice?.value ?? 0}
+                onChange={onPriceChange}
+              />
+            </Flowbite>
+          )}
         </>
       )}
       {event.registration?.ticketing?.config?.taxConfig?.type ===

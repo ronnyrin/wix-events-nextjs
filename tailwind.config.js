@@ -21,6 +21,7 @@ module.exports = {
       colors: {
         'yellow-100': '#ffc657',
         'blue-100': '#5362ac',
+        'white-15': 'rgba(255,255,255,0.15)',
       },
       gridTemplateColumns: {
         'auto-sm': 'repeat(auto-fill,minmax(120px,1fr))',
