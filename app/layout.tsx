@@ -2,6 +2,8 @@ import './globals.css';
 import Footer from '@app/components/Layout/Footer';
 import Header from '@app/components/Layout/Header';
 import { useServerAuthSession } from '@app/hooks/useServerAuthSession';
+import { ClientProvider } from '@app/components/Provider/ClientProvider';
+import { SidebarUI } from '@app/components/Sidebar/SidebarUI';
 
 export default function RootLayout({
   children,
@@ -9,6 +11,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const wixSession = useServerAuthSession();
+
   return (
     <html lang="en">
       <head>
@@ -22,8 +25,11 @@ export default function RootLayout({
       </head>
       {wixSession.siteId && wixSession.apiKey ? (
         <body className="parallax-background">
-          <Header />
-          <main className="bg-blue-100 min-h-[600px]">{children}</main>
+          <ClientProvider wixSession={wixSession}>
+            <Header />
+            <main className="bg-blue-100 min-h-[600px]">{children}</main>
+            <SidebarUI />
+          </ClientProvider>
           {/*<Footer />*/}
         </body>
       ) : (

@@ -1,4 +1,5 @@
 import { NavBar } from '@app/components/Layout/NavBar/NavBar';
+import { CartBag } from '@app/components/CartBag/CartBag';
 
 const Header = () => (
   <>
@@ -6,6 +7,9 @@ const Header = () => (
       <div className="flex justify-center max-w-full-content mx-auto gap-8 h-header items-center">
         <div className="flex-grow pb-5 pr-5">
           <NavBar />
+        </div>
+        <div>
+          <CartBag />
         </div>
       </div>
     </header>

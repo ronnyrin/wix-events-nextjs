@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^4.18.0",
-    "@wix/sdk": "latest",
+    "@wix/ecom": "^1.0.78",
+    "@wix/sdk": "^1.1.15",
+    "@wix/stores": "^1.0.16",
+    "body-scroll-lock": "^4.0.0-beta.0",
     "cookie": "^0.5.0",
     "date-fns": "^2.29.3",
     "flowbite": "^1.5.4",

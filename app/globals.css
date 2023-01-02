@@ -57,15 +57,13 @@
 
   h1, .title {
     @apply font-lulo;
-    @apply text-4xl;
+    @apply text-2xl;
   }
 
   h2 {
     @apply font-lulo;
-    @apply text-2xl;
+    @apply text-xl;
   }
-
-
 
   .h-header {
     @apply h-[128px];
