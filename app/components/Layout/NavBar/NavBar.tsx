@@ -30,6 +30,7 @@ export function NavBar() {
       <ul className="flex flex-row gap-8 text-s justify-center text-[20px] leading-[22px]">
         {[
           { ref: '/#about', label: 'Home' },
+          { ref: '/stores-products', label: 'Shop' },
           { ref: '/#experience', label: 'Experience' },
           { ref: '/#community', label: 'Community' },
           { ref: '/#contact', label: 'Contact' },

@@ -24,7 +24,7 @@ function updateLineItemQuantity(
   return fetch('/api/update-cart', {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: wixSession.apiKey,
+      Authorization: wixSession.apiKeyForStores,
       'wix-site-id': wixSession.siteId,
     },
     method: 'POST',

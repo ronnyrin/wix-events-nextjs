@@ -11,10 +11,13 @@ export default async function handler(
     modules: { currentCart },
     headers: { Authorization: apiKey },
   });
-  const cart = await client.currentCart.getCurrentCart();
-  if (cart) {
+
+  try {
+    const cart = await client.currentCart.getCurrentCart();
     res.status(200).json(cart);
-  } else {
-    res.status(404).send('Error getting cart');
+  } catch (e: any) {
+    res
+      .status(e.details?.applicationError?.code)
+      .send(e.details?.applicationError.description);
   }
 }

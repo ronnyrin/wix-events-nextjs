@@ -8,7 +8,7 @@ export const useCart = () => {
     fetch('/api/cart', {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: wixSession.apiKey,
+        Authorization: wixSession.apiKeyForStores,
         'wix-site-id': wixSession.siteId,
       },
     }).then((res) => res.json() as Promise<currentCart.Cart>)

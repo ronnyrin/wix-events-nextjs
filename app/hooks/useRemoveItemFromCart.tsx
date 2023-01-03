@@ -20,7 +20,7 @@ function removeItemFromCart(wixSession: WixSession, itemId: string) {
   return fetch('/api/remove-item-from-cart', {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: wixSession.apiKey,
+      Authorization: wixSession.apiKeyForStores,
       'wix-site-id': wixSession.siteId,
     },
     method: 'POST',

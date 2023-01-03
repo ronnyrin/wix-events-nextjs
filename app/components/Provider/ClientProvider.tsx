@@ -8,6 +8,7 @@ const queryClient = new QueryClient();
 
 export const WixSessionContext = createContext<WixSession>({
   apiKey: '',
+  apiKeyForStores: '',
   siteId: '',
 });
 
