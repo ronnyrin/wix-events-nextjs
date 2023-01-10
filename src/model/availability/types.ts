@@ -113,12 +113,6 @@ export interface PricingOption {
   /** Ticket pricing option price. */
   price?: Money;
 }
-
-export interface ExtendedTicketDefinition extends TicketDefinition {
-  wixFeeForTicket?: number;
-  tax?: number;
-}
-
 export interface Dashboard {
   /** Whether ticket is hidden and cannot be sold. */
   hidden?: boolean;

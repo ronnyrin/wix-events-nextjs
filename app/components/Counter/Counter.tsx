@@ -1,27 +1,42 @@
 export function Counter({
   onChange,
   ticketId,
+  optionId,
   price,
   initialCount,
   disabled,
 }: {
   onChange: Function;
   ticketId: string;
+  optionId?: string;
   price: number;
   initialCount: number;
   disabled: boolean;
 }) {
   const increment = () => {
-    onChange({ [ticketId]: { quantity: initialCount + 1, price } });
+    onChange({
+      [`${ticketId}${optionId ? `|${optionId}` : ''}`]: {
+        quantity: initialCount + 1,
+        price,
+      },
+    });
   };
 
   const decrement = () => {
     if (initialCount === 0) return;
-    onChange({ [ticketId]: { quantity: initialCount - 1, price } });
+    onChange({
+      [`${ticketId}${optionId ? `|${optionId}` : ''}`]: {
+        quantity: initialCount - 1,
+        price,
+      },
+    });
   };
 
   return (
-    <div className="custom-number-input h-10 w-24" key={`${ticketId}-counter`}>
+    <div
+      className="custom-number-input h-10 w-24"
+      key={`${ticketId}|${optionId}-counter`}
+    >
       <div className="flex flex-row h-10 w-full relative bg-transparent mt-1">
         <button
           data-action="decrement"

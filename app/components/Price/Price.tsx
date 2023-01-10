@@ -1,5 +1,5 @@
 import {
-  ExtendedTicketDefinition,
+  TicketDefinition,
   FeeType,
   PricingOption,
   Type,
@@ -9,6 +9,7 @@ import { Flowbite, Label, TextInput } from 'flowbite-react';
 import { TaxType } from '@model/event/types';
 import { Event } from '@model/event/types';
 import React from 'react';
+import { WIX_SERVICE_FEE } from '@app/constants';
 
 export function Price({
   ticket,
@@ -16,11 +17,13 @@ export function Price({
   event,
   selectedTickets,
   disabled,
+  option,
 }: {
-  ticket: ExtendedTicketDefinition;
+  ticket: TicketDefinition;
   setTickets: Function;
   event: Event;
   disabled: boolean;
+  option?: PricingOption;
   selectedTickets: Record<string, { quantity: number; price: number }>;
 }) {
   const onPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,21 +48,27 @@ export function Price({
     }
   };
 
-  const fee =
-    ticket.pricing?.pricingType === Type.DONATION
-      ? Number((selectedTickets[ticket.id!]?.price * 2.5) / 100 || 0)
-      : ticket.wixFeeForTicket;
+  const defaultPrice: number = option
+    ? Number.parseFloat(option.price!.value!)
+    : selectedTickets[ticket.id!]?.price ||
+      Number.parseFloat(ticket.price!.value!);
 
-  const tax =
-    ticket.pricing?.pricingType === Type.DONATION
-      ? Number(
-          (selectedTickets[ticket.id!]?.price *
-            Number.parseFloat(
-              event.registration?.ticketing?.config?.taxConfig?.rate || '0'
-            )) /
-            100 || 0
-        )
-      : ticket.tax;
+  const tax = Number(
+    (defaultPrice *
+      Number.parseFloat(
+        event.registration?.ticketing?.config?.taxConfig?.rate || '0'
+      )) /
+      100 || 0
+  );
+
+  const defaultPriceWithTax =
+    defaultPrice +
+    ((event.registration?.ticketing?.config?.taxConfig?.type ===
+    TaxType.ADDED_AT_CHECKOUT
+      ? tax
+      : 0) || 0);
+
+  const fee = Number((defaultPriceWithTax * WIX_SERVICE_FEE) / 100 || 0);
 
   const getSelectedPricingOptionsRange = (
     pricingOptions: PricingOption[]
@@ -78,7 +87,7 @@ export function Price({
       { min: undefined, max: undefined } as any
     );
 
-  if (ticket.pricing?.pricingOptions?.options?.length) {
+  if (ticket.pricing?.pricingOptions?.options?.length && !option) {
     const range = getSelectedPricingOptionsRange(
       ticket.pricing?.pricingOptions.options
     );
@@ -106,44 +115,49 @@ export function Price({
           : ''
       }`;
 
-  return (
-    <>
-      {ticket.pricing?.pricingType === Type.STANDARD &&
-        formatCurrency(ticket.price!.value!, ticket.price!.currency)}
-      {ticket.pricing?.pricingType === Type.DONATION && (
-        <>
-          <Label
-            htmlFor={`price-${ticket.id}`}
-            className="text-white"
-            value={donationText}
-          />
-          {!disabled && (
-            <Flowbite
-              theme={{
-                theme: {
-                  textInput: {
-                    field: {
-                      input: {
-                        base: 'bg-transparent text-white rounded-none',
-                      },
+  let price;
+  if (option || ticket.pricing?.pricingType === Type.STANDARD) {
+    price = <>{formatCurrency(defaultPrice, ticket.price!.currency)}</>;
+  } else if (ticket.pricing?.pricingType === Type.DONATION) {
+    price = (
+      <>
+        <Label
+          htmlFor={`price-${ticket.id}`}
+          className="text-white"
+          value={donationText}
+        />
+        {!disabled && (
+          <Flowbite
+            theme={{
+              theme: {
+                textInput: {
+                  field: {
+                    input: {
+                      base: 'bg-transparent text-white rounded-none',
                     },
                   },
                 },
-              }}
-            >
-              <TextInput
-                type="number"
-                id={`price-${ticket.id}`}
-                className="bg-transparent mt-1"
-                sizing="sm"
-                addon="$"
-                min={ticket.pricing?.minPrice?.value ?? 0}
-                onChange={onPriceChange}
-              />
-            </Flowbite>
-          )}
-        </>
-      )}
+              },
+            }}
+          >
+            <TextInput
+              type="number"
+              id={`price-${ticket.id}`}
+              className="bg-transparent mt-1"
+              sizing="sm"
+              addon="$"
+              min={ticket.pricing?.minPrice?.value ?? 0}
+              onChange={onPriceChange}
+            />
+          </Flowbite>
+        )}
+      </>
+    );
+  }
+
+  return (
+    <>
+      {price}
       {event.registration?.ticketing?.config?.taxConfig?.type ===
         TaxType.ADDED_AT_CHECKOUT &&
         !ticket.free &&

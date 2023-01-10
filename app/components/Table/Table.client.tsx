@@ -1,25 +1,22 @@
 'use client';
 import { Table } from 'flowbite-react';
-import {
-  ExtendedTicketDefinition,
-  FeeType,
-  Type,
-} from '@model/availability/types';
+import { FeeType, TicketDefinition } from '@model/availability/types';
 import { Event, RegistrationStatus, TaxType } from '@model/event/types';
 import { Counter } from '../Counter/Counter';
 import { useEffect, useState } from 'react';
-import { createReservation as api } from '@model/reservation/reservation-api';
+import { createReservation as createReservationApi } from '@model/reservation/reservation-api';
 import { TicketReservationQuantity } from '@model/reservation/types';
 import { WixSession } from '../../../src/auth';
 import { formatCurrency } from '@app/utils/price-formtter';
-import { Price } from '@app/components/Price';
+import { Price } from '@app/components/Price/Price';
+import { WIX_SERVICE_FEE } from '@app/constants';
 
 export function TicketsTable({
   tickets,
   event,
   wixSession,
 }: {
-  tickets: ExtendedTicketDefinition[];
+  tickets: TicketDefinition[];
   event: Event;
   wixSession: WixSession;
 }) {
@@ -29,6 +26,16 @@ export function TicketsTable({
   const [serviceFee, setServiceFee] = useState(0);
   const [tax, setTax] = useState(0);
   const [subTotals, setSubTotals] = useState(0);
+  const [expendPricingOptions, setExpendPricingOptions] = useState(
+    {} as Record<string, boolean>
+  );
+
+  const setExpendPricingOptionsForTicket = (ticketId: string) => {
+    setExpendPricingOptions({
+      ...expendPricingOptions,
+      [ticketId]: !expendPricingOptions[ticketId],
+    });
+  };
 
   const setTickets = (
     ticket: Record<string, { quantity: number; price: number }>
@@ -42,21 +49,35 @@ export function TicketsTable({
     setSelectedTickets({ ...selectedTickets, ...ticket });
   };
 
+  const findTicketAndMaybeOption = (key: string) => {
+    const [ticketId, optionId] = key.split('|');
+    const ticket = tickets.find((t) => t.id === ticketId);
+    if (!optionId) {
+      return { ticket };
+    }
+    const option = ticket!.pricing!.pricingOptions!.options!.find(
+      (o) => o.id === optionId
+    );
+    return { ticket, option };
+  };
+
   useEffect(() => {
     setServiceFee(
-      Object.keys(selectedTickets).reduce(
-        (acc, key) =>
-          acc +
-          selectedTickets[key].quantity *
-            (tickets.find((t) => t.id === key)!.wixFeeConfig!.type ===
-            FeeType.FEE_ADDED_AT_CHECKOUT
-              ? tickets.find((t) => t.id === key)!.pricing?.pricingType ===
-                Type.DONATION
-                ? (selectedTickets[key].price * 2.5) / 100
-                : tickets.find((t) => t.id === key)!.wixFeeForTicket!
-              : 0),
-        0
-      )
+      Object.keys(selectedTickets).reduce((acc, key) => {
+        const { ticket, option } = findTicketAndMaybeOption(key);
+        const tax =
+          (Number.parseFloat(option?.price?.value || ticket?.price?.value!) *
+            Number.parseFloat(
+              event.registration?.ticketing?.config?.taxConfig?.rate || '0'
+            )) /
+          100;
+        const price = selectedTickets[key].price + tax;
+        const priceWithTax =
+          ticket!.wixFeeConfig!.type === FeeType.FEE_ADDED_AT_CHECKOUT
+            ? Number(price * WIX_SERVICE_FEE) / 100
+            : 0;
+        return acc + selectedTickets[key].quantity * priceWithTax;
+      }, 0)
     );
 
     setSubTotals(
@@ -88,16 +109,46 @@ export function TicketsTable({
   }, [selectedTickets]);
 
   const createReservation = async () => {
+    const ticketsGrouped = Object.keys(selectedTickets).reduce(
+      (acc: Record<string, any>, key: string) => {
+        const [ticketId, optionId] = key.split('|');
+        if (!optionId) {
+          acc[ticketId] = selectedTickets[ticketId];
+        } else {
+          acc[ticketId] = {
+            ...acc[ticketId],
+            quantity:
+              (acc[ticketId]?.quantity ?? 0) + selectedTickets[key].quantity,
+            ticketDetails: [
+              ...(acc[ticketId]?.ticketDetails ?? []),
+              {
+                pricingOptionId: optionId,
+                capacity: selectedTickets[key].quantity,
+              },
+            ],
+          };
+        }
+        return acc;
+      },
+      {}
+    );
+
     const ticketQuantities: TicketReservationQuantity[] = Object.keys(
-      selectedTickets
-    ).map((id) => {
+      ticketsGrouped
+    ).map((key) => {
+      const [ticketId] = key.split('|');
       return {
-        ticketDefinitionId: id,
-        quantity: selectedTickets[id].quantity,
-        priceOverride: selectedTickets[id].price.toString(),
+        ticketDefinitionId: ticketId,
+        quantity: ticketsGrouped[ticketId].quantity,
+        ...(ticketsGrouped[ticketId].ticketDetails && {
+          ticketDetails: ticketsGrouped[ticketId].ticketDetails,
+        }),
+        ...(ticketsGrouped[ticketId].price && {
+          priceOverride: ticketsGrouped[ticketId].price.toString(),
+        }),
       };
     });
-    const id = await api({
+    const id = await createReservationApi({
       input: { ticketQuantities },
       wixSession,
       eventId: event.id!,
@@ -118,50 +169,129 @@ export function TicketsTable({
         <Table.HeadCell className="text-right">Total</Table.HeadCell>
       </Table.Head>
       <Table.Body>
-        {tickets.map((ticket: ExtendedTicketDefinition) => (
-          <Table.Row className="dark:bg-gray-800" key={ticket.id}>
-            <Table.Cell className="whitespace-nowrap text-white">
-              {ticket.name}
-            </Table.Cell>
-            <Table.Cell className="text-white">
-              <Price
-                selectedTickets={selectedTickets}
-                ticket={ticket}
-                setTickets={setTickets}
-                event={event}
-                disabled={
-                  event.registration?.status !== RegistrationStatus.OPEN_TICKETS
-                }
-              />
-            </Table.Cell>
-            <Table.Cell>
-              {!ticket.pricing?.pricingOptions?.options?.length && (
-                <Counter
-                  onChange={setTickets}
-                  ticketId={ticket.id!}
+        {tickets.map((ticket: TicketDefinition) => (
+          <>
+            <Table.Row className="dark:bg-gray-800" key={ticket.id}>
+              <Table.Cell className="whitespace-nowrap text-white">
+                {ticket.name}
+              </Table.Cell>
+              <Table.Cell className="text-white">
+                <Price
+                  selectedTickets={selectedTickets}
+                  ticket={ticket}
+                  setTickets={setTickets}
+                  event={event}
                   disabled={
                     event.registration?.status !==
                     RegistrationStatus.OPEN_TICKETS
                   }
-                  initialCount={selectedTickets[ticket.id!]?.quantity ?? 0}
-                  price={
-                    selectedTickets[ticket.id!]?.price ||
-                    Number.parseFloat(ticket.price?.value!)
-                  }
                 />
-              )}
-            </Table.Cell>
-            <Table.Cell className="text-white text-right">
-              {!ticket.pricing?.pricingOptions?.options?.length &&
-                formatCurrency(
-                  (
-                    (selectedTickets[ticket.id!]?.price ?? 0) *
-                    (selectedTickets[ticket.id!]?.quantity ?? 0)
-                  ).toString(),
-                  ticket.price!.currency
+              </Table.Cell>
+              <Table.Cell>
+                {!ticket.pricing?.pricingOptions?.options?.length && (
+                  <Counter
+                    onChange={setTickets}
+                    ticketId={ticket.id!}
+                    disabled={
+                      event.registration?.status !==
+                      RegistrationStatus.OPEN_TICKETS
+                    }
+                    initialCount={selectedTickets[ticket.id!]?.quantity ?? 0}
+                    price={
+                      selectedTickets[ticket.id!]?.price ||
+                      Number.parseFloat(ticket.price?.value!)
+                    }
+                  />
                 )}
-            </Table.Cell>
-          </Table.Row>
+              </Table.Cell>
+              <Table.Cell className="text-white text-right">
+                {!ticket.pricing?.pricingOptions?.options?.length &&
+                  formatCurrency(
+                    (
+                      (selectedTickets[ticket.id!]?.price ?? 0) *
+                      (selectedTickets[ticket.id!]?.quantity ?? 0)
+                    ).toString(),
+                    ticket.price!.currency
+                  )}
+              </Table.Cell>
+            </Table.Row>
+            {ticket.pricing?.pricingOptions?.options
+              ?.slice(
+                0,
+                expendPricingOptions[ticket.id!]
+                  ? ticket.pricing?.pricingOptions?.options?.length
+                  : 1
+              )
+              .map((option) => (
+                <Table.Row className="dark:bg-gray-800" key={option.id}>
+                  <Table.Cell className="whitespace-nowrap text-white">
+                    {option.name}
+                  </Table.Cell>
+                  <Table.Cell className="text-white">
+                    <Price
+                      selectedTickets={selectedTickets}
+                      ticket={ticket}
+                      setTickets={setTickets}
+                      event={event}
+                      option={option}
+                      disabled={
+                        event.registration?.status !==
+                        RegistrationStatus.OPEN_TICKETS
+                      }
+                    />
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Counter
+                      onChange={setTickets}
+                      ticketId={ticket.id!}
+                      optionId={option.id!}
+                      disabled={
+                        event.registration?.status !==
+                        RegistrationStatus.OPEN_TICKETS
+                      }
+                      initialCount={
+                        selectedTickets[`${ticket.id!}|${option.id}`]
+                          ?.quantity ?? 0
+                      }
+                      price={
+                        selectedTickets[`${ticket.id!}|${option.id}`]?.price ||
+                        Number.parseFloat(option.price?.value!)
+                      }
+                    />
+                  </Table.Cell>
+                  <Table.Cell className="text-white text-right">
+                    {formatCurrency(
+                      (
+                        (selectedTickets[`${ticket.id!}|${option.id}`]?.price ??
+                          0) *
+                        (selectedTickets[`${ticket.id!}|${option.id}`]
+                          ?.quantity ?? 0)
+                      ).toString(),
+                      ticket.price!.currency
+                    )}
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            {ticket.pricing?.pricingOptions?.options!.length! > 1 && (
+              <Table.Row className="dark:bg-gray-800" key={ticket.id}>
+                <Table.Cell
+                  className="whitespace-nowrap text-white"
+                  colSpan={4}
+                >
+                  <div className="flex justify-between">
+                    <button
+                      onClick={() =>
+                        setExpendPricingOptionsForTicket(ticket.id!)
+                      }
+                    >
+                      View {expendPricingOptions[ticket.id!] ? 'less' : 'more'}{' '}
+                      price options
+                    </button>
+                  </div>
+                </Table.Cell>
+              </Table.Row>
+            )}
+          </>
         ))}
         {Object.keys(selectedTickets).length && subTotals ? (
           <Table.Row
