@@ -42,13 +42,13 @@ export function Counter({
           data-action="decrement"
           onClick={decrement}
           disabled={disabled}
-          className="text-white h-full w-16 cursor-pointer disabled:text-gray-400 border-white border-y border-l disabled:border-gray-400"
+          className="h-full w-16 cursor-pointer disabled:text-gray-400 border-black border-y border-l disabled:border-gray-400"
         >
           <span className="m-auto text-xl font-thin text-inherit">−</span>
         </button>
         <input
           type="number"
-          className="outline-none focus:outline-none disabled:text-gray-400 border-white disabled:border-gray-400 border-y border-l-0 border-r-0 text-center w-full bg-transparent font-semibold text-md focus:text-black md:text-basecursor-default flex items-center text-white"
+          className="outline-none focus:outline-none disabled:text-gray-400 border-black disabled:border-gray-400 border-y border-l-0 border-r-0 text-center w-full bg-transparent font-semibold text-md focus:text-black md:text-basecursor-default flex items-center"
           name="custom-input-number"
           disabled={disabled}
           value={initialCount}
@@ -58,7 +58,7 @@ export function Counter({
           data-action="increment"
           onClick={increment}
           disabled={disabled}
-          className="text-white h-full w-16 cursor-pointer disabled:text-gray-400 border-white border-y border-r disabled:border-gray-400"
+          className="h-full w-16 cursor-pointer disabled:text-gray-400 border-black border-y border-r disabled:border-gray-400"
         >
           <span className="m-auto text-xl font-thin text-inherit">+</span>
         </button>

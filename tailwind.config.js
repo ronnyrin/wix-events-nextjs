@@ -1,8 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-const widthExtension = {
-  'full-content': '980px',
-};
-
 module.exports = {
   content: [
     './node_modules/flowbite-react/**/*.js',
@@ -12,16 +8,15 @@ module.exports = {
   ],
   theme: {
     extend: {
-      maxWidth: {
-        ...widthExtension,
-      },
-      width: {
-        ...widthExtension,
-      },
       colors: {
         'yellow-100': '#ffc657',
         'blue-100': '#5362ac',
         'white-15': 'rgba(255,255,255,0.15)',
+        'custom-1': '#FFF9F6',
+        site: 'rgb(255,249,246)',
+      },
+      fontSize: {
+        12: '12px',
       },
       gridTemplateColumns: {
         'auto-sm': 'repeat(auto-fill,minmax(120px,1fr))',

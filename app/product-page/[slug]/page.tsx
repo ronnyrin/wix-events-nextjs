@@ -1,20 +1,11 @@
 import { ProductTag } from '@app/components/Product/ProductTag/ProductTag';
-import { useServerAuthSession } from '@app/hooks/useServerAuthSession';
-import { createClient } from '@wix/sdk';
-import { products } from '@wix/stores';
 import { ProductSidebar } from '@app/components/Product/ProductSidebar/ProductSidebar';
 import { usePrice } from '@app/hooks/use-price';
 import { ImageGalleryClient } from '@app/components/ImageGallery/ImageGallery.client';
+import { getWixClient } from '@app/hooks/useWixClientServer';
 export default async function StoresCategoryPage({ params }: any) {
-  const wixSession = useServerAuthSession();
-  const client = createClient({
-    modules: { products },
-    headers: {
-      Authorization: wixSession.apiKey,
-      'wix-site-id': wixSession.siteId,
-    },
-  });
-  const { items } = await client.products
+  const wixClient = await getWixClient();
+  const { items } = await wixClient.products
     .queryProducts()
     .eq('slug', params.slug)
     .limit(1)
@@ -28,17 +19,18 @@ export default async function StoresCategoryPage({ params }: any) {
     <div className="max-w-full-content mx-auto px-14">
       {product ? (
         <div className="full-w overflow-hidden max-w-7xl mx-auto text-center">
-          <div className="relative overflow-x-hidden fit">
-            <div className="relative px-0 pb-0 box-border flex flex-col col-span-1 fit lg:mx-0 lg:col-span-8">
+          <div className="flex">
+            <div className="box-border flex flex-col basis-1/2">
               <div className="">
                 <ImageGalleryClient items={product.media!.items!} />
               </div>
             </div>
 
-            <div className="flex flex-col col-span-1 mx-auto max-w-8xl px-6 py-6 w-full h-full lg:col-span-4 lg:py-6">
+            <div className="flex flex-col py-6 w-full h-full basis-1/2 text-left">
               <ProductTag
                 name={product.name!}
-                price={`${price} ${product.price!.currency}`}
+                price={price}
+                sku={product.sku ?? undefined}
               />
               <ProductSidebar key={product._id} product={product} />
             </div>
@@ -55,15 +47,8 @@ export default async function StoresCategoryPage({ params }: any) {
 
 export async function generateStaticParams() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const wixSession = useServerAuthSession();
-  const client = createClient({
-    modules: { products },
-    headers: {
-      Authorization: wixSession.apiKey,
-      'wix-site-id': wixSession.siteId,
-    },
-  });
-  const { items } = await client.products.queryProducts().limit(10).find();
+  const wixClient = await getWixClient();
+  const { items } = await wixClient.products.queryProducts().limit(10).find();
 
   return items.map((product) => ({
     slug: product.slug,

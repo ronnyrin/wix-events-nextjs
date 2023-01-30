@@ -1,79 +1,101 @@
 import './page.css';
-import { useServerAuthSession } from '@app/hooks/useServerAuthSession';
-import ScrollIntoView from '@app/components/ScrollIntoView/ScrollIntoView';
+import Image from 'next/image';
+import { getWixClient } from '@app/hooks/useWixClientServer';
 
-export default function Home() {
-  const wixSession = useServerAuthSession();
+export default async function Home() {
+  const wixClient = await getWixClient();
+  const { items: collectionsItems } = await wixClient.collections
+    .queryCollections()
+    .ne('id', '00000000-000000-000000-000000000001')
+    .limit(3)
+    .find();
+  const productsForCategories = await Promise.all(
+    collectionsItems.map((collection) =>
+      wixClient.products
+        .queryProducts()
+        .eq('collections.id', collection._id)
+        .limit(1)
+        .find()
+        .then((products) => ({
+          product: products.items[0],
+          category: collection.name,
+        }))
+    )
+  );
   return (
-    <div>
-      <div className="text-center w-full min-h-screen relative">
-        <video autoPlay muted loop className="video-background">
-          <source
-            src="https://video.wixstatic.com/video/ac4509_e2e9678a88e04202ab38da85e5fca299/1080p/mp4/file.mp4"
-            type="video/mp4"
-          />
-        </video>
-        <div className="text-center">
-          <div className="font-sans font-bold uppercase tracking-widest pt-16">
-            EXPERIENCE
-          </div>
-          <div className="font-sans font-bold uppercase tracking-widest pt-16">
-            Movement
-          </div>
-          <div className="text-xl pt-6 tracking-wider">Music.Love.</div>
-          <div className="pt-7">
-            <a className="btn-main" href="/book-now">
-              Book Now
+    <div className="max-w-full-content mx-auto px-14 relative">
+      <div className="flex gap-14">
+        <div className="text-custom-1 text-left py-20 basis-1/2">
+          <h1 className="uppercase text-7xl text-black">Merch</h1>
+          <p className="text-lg max-w-[60%] my-10 text-black">
+            I’m a paragraph. I’m a great space to write about what makes the
+            products special and explain how customers can benefit from these
+            items.
+          </p>
+          <a
+            href="/shop"
+            className="btn-main rounded-2xl text-base px-8 py-2.5"
+          >
+            Get Merch
+          </a>
+          <div className="mt-[300px]">
+            <a href="/shop">
+              <Image
+                src={
+                  productsForCategories[1]!.product!.media!.mainMedia!.image!
+                    .url!
+                }
+                width={800}
+                height={0}
+                alt={
+                  productsForCategories[1]!.product!.media!.mainMedia!.image!
+                    .altText!
+                }
+              />
             </a>
+            <span className="font-bold text-5xl block text-center mt-[-30px] text-black">
+              <a href="/shop">{productsForCategories[1].category}</a>
+            </span>
           </div>
         </div>
-      </div>
-
-      <div className="mt-[-175px]">
-        <ScrollIntoView hashName="#about" offset="-128px" />
-        <div className="w-full bg-white h-full relative">
-          <div className="max-w-full-content mx-auto h-full">
-            <div className="pl-5 pr-24 py-2 w-2/4">
-              <div className="header-line my-8"></div>
-              <h2 className="mb-7 mt-10 tracking-tighter max-w-xs title">
-                About me
-              </h2>
-              <p className="text-sm flex-1 leading-7">
-                I&apos;m a paragraph. Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit. Phasellus in felis in sem iaculis elementum
-                vitae a tortor. Duis mattis, nisi vitae ornare imperdiet, arcu
-                erat consectetur diam, sed mattis ligula est non metus.
-                Vestibulum interdum in ex sit amet vestibulum. Donec tellus.
-              </p>
-              <p>&nbsp;</p>
-              <p className="text-sm flex-1 leading-7">
-                This is a great space to write long text about your company and
-                your services. You can use this space to go into a little more
-                detail about your company. Talk about your team and what
-                services you provide.
-              </p>
-              <div className="mt-11 mb-20">
-                <a href="#" className="btn-main">
-                  Read More
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="absolute top-0 left-2/4 w-2/4 h-full">
-            <div className="bg-[url('/about-me.jpeg')] w-full h-full bg-cover"></div>
-          </div>
-        </div>
-      </div>
-      <div className="parallax-background">
-        <div className="max-w-full-content mx-auto bg-transparent p-5">
-          <div className="header-line my-8"></div>
-          <h2 className="mb-7 mt-10 tracking-tighter title max-w-xs">
-            How I Can Help You
-          </h2>
-          <div className="flex my-8 justify-center">
-            <a className="btn-main" href="/book-now">
-              More Services
+        <div>
+          <div className="mt-[220px]">
+            <a href="/shop">
+              <Image
+                src={
+                  productsForCategories[0]!.product!.media!.mainMedia!.image!
+                    .url!
+                }
+                width={800}
+                height={0}
+                alt={
+                  productsForCategories[0]!.product!.media!.mainMedia!.image!
+                    .altText!
+                }
+              />
             </a>
+            <span className="font-bold text-5xl block text-center mt-[-30px]">
+              <a href="/shop">{productsForCategories[0].category}</a>
+            </span>
+          </div>
+          <div className="mt-40">
+            <a href="/shop">
+              <Image
+                src={
+                  productsForCategories[2]!.product!.media!.mainMedia!.image!
+                    .url!
+                }
+                width={800}
+                height={0}
+                alt={
+                  productsForCategories[2]!.product!.media!.mainMedia!.image!
+                    .altText!
+                }
+              />
+            </a>
+            <span className="font-bold text-5xl block text-center mt-[-30px]">
+              <a href="/shop">{productsForCategories[2].category}</a>
+            </span>
           </div>
         </div>
       </div>

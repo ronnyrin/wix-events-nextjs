@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePrice } from '@app/hooks/use-price';
 import { cart } from '@wix/ecom';
-import { media } from '@wix/sdk';
+import { media } from '@wix/api-client';
 import { useUI } from '@app/components/Provider/context';
 import { Quantity } from '@app/components/Quantity/Quantity';
 import { useUpdateCart } from '@app/hooks/useUpdateCart';
@@ -80,7 +80,7 @@ export const CartItem = ({
               className="absolute w-full h-full"
               width={150}
               height={150}
-              src={media.getRawImageUrl(item.image!).url}
+              src={media.getImageUrl(item.image!).url}
               alt="Product Image"
               unoptimized
             />

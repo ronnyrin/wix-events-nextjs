@@ -36,7 +36,7 @@ export const CartBag = () => {
         ></path>
       </svg>
       {itemsCount! > 0 && (
-        <span className="font-bold text-xs bg-black rounded-full px-[7px] py-[2px] absolute top-3.5 right-3.5">
+        <span className="font-bold text-xs text-black rounded-full px-[7px] py-[2px] absolute top-3.5 right-3.5">
           {itemsCount}
         </span>
       )}

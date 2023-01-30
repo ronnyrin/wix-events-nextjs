@@ -1,19 +1,17 @@
-import { NavBar } from '@app/components/Layout/NavBar/NavBar';
 import { CartBag } from '@app/components/CartBag/CartBag';
 
 const Header = () => (
   <>
-    <header className="fixed h-header z-40 w-full bg-blue-100">
-      <div className="flex justify-center max-w-full-content mx-auto gap-8 h-header items-center">
-        <div className="flex-grow pb-5 pr-5">
-          <NavBar />
-        </div>
+    <header className="h-header z-40 w-full">
+      <div className="flex px-10 max-w-full-content gap-8 h-header items-center">
+        <h2 className="flex-1">
+          <a href="/">TALI$A KIDD</a>
+        </h2>
         <div>
           <CartBag />
         </div>
       </div>
     </header>
-    <div className="h-header"></div>
   </>
 );
 

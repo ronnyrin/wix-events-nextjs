@@ -1,5 +1,5 @@
 import { CartItem } from '@app/components/CartItem/CartItem';
-import { createClient } from '@wix/sdk';
+import { createClient } from '@wix/api-client';
 import { orders } from '@wix/ecom';
 import { useServerAuthSession } from '@app/hooks/useServerAuthSession';
 

@@ -26,6 +26,9 @@ const Swatch: React.FC<Omit<ButtonProps, 'variant'> & SwatchProps> = ({
       role="option"
       size="sm"
       color="light"
+      className={`${color ? 'w-[20px]' : ''} ${
+        active && !color ? 'bg-gray-200' : ''
+      }`}
       aria-selected={active}
       aria-label={variant && label ? `${variant} ${label}` : 'Variant Swatch'}
       pill={true}
@@ -36,7 +39,7 @@ const Swatch: React.FC<Omit<ButtonProps, 'variant'> & SwatchProps> = ({
       {color && active && (
         <span>
           <svg
-            className="w-6 h-6"
+            className="w-3 h-3 text-white"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

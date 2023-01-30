@@ -3,9 +3,10 @@ export interface QuantityProps {
   value: number;
   increase: () => any;
   decrease: () => any;
-  handleRemove: React.MouseEventHandler<HTMLButtonElement>;
+  handleRemove?: React.MouseEventHandler<HTMLButtonElement>;
   handleChange: React.ChangeEventHandler<HTMLInputElement>;
   max?: number;
+  hideRemove?: boolean;
 }
 
 export const Quantity: FC<QuantityProps> = ({
@@ -15,29 +16,32 @@ export const Quantity: FC<QuantityProps> = ({
   handleChange,
   handleRemove,
   max = 6,
+  hideRemove = false,
 }) => {
   return (
     <div className="flex flex-row h-9">
-      <button
-        className="flex p-1 border-accent-2 border items-center justify-center"
-        onClick={handleRemove}
-      >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
+      {!hideRemove && (
+        <button
+          className="flex p-1 border-accent-2 border items-center justify-center"
+          onClick={handleRemove}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M6 18L18 6M6 6l12 12"
-          ></path>
-        </svg>
-      </button>
-      <label className="w-full border-accent-2 border ml-2">
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+      )}
+      <label className="w-full border-accent-2 border">
         <input
           className="bg-transparent px-4 w-full h-full focus:outline-none select-none pointer-events-auto"
           onChange={(e) =>

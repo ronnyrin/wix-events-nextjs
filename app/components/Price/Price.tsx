@@ -1,15 +1,12 @@
-import {
-  TicketDefinition,
-  FeeType,
-  PricingOption,
-  Type,
-} from '@model/availability/types';
 import { formatCurrency } from '@app/utils/price-formtter';
 import { Flowbite, Label, TextInput } from 'flowbite-react';
-import { TaxType } from '@model/event/types';
-import { Event } from '@model/event/types';
 import React from 'react';
 import { WIX_SERVICE_FEE } from '@app/constants';
+import {
+  ticketDefinitions as api,
+  events as eventsApi,
+  ticketDefinitions,
+} from '@wix/events';
 
 export function Price({
   ticket,
@@ -19,11 +16,11 @@ export function Price({
   disabled,
   option,
 }: {
-  ticket: TicketDefinition;
+  ticket: api.TicketDefinition;
   setTickets: Function;
-  event: Event;
+  event: eventsApi.Event;
   disabled: boolean;
-  option?: PricingOption;
+  option?: api.PricingOption;
   selectedTickets: Record<string, { quantity: number; price: number }>;
 }) {
   const onPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,14 +30,14 @@ export function Price({
       val >= Number.parseFloat(ticket.pricing?.minPrice?.value ?? '0')
     ) {
       setTickets({
-        [ticket.id!]: {
+        [ticket._id!]: {
           quantity: 1,
           price: Number.parseFloat(e.target.value),
         },
       });
     } else {
       setTickets({
-        [ticket.id!]: {
+        [ticket._id!]: {
           quantity: 0,
           price: 0,
         },
@@ -50,7 +47,7 @@ export function Price({
 
   const defaultPrice: number = option
     ? Number.parseFloat(option.price!.value!)
-    : selectedTickets[ticket.id!]?.price ||
+    : selectedTickets[ticket._id!]?.price ||
       Number.parseFloat(ticket.price!.value!);
 
   const tax = Number(
@@ -64,14 +61,14 @@ export function Price({
   const defaultPriceWithTax =
     defaultPrice +
     ((event.registration?.ticketing?.config?.taxConfig?.type ===
-    TaxType.ADDED_AT_CHECKOUT
+    eventsApi.TaxType.ADDED_AT_CHECKOUT
       ? tax
       : 0) || 0);
 
   const fee = Number((defaultPriceWithTax * WIX_SERVICE_FEE) / 100 || 0);
 
   const getSelectedPricingOptionsRange = (
-    pricingOptions: PricingOption[]
+    pricingOptions: api.PricingOption[]
   ): { min: { value: number }; max: { value: number } } =>
     pricingOptions.reduce(
       (range, { price }) => {
@@ -116,14 +113,17 @@ export function Price({
       }`;
 
   let price;
-  if (option || ticket.pricing?.pricingType === Type.STANDARD) {
+  if (
+    option ||
+    ticket.pricing?.pricingType === ticketDefinitions.Type.STANDARD
+  ) {
     price = <>{formatCurrency(defaultPrice, ticket.price!.currency)}</>;
-  } else if (ticket.pricing?.pricingType === Type.DONATION) {
+  } else if (ticket.pricing?.pricingType === ticketDefinitions.Type.DONATION) {
     price = (
       <>
         <Label
-          htmlFor={`price-${ticket.id}`}
-          className="text-white"
+          htmlFor={`price-${ticket._id}`}
+          className="black"
           value={donationText}
         />
         {!disabled && (
@@ -142,7 +142,7 @@ export function Price({
           >
             <TextInput
               type="number"
-              id={`price-${ticket.id}`}
+              id={`price-${ticket._id}`}
               className="bg-transparent mt-1"
               sizing="sm"
               addon="$"
@@ -159,9 +159,9 @@ export function Price({
     <>
       {price}
       {event.registration?.ticketing?.config?.taxConfig?.type ===
-        TaxType.ADDED_AT_CHECKOUT &&
+        eventsApi.TaxType.ADDED_AT_CHECKOUT &&
         !ticket.free &&
-        (ticket.pricing?.pricingType === Type.STANDARD ||
+        (ticket.pricing?.pricingType === api.Type.STANDARD ||
           event.registration?.ticketing?.config.taxConfig
             .appliesToDonations) && (
           <>
@@ -176,7 +176,7 @@ export function Price({
             </span>
           </>
         )}
-      {ticket.wixFeeConfig?.type === FeeType.FEE_ADDED_AT_CHECKOUT &&
+      {ticket.wixFeeConfig?.type === api.FeeType.FEE_ADDED_AT_CHECKOUT &&
         !ticket.free && (
           <>
             <br />

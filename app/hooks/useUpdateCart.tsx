@@ -1,35 +1,25 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useClientAuthSession } from '@app/hooks/useClientAuthSession';
 import { cart } from '@wix/ecom';
-import { WixSession } from '../../src/auth';
+import { useWixClient } from '@app/hooks/useWixClient';
+import { WixClient } from '@app/components/Provider/ClientProvider';
 
 export const useUpdateCart = () => {
-  const wixSession = useClientAuthSession();
+  const wixClient = useWixClient();
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: (item: cart.LineItemQuantityUpdate) =>
-      updateLineItemQuantity(wixSession, item),
+      updateLineItemQuantity(wixClient, item),
     onSuccess: () => {
-      return queryClient.invalidateQueries({ queryKey: ['cart', wixSession] });
+      return queryClient.invalidateQueries({ queryKey: ['cart'] });
     },
   });
   return mutation.mutate;
 };
 
 function updateLineItemQuantity(
-  wixSession: WixSession,
+  wixClient: WixClient,
   item: cart.LineItemQuantityUpdate
 ) {
-  return fetch('/api/update-cart', {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: wixSession.apiKeyForStores,
-      'wix-site-id': wixSession.siteId,
-    },
-    method: 'POST',
-    body: JSON.stringify({
-      item,
-    }),
-  }).then((res) => res.json() as Promise<cart.Cart>);
+  return wixClient.currentCart.updateCurrentCartLineItemQuantity([item]);
 }

@@ -60,6 +60,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.20.7":
+  version: 7.20.13
+  resolution: "@babel/runtime@npm:7.20.13"
+  dependencies:
+    regenerator-runtime: ^0.13.11
+  checksum: 09b7a97a05c80540db6c9e4ddf8c5d2ebb06cae5caf3a87e33c33f27f8c4d49d9c67a2d72f1570e796045288fad569f98a26ceba0c4f5fad2af84b6ad855c4fb
+  languageName: node
+  linkType: hard
+
 "@commitlint/config-validator@npm:^17.1.0":
   version: 17.1.0
   resolution: "@commitlint/config-validator@npm:17.1.0"
@@ -625,6 +634,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@wix/api-client@npm:^1.1.15":
+  version: 1.1.24
+  resolution: "@wix/api-client@npm:1.1.24"
+  dependencies:
+    "@babel/runtime": ^7.20.7
+    "@wix/identity": ^1.0.5
+    "@wix/image-kit": ^1.27.0
+    "@wix/sdk-types": ^1.1.24
+    querystring: ^0.2.1
+    type-fest: ^2.19.0
+  checksum: 8583935442f8219b6612ff1a5174f840731bf2a7aa3f7542ef913e7197bbba68f625b077e795ae1a9252eadd4713f09ca94e34ba45942002e0676442198b8e4e
+  languageName: node
+  linkType: hard
+
 "@wix/ecom@npm:^1.0.78":
   version: 1.0.78
   resolution: "@wix/ecom@npm:1.0.78"
@@ -633,6 +656,17 @@ __metadata:
     "@wix/motion-edm-autogen-query-wrapper": ^1.0.0
     "@wix/sdk-types": ^1.0.0
   checksum: 31c861f324ad38c90bcbe7e6bef1ad819635d96389710feefb3e4c3c42c85e5c611ec96128738b466dda7f05ed3a50144a92436456037cad6fb877add0478bbc
+  languageName: node
+  linkType: hard
+
+"@wix/events@npm:^1.0.16":
+  version: 1.0.16
+  resolution: "@wix/events@npm:1.0.16"
+  dependencies:
+    "@wix/metro-runtime": ^1.0.0
+    "@wix/motion-edm-autogen-query-wrapper": ^1.0.0
+    "@wix/sdk-types": ^1.0.0
+  checksum: ab78b62ebcce33859e4653914d91a5f33d366b45fb54e4d78fb66cf91b1b4c4ac3b0a52866ea51bebe9cb3f7ae94be5632fe2b7e915e117904bdbcc5b788d20f
   languageName: node
   linkType: hard
 
@@ -647,13 +681,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/image-kit@npm:^1.23.0":
-  version: 1.26.0
-  resolution: "@wix/image-kit@npm:1.26.0"
+"@wix/identity@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "@wix/identity@npm:1.0.5"
+  dependencies:
+    "@wix/metro-runtime": ^1.0.0
+    "@wix/motion-edm-autogen-query-wrapper": ^1.0.0
+    "@wix/sdk-types": ^1.0.0
+  checksum: 7537aed103aa10cf994644bce330d6ba1ad7a51c590b5aa9ddc9d40ed71edf6ebdc2436dcb085f5b7f6127bbb54a8ecffe46257e7d16636265035933da704758
+  languageName: node
+  linkType: hard
+
+"@wix/image-kit@npm:^1.27.0":
+  version: 1.28.0
+  resolution: "@wix/image-kit@npm:1.28.0"
   dependencies:
     "@babel/runtime": ^7.0.0
     tslib: ^2.0.0
-  checksum: 530b510b3624b249e5a35fb938d7548b65fbb28459ead14009f1d536b9f7ae4a4adafaf257fe6964a15649f4947bc120796b9198a45a009b5484cf7846d9018e
+  checksum: 5762dae8c0bd581ad065bd87bded7287958615721c6591aeefdd0ce5742bb2887fbaeb28c8986dff0ac7941b7756fdbfbb3d22654b379a002efa3a7484adffc1
   languageName: node
   linkType: hard
 
@@ -759,7 +804,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/sdk-types@npm:^1.0.0, @wix/sdk-types@npm:^1.1.15":
+"@wix/sdk-types@npm:^1.0.0":
   version: 1.1.15
   resolution: "@wix/sdk-types@npm:1.1.15"
   dependencies:
@@ -768,16 +813,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/sdk@npm:^1.1.15":
-  version: 1.1.15
-  resolution: "@wix/sdk@npm:1.1.15"
+"@wix/sdk-types@npm:^1.1.24":
+  version: 1.1.24
+  resolution: "@wix/sdk-types@npm:1.1.24"
   dependencies:
-    "@babel/runtime": ^7.0.0
-    "@wix/image-kit": ^1.23.0
-    "@wix/sdk-types": ^1.1.15
-    querystring: ^0.2.1
-    type-fest: ^2.19.0
-  checksum: 93e9d9c6c17928686205d2b513526157a97d010c2adf378ca70d089e8aab2e2e223f15d09db434725a4490356d1e121ce3c4e1d42d39f47997a040ab6ed51b04
+    "@babel/runtime": ^7.20.7
+  checksum: 1b85e33ab0404ae27812f5e796626547166606a4589d46c7aeb986393665784d0414ff12c236f5a996b7b0636bba5733efc4fcb0fbde5ea88d258aeb08933c62
   languageName: node
   linkType: hard
 
@@ -5017,8 +5058,9 @@ __metadata:
     "@types/node": 18.11.8
     "@types/react": 18.0.24
     "@types/react-dom": 18.0.8
+    "@wix/api-client": ^1.1.15
     "@wix/ecom": ^1.0.78
-    "@wix/sdk": ^1.1.15
+    "@wix/events": ^1.0.16
     "@wix/stores": ^1.0.16
     autoprefixer: ^10.4.13
     body-scroll-lock: ^4.0.0-beta.0

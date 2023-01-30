@@ -1,29 +1,28 @@
-import { useServerAuthSession } from '@app/hooks/useServerAuthSession';
-import { createClient } from '@wix/sdk';
-import { products } from '@wix/stores';
 import Image from 'next/image';
+import { getWixClient } from '@app/hooks/useWixClientServer';
 
 export default async function StoresCategoryPage() {
-  const wixSession = useServerAuthSession();
-  const client = createClient({
-    modules: { products },
-    headers: {
-      Authorization: wixSession.apiKey,
-      'wix-site-id': wixSession.siteId,
-    },
-  });
-  const { items } = await client.products.queryProducts().limit(10).find();
+  const wixClient = await getWixClient();
+  const { items } = await wixClient.products.queryProducts().limit(10).find();
   return (
-    <div className="max-w-full-content mx-auto px-14">
+    <div className="max-w-full-content mx-auto">
+      <div className="bg-black text-custom-1 text-center py-20 h-[560px]">
+        <h1 className="uppercase text-6xl">Merch</h1>
+        <p className="text-xl mx-auto max-w-[60%] my-10">
+          I’m a paragraph. I’m a great space to write about what makes the
+          products special and explain how customers can benefit from these
+          items.
+        </p>
+      </div>
       {items.length ? (
-        <div className="full-w overflow-hidden max-w-7xl mx-auto text-center">
+        <div className="full-w overflow-hidden mx-auto text-center mt-[-100px] px-10">
           <ul className="grid grid-cols-3 gap-4 grid-flow-row">
             {items.map((item) => (
-              <li key={item._id} className="bg-blue-800">
-                <a href={`/stores-product/${item.slug}`}>
+              <li key={item._id} className="">
+                <a href={`/product-page/${item.slug}`}>
                   <Image
                     src={item.media!.mainMedia!.image!.url!}
-                    width={300}
+                    width={566}
                     height={0}
                     alt={item.media!.mainMedia!.image!.altText!}
                   />

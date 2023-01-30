@@ -14,16 +14,11 @@ export const ProductOptions: React.FC<ProductOptionsProps> = ({
   setSelectedOptions,
 }) => {
   return (
-    <div>
+    <>
       {options.map((opt) => (
-        <div className="pb-4" key={opt.name}>
-          <h2 className="uppercase text-xl tracking-wide font-bold">
-            {opt.name}
-          </h2>
-          <div
-            role="listbox"
-            className="flex flex-row gap-2 justify-center my-6"
-          >
+        <div className="mb-4" key={opt.name}>
+          <span className="text-sm tracking-wide">{opt.name}</span>
+          <div role="listbox" className="flex flex-row gap-2 my-3">
             {opt.choices!.map((v, i: number) => {
               const active = selectedOptions[opt.name!];
               return (
@@ -47,6 +42,6 @@ export const ProductOptions: React.FC<ProductOptionsProps> = ({
           </div>
         </div>
       ))}
-    </div>
+    </>
   );
 };

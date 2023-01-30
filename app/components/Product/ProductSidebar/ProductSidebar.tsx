@@ -9,6 +9,8 @@ import {
 } from '../ProductOptions/helpers';
 import { useUI } from '@app/components/Provider/context';
 import { useAddItemToCart } from '@app/hooks/useAddItemToCart';
+import { HiArrowDown } from 'react-icons/hi';
+import { Quantity } from '@app/components/Quantity/Quantity';
 
 interface ProductSidebarProps {
   product: products.Product;
@@ -19,8 +21,9 @@ export const ProductSidebar: FC<ProductSidebarProps> = ({ product }) => {
   const addItem = useAddItemToCart();
   const { openSidebar } = useUI();
   const [loading, setLoading] = useState(false);
+  const [quantity, setQuantity] = useState<number>(1);
   const [selectedOptions, setSelectedOptions] = useState<any>({});
-  console.log(selectedOptions);
+  // console.log(selectedOptions);
   useEffect(() => {
     selectDefaultOptionFromProduct(product, setSelectedOptions);
   }, [product]);
@@ -46,31 +49,58 @@ export const ProductSidebar: FC<ProductSidebarProps> = ({ product }) => {
 
   return (
     <>
-      <ProductOptions
-        options={product.productOptions!}
-        selectedOptions={selectedOptions}
-        setSelectedOptions={setSelectedOptions}
-      />
-      <p className="pb-4 break-words w-full max-w-xl">{product.description}</p>
+      <div className="my-2">
+        <ProductOptions
+          options={product.productOptions!}
+          selectedOptions={selectedOptions}
+          setSelectedOptions={setSelectedOptions}
+        />
+      </div>
+      <div className="w-[150px] mb-6">
+        <span className="text-sm tracking-wide">Quantity</span>
+        <div className="my-3">
+          <Quantity
+            value={quantity}
+            hideRemove={true}
+            handleChange={(e) => setQuantity(Number(e.target.value))}
+            increase={() => setQuantity(1 + quantity)}
+            decrease={() => setQuantity(quantity - 1)}
+          />
+        </div>
+      </div>
       <div>
         <button
           aria-label="Add to Cart"
-          className="btn-main"
+          className="btn-main w-full my-1 rounded-2xl"
           type="button"
           onClick={addToCart}
           // disabled={variant?.availableForSale === false}
         >
           {!variant ? 'Not Available' : 'Add To Cart'}
         </button>
+        <button
+          aria-label="Buy Now"
+          className="btn-main w-full my-1 rounded-2xl"
+          type="button"
+          onClick={addToCart}
+          // disabled={variant?.availableForSale === false}
+        >
+          {!variant ? 'Not Available' : 'Buy Now'}
+        </button>
       </div>
+      <p className="pb-4 break-words w-full max-w-xl mt-6">
+        {product.description}
+      </p>
       <div className="mt-6">
-        <Accordion>
+        <Accordion flush={true} arrowIcon={HiArrowDown}>
           {product.additionalInfoSections!.map((info) => (
             <Accordion.Panel key={info.title}>
-              <Accordion.Title className="text-blue-900">
-                {info.title}
+              <Accordion.Title>
+                <span className="text-sm">{info.title}</span>
               </Accordion.Title>
-              <Accordion.Content>{info.description}</Accordion.Content>
+              <Accordion.Content>
+                <span className="text-sm">{info.description}</span>
+              </Accordion.Content>
             </Accordion.Panel>
           ))}
         </Accordion>

@@ -16,7 +16,7 @@ const StyledNavLink = ({
 }) => (
   <NavLink
     className={`${className ?? ''} ${
-      isActive ? 'text-white' : 'hover:text-yellow-100'
+      isActive ? 'text-black' : 'hover:text-yellow-100'
     }`}
     {...linkProps}
   />
@@ -39,7 +39,7 @@ export function NavBar() {
             <StyledNavLink
               isActive={ref === linkRef}
               href={ref}
-              className="text-white"
+              className="text-black"
               onClick={() => setLinkRef(ref)}
             >
               {label}

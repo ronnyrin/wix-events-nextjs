@@ -5,10 +5,10 @@ import ScrollIntoView from '@app/components/ScrollIntoView/ScrollIntoView';
 const Footer = () => (
   <footer className="w-fullm-h-56 bg-turquoise-100 leading-7">
     <ScrollIntoView hashName="#contact" />
-    <div className="max-w-full-content mx-auto flex gap-2 pt-11 pb-20">
-      <div className="flex-1">
-        <p className="font-lulo mb-10">© 2035 by One Day Festival.</p>
-      </div>
+    <div className="max-w-full-content mx-auto flex gap-2 pt-11 pb-20 px-10">
+      <p className="font-default mb-10 text-xs">
+        © 2023 BY TALI$A KIDD. CREATED ON EDITOR X.
+      </p>
       {/*<div className="flex-1">*/}
       {/*  <form>*/}
       {/*    <div className="pr-9">*/}

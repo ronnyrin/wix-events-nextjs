@@ -1,17 +1,17 @@
 interface ProductTagProps {
-  className?: string;
   name: string;
   price: string;
-  fontSize?: number;
+  sku?: string;
 }
 
-export const ProductTag: React.FC<ProductTagProps> = ({ name, price }) => {
+export const ProductTag: React.FC<ProductTagProps> = ({ name, price, sku }) => {
   return (
     <>
-      <h3 className="max-w-full w-full leading-extra-loose text-3xl tracking-wide leading-8 px-8 py-2">
+      {sku && <span className="text-xs mb-4">SKU: {sku}</span>}
+      <h2 className="max-w-full w-full leading-extra-loose text-3xl tracking-wide leading-8 py-1">
         {name}
-      </h3>
-      <p className="text-sm font-semibold inline-block tracking-wide px-8 py-2">
+      </h2>
+      <p className="text-md font-semibold inline-block tracking-wide py-1">
         {price}
       </p>
     </>

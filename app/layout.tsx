@@ -10,8 +10,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const wixSession = useServerAuthSession();
-
   return (
     <html lang="en">
       <head>
@@ -23,25 +21,14 @@ export default function RootLayout({
         <meta name="viewport" content="viewport-fit=cover" />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      {wixSession.siteId && wixSession.apiKey ? (
-        <body className="parallax-background">
-          <ClientProvider wixSession={wixSession}>
-            <Header />
-            <main className="bg-blue-100 min-h-[600px]">{children}</main>
-            <SidebarUI />
-          </ClientProvider>
-          {/*<Footer />*/}
-        </body>
-      ) : (
-        <body className="">
-          <main className="max-w-full-content mx-auto bg-white pt-32">
-            <h1>
-              Seems API key and site Id are not set, please define the
-              environment variables (refer to the Readme file for more details)
-            </h1>
-          </main>
-        </body>
-      )}
+      <body className="text-black bg-site">
+        <ClientProvider>
+          <Header />
+          <main className="bg-site min-h-[600px]">{children}</main>
+          <SidebarUI />
+        </ClientProvider>
+        <Footer />
+      </body>
     </html>
   );
 }
