@@ -1,7 +1,6 @@
 import './globals.css';
 import Footer from '@app/components/Layout/Footer';
 import Header from '@app/components/Layout/Header';
-import { useServerAuthSession } from '@app/hooks/useServerAuthSession';
 import { ClientProvider } from '@app/components/Provider/ClientProvider';
 import { SidebarUI } from '@app/components/Sidebar/SidebarUI';
 
@@ -27,7 +26,9 @@ export default function RootLayout({
           <main className="bg-site min-h-[600px]">{children}</main>
           <SidebarUI />
         </ClientProvider>
-        <Footer />
+        <div className="mt-20">
+          <Footer />
+        </div>
       </body>
     </html>
   );

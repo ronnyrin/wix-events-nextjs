@@ -40,9 +40,12 @@ export default async function Home() {
           <h1 className="uppercase text-7xl">SHOWS</h1>
           <div className="py-10 px-44">
             {events!.map((event) => (
-              <a href={`/events/${event.slug}`} key={event._id}>
-                <div className="flex border-b items-center gap-8">
-                  <div className="flex gap-8 items-center transition duration-300 hover:max-w-0 max-w-lg transition-[max-width]">
+              <div className="flex border-b items-center gap-8" key={event._id}>
+                <a
+                  href={`/events/${event.slug}`}
+                  className="flex flex-1 items-center gap-8"
+                >
+                  <div className="flex gap-8 transition duration-300 hover:max-w-0 max-w-lg transition-[max-width]">
                     <div className="w-[80px] h-[80px]">
                       <WixMediaImage
                         media={event.mainImage}
@@ -77,14 +80,14 @@ export default async function Home() {
                     </div>
                   </div>
                   <span className="text-2xl grow">{event.title}</span>
-                  <a
-                    className="btn-main my-10 rounded-2xl"
-                    href={`/events/${event.slug}`}
-                  >
-                    Buy Tickets
-                  </a>
-                </div>
-              </a>
+                </a>
+                <a
+                  className="btn-main my-10 rounded-2xl"
+                  href={`/events/${event.slug}`}
+                >
+                  Buy Tickets
+                </a>
+              </div>
             ))}
           </div>
         </div>
