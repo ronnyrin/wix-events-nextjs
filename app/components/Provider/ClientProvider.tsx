@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 
 const wixClient = createClient({
   modules: { products, collections, currentCart, events, checkout },
-  auth: OAuthStrategy({ clientId: 'e345f72c-a4ef-46b6-8b0f-f6b2cd66b78b' }),
+  auth: OAuthStrategy({ clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID! }),
 });
 
 export type WixClient = typeof wixClient;

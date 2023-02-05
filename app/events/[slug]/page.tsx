@@ -3,6 +3,7 @@ import { formatDate } from '@app/utils/date-formatter';
 import { TicketsTable } from '@app/components/Table/Table.client';
 import { getWixClient } from '@app/hooks/useWixClientServer';
 import { events as api } from '@wix/events';
+import { Schedule } from '@app/components/Schedule/Schedule';
 
 export default async function EventPage({ params }: any) {
   const wixClient = await getWixClient();
@@ -23,20 +24,30 @@ export default async function EventPage({ params }: any) {
         filter: { eventId: event._id },
         offset: 0,
         limit: 100,
+        sort: 'orderIndex:asc',
       })
     ).definitions;
+  const schedule =
+    event &&
+    (await wixClient.schedule.listScheduleItems({
+      eventId: [event._id!],
+      limit: 100,
+    }));
+
   return (
     <div className="max-w-full-content mx-auto px-14">
       {event ? (
-        <div className="full-w overflow-hidden max-w-7xl mx-auto">
+        <div className="full-w overflow-hidden max-w-6xl mx-auto">
           <div className="flex flex-row bg-zinc-900 text-white max-w-5xl items-center mx-auto">
             <div className="my-10 basis-1/2">
               <WixMediaImage media={event.mainImage} />
             </div>
             <div className="basis-1/2 text-left px-5">
               <span>
-                {formatDate(new Date(event.scheduling?.config?.startDate!)) ||
-                  event.scheduling?.formatted}{' '}
+                {formatDate(
+                  new Date(event.scheduling?.config?.startDate!),
+                  event!.scheduling!.config!.timeZoneId!
+                ) || event.scheduling?.formatted}{' '}
                 | {event.location?.name}
               </span>
               <h1 className="text-5xl my-2">{event.title}</h1>
@@ -72,9 +83,10 @@ export default async function EventPage({ params }: any) {
               )}
             </div>
           </div>
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-3xl mx-auto">
             <h2 className="mt-7">TIME & LOCATION</h2>
             <p className="font-helvetica">{event.scheduling?.formatted}</p>
+            <p className="font-helvetica">{event.location?.address}</p>
             {event.about ? (
               <>
                 <h2 className=" mt-7">ABOUT THE EVENT</h2>
@@ -83,6 +95,12 @@ export default async function EventPage({ params }: any) {
                   dangerouslySetInnerHTML={{ __html: event.about ?? '' }}
                 />
               </>
+            ) : null}
+            {schedule?.items?.length ? (
+              <div className="mb-14">
+                <h2 className="mt-7">SCHEDULE</h2>
+                <Schedule items={schedule.items} slug={event.slug!} />
+              </div>
             ) : null}
             {event.registration?.external && (
               <a
@@ -101,6 +119,62 @@ export default async function EventPage({ params }: any) {
                 <TicketsTable tickets={tickets!} event={event} />
               </div>
             )}
+            <div className="my-10">
+              <h2 className="mt-7">Share this event</h2>
+              <div className="my-4 flex gap-2">
+                <a
+                  className="border-2 inline-flex items-center mb-1 mr-1 transition p-1 rounded-full text-white border-neutral-600 bg-neutral-600 hover:bg-neutral-700 hover:border-neutral-700"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://facebook.com/sharer/sharer.php?u="
+                  aria-label="Share on Facebook"
+                >
+                  <svg
+                    aria-hidden="true"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    className="w-4 h-4"
+                  >
+                    <path d="M379 22v75h-44c-36 0-42 17-42 41v54h84l-12 85h-72v217h-88V277h-72v-85h72v-62c0-72 45-112 109-112 31 0 58 3 65 4z"></path>
+                  </svg>
+                </a>
+                <a
+                  className="border-2 inline-flex items-center mb-1 mr-1 transition p-1 rounded-full text-white border-neutral-600 bg-neutral-600 hover:bg-neutral-700 hover:border-neutral-700"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`https://twitter.com/intent/tweet?text=Check%20out%20this%20event`}
+                  aria-label="Share on Twitter"
+                >
+                  <svg
+                    aria-hidden="true"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    className="w-4 h-4"
+                  >
+                    <path d="m459 152 1 13c0 139-106 299-299 299-59 0-115-17-161-47a217 217 0 0 0 156-44c-47-1-85-31-98-72l19 1c10 0 19-1 28-3-48-10-84-52-84-103v-2c14 8 30 13 47 14A105 105 0 0 1 36 67c51 64 129 106 216 110-2-8-2-16-2-24a105 105 0 0 1 181-72c24-4 47-13 67-25-8 24-25 45-46 58 21-3 41-8 60-17-14 21-32 40-53 55z"></path>
+                  </svg>
+                </a>
+                <a
+                  className="border-2 inline-flex items-center mb-1 mr-1 transition p-1 rounded-full text-white border-neutral-600 bg-neutral-600 hover:bg-neutral-700 hover:border-neutral-700"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.linkedin.com/shareArticle?mini=true&amp;url=&amp;title=&amp;summary=&amp;source="
+                  aria-label="Share on Linkedin"
+                >
+                  <svg
+                    aria-hidden="true"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    className="w-4 h-4"
+                  >
+                    <path d="M136 183v283H42V183h94zm6-88c1 27-20 49-53 49-32 0-52-22-52-49 0-28 21-49 53-49s52 21 52 49zm333 208v163h-94V314c0-38-13-64-47-64-26 0-42 18-49 35-2 6-3 14-3 23v158h-94V183h94v41c12-20 34-48 85-48 62 0 108 41 108 127z"></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       ) : (

@@ -10,6 +10,8 @@ import {
   checkout as checkoutApi,
 } from '@wix/events';
 import { useWixClient } from '@app/hooks/useWixClient';
+import { Badge } from 'flowbite-react';
+import { formatDate, formatDateWithTime } from '@app/utils/date-formatter';
 
 export function TicketsTable({
   tickets,
@@ -28,11 +30,21 @@ export function TicketsTable({
   const [expendPricingOptions, setExpendPricingOptions] = useState(
     {} as Record<string, boolean>
   );
+  const [expendTicketDescription, setExpendTicketDescription] = useState(
+    {} as Record<string, boolean>
+  );
 
   const setExpendPricingOptionsForTicket = (ticketId: string) => {
     setExpendPricingOptions({
       ...expendPricingOptions,
       [ticketId]: !expendPricingOptions[ticketId],
+    });
+  };
+
+  const setExpendTicketDescriptionForTicket = (ticketId: string) => {
+    setExpendTicketDescription({
+      ...expendTicketDescription,
+      [ticketId]: !expendTicketDescription[ticketId],
     });
   };
 
@@ -166,9 +178,40 @@ export function TicketsTable({
               className="dark:bg-gray-800 flex mt-6 border p-6"
               key={ticket._id}
             >
-              <div className="whitespace-nowrap basis-1/2 border-r-2">
+              <div className="basis-1/2 border-r-2">
                 <span className="block text-[12px] mb-1">Ticket type</span>
                 {ticket.name}
+                {ticket.salePeriod &&
+                  new Date(ticket.salePeriod.endDate!) > new Date() &&
+                  new Date(ticket.salePeriod.startDate!) < new Date() && (
+                    <div className="mt-2 text-xs">
+                      <p>Sale ends</p>
+                      <p>
+                        {formatDateWithTime(
+                          new Date(ticket.salePeriod.endDate!),
+                          event.scheduling?.config?.timeZoneId!
+                        )}
+                      </p>
+                    </div>
+                  )}
+                {expendTicketDescription[ticket._id!] && (
+                  <p className="text-xs">{ticket.description}</p>
+                )}
+                {ticket.description && (
+                  <div className="whitespace-nowrap mt-2">
+                    <div className="flex justify-between">
+                      <button
+                        className="text-xs text-purple-400 underline"
+                        onClick={() =>
+                          setExpendTicketDescriptionForTicket(ticket._id!)
+                        }
+                      >
+                        {expendTicketDescription[ticket._id!] ? 'Less' : 'More'}{' '}
+                        info
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
               <div
                 className={`basis-1/2 pl-4 ${
@@ -176,7 +219,6 @@ export function TicketsTable({
                 }`}
               >
                 <div className="basis-1/2">
-                  <span className="block text-[12px] mb-1">Price</span>
                   <Price
                     selectedTickets={selectedTickets}
                     ticket={ticket}
@@ -190,20 +232,49 @@ export function TicketsTable({
                 </div>
                 {!ticket.pricing?.pricingOptions?.options?.length && (
                   <div className="ml-auto">
-                    <span className="block text-[12px] mb-1">Quantity</span>
-                    <Counter
-                      onChange={setTickets}
-                      ticketId={ticket._id!}
-                      disabled={
-                        event.registration?.status !==
-                        eventsApi.RegistrationStatus.OPEN_TICKETS
-                      }
-                      initialCount={selectedTickets[ticket._id!]?.quantity ?? 0}
-                      price={
-                        selectedTickets[ticket._id!]?.price ||
-                        Number.parseFloat(ticket.price?.value!)
-                      }
-                    />
+                    {ticket.limitPerCheckout! > 0 &&
+                      (!ticket.salePeriod ||
+                        (new Date(ticket.salePeriod.endDate!) > new Date() &&
+                          new Date(ticket.salePeriod.startDate!) <
+                            new Date())) && (
+                        <>
+                          <span className="block text-[12px] mb-1">
+                            Quantity
+                          </span>
+
+                          <Counter
+                            onChange={setTickets}
+                            ticketId={ticket._id!}
+                            limit={ticket.limitPerCheckout!}
+                            initialCount={
+                              selectedTickets[ticket._id!]?.quantity ?? 0
+                            }
+                            price={
+                              selectedTickets[ticket._id!]?.price ||
+                              Number.parseFloat(ticket.price?.value!)
+                            }
+                          />
+                        </>
+                      )}
+                    {ticket.limitPerCheckout! === 0 && (
+                      <Badge color="gray">Sold Out</Badge>
+                    )}
+                    {ticket.salePeriod &&
+                      new Date(ticket.salePeriod.startDate!) > new Date() && (
+                        <div className="mt-2 text-sm">
+                          <p>Goes on sale</p>
+                          <p>
+                            {formatDateWithTime(
+                              new Date(ticket.salePeriod.startDate!),
+                              event.scheduling?.config?.timeZoneId!
+                            )}
+                          </p>
+                        </div>
+                      )}
+                    {ticket.salePeriod &&
+                      new Date(ticket.salePeriod.endDate!) < new Date() && (
+                        <Badge color="gray">Sale ended</Badge>
+                      )}
                   </div>
                 )}
                 {ticket.pricing?.pricingOptions?.options
@@ -237,24 +308,30 @@ export function TicketsTable({
                         </span>
                       </div>
                       <div className="ml-auto">
-                        <span className="block text-[12px] mb-1">Quantity</span>
-                        <Counter
-                          onChange={setTickets}
-                          ticketId={ticket._id!}
-                          optionId={option._id!}
-                          disabled={
-                            event.registration?.status !==
-                            eventsApi.RegistrationStatus.OPEN_TICKETS
-                          }
-                          initialCount={
-                            selectedTickets[`${ticket._id!}|${option._id}`]
-                              ?.quantity ?? 0
-                          }
-                          price={
-                            selectedTickets[`${ticket._id!}|${option._id}`]
-                              ?.price || Number.parseFloat(option.price?.value!)
-                          }
-                        />
+                        {ticket.limitPerCheckout! > 0 ? (
+                          <>
+                            <span className="block text-[12px] mb-1">
+                              Quantity
+                            </span>
+                            <Counter
+                              onChange={setTickets}
+                              ticketId={ticket._id!}
+                              optionId={option._id!}
+                              limit={ticket.limitPerCheckout!}
+                              initialCount={
+                                selectedTickets[`${ticket._id!}|${option._id}`]
+                                  ?.quantity ?? 0
+                              }
+                              price={
+                                selectedTickets[`${ticket._id!}|${option._id}`]
+                                  ?.price ||
+                                Number.parseFloat(option.price?.value!)
+                              }
+                            />
+                          </>
+                        ) : (
+                          <Badge color="gray">Sold Out</Badge>
+                        )}
                       </div>
                     </div>
                   ))}

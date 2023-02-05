@@ -1,12 +1,11 @@
 import { createClient, OAuthStrategy } from '@wix/api-client';
 import { collections, products } from '@wix/stores';
-import { events, checkout } from '@wix/events';
-import { currentCart } from '@wix/ecom';
+import { events, checkout, schedule } from '@wix/events';
 
 export const getWixClient = async () => {
   const wixClient = createClient({
-    modules: { products, collections, currentCart, events, checkout },
-    auth: OAuthStrategy({ clientId: 'e345f72c-a4ef-46b6-8b0f-f6b2cd66b78b' }),
+    modules: { products, collections, events, checkout, schedule },
+    auth: OAuthStrategy({ clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID! }),
   });
   await wixClient.auth.generateVisitorTokens();
   return wixClient;

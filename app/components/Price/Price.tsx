@@ -102,14 +102,14 @@ export function Price({
   }
 
   const donationText = disabled
-    ? 'You set the price'
-    : `WRITE A PRICE ${
+    ? 'Pay what you want'
+    : `Pay ${
         Number.parseFloat(ticket.pricing?.minPrice?.value!) > 0
-          ? `MORE THAN ${formatCurrency(
+          ? `more than ${formatCurrency(
               ticket.pricing?.minPrice?.value!,
               ticket.price?.currency
             )}`
-          : ''
+          : 'what you want'
       }`;
 
   let price;
@@ -121,11 +121,6 @@ export function Price({
   } else if (ticket.pricing?.pricingType === ticketDefinitions.Type.DONATION) {
     price = (
       <>
-        <Label
-          htmlFor={`price-${ticket._id}`}
-          className="black"
-          value={donationText}
-        />
         {!disabled && (
           <Flowbite
             theme={{
@@ -157,6 +152,11 @@ export function Price({
 
   return (
     <>
+      <span className="block text-[12px] mb-1">
+        {ticket.pricing?.pricingType === ticketDefinitions.Type.DONATION
+          ? donationText
+          : 'Price'}
+      </span>
       {price}
       {event.registration?.ticketing?.config?.taxConfig?.type ===
         eventsApi.TaxType.ADDED_AT_CHECKOUT &&

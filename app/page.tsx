@@ -1,6 +1,9 @@
 import './page.css';
 import Image from 'next/image';
 import { getWixClient } from '@app/hooks/useWixClientServer';
+import { events as api } from '@wix/events';
+import { WixMediaImage } from '@app/components/Image/WixMediaImage';
+import { getDatePart } from '@app/utils/date-formatter';
 
 export default async function Home() {
   const wixClient = await getWixClient();
@@ -22,12 +25,74 @@ export default async function Home() {
         }))
     )
   );
+
+  const { events } = await wixClient.events.queryEventsV2({
+    fieldset: [api.EventFieldset.FULL, api.EventFieldset.DETAILS],
+    query: {
+      paging: { limit: 10, offset: 0 },
+      sort: [{ fieldName: 'start', order: api.SortOrder.ASC }],
+    },
+  });
   return (
-    <div className="max-w-full-content mx-auto px-14 relative">
-      <div className="flex gap-14">
-        <div className="text-custom-1 text-left py-20 basis-1/2">
+    <div className="max-w-full-content mx-auto relative">
+      <div className="bg-zinc-900 text-site py-20">
+        <div className="px-14">
+          <h1 className="uppercase text-7xl">SHOWS</h1>
+          <div className="py-10 px-44">
+            {events!.map((event) => (
+              <a href={`/events/${event.slug}`} key={event._id}>
+                <div className="flex border-b items-center gap-8">
+                  <div className="flex gap-8 items-center transition duration-300 hover:max-w-0 max-w-lg transition-[max-width]">
+                    <div className="w-[80px] h-[80px]">
+                      <WixMediaImage
+                        media={event.mainImage}
+                        width={80}
+                        height={80}
+                      />
+                    </div>
+                    <div className="flex gap-4 items-center">
+                      <span className="text-4xl">
+                        {getDatePart(
+                          new Date(event.scheduling?.config?.startDate!),
+                          'day',
+                          event!.scheduling!.config!.timeZoneId!
+                        )}
+                      </span>
+                      <div className="flex flex-col text-xs">
+                        <span className="text-gray-600">
+                          {getDatePart(
+                            new Date(event.scheduling?.config?.startDate!),
+                            'weekday',
+                            event!.scheduling!.config!.timeZoneId!
+                          )}
+                        </span>
+                        <span>
+                          {getDatePart(
+                            new Date(event.scheduling?.config?.startDate!),
+                            'month',
+                            event!.scheduling!.config!.timeZoneId!
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <span className="text-2xl grow">{event.title}</span>
+                  <a
+                    className="btn-main my-10 rounded-2xl"
+                    href={`/events/${event.slug}`}
+                  >
+                    Buy Tickets
+                  </a>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="flex gap-14 px-14">
+        <div className="text-custom-1 text-left py-20 basis-1/2 bg-site">
           <h1 className="uppercase text-7xl text-black">Merch</h1>
-          <p className="text-lg max-w-[60%] my-10 text-black">
+          <p className="text-lg my-10 text-black">
             I’m a paragraph. I’m a great space to write about what makes the
             products special and explain how customers can benefit from these
             items.
