@@ -7,23 +7,23 @@ export default function TermsPage() {
       <div className="py-10 max-w-4xl mx-auto leading-7">
         <h2 className="text-3xl py-5">CUSTOMER CARE</h2>
         <p>
-          I’m a Customer Care section. I’m a great place to write about your
+          I am a Customer Care section. I am a great place to write about your
           company and your services, and, most importantly, how to contact your
           store with queries. Writing a detailed Customer Care policy is a great
           way to build trust and reassure your customers that they can buy from
           your site with confidence.
         </p>
         <p>
-          I'm the second paragraph in your Customer Care section. I’m a great
+          I am the second paragraph in your Customer Care section. I am a great
           place for you to write more and let your users know all the important
           details. You can change the words and and use this text area to
-          describe your policy. Well written
-          text shows people that you're credible and reliable. I’m a space you
-          can use to let everyone know more.
+          describe your policy. Well written text shows people that you
+          are credible and reliable. I am a space you can use to let everyone
+          know more.
         </p>
         <h2 className="text-3xl py-5 mt-10">PRIVACY & SAFETY</h2>
         <p>
-          I’m a Privacy & Safety policy section. I’m a great place to inform
+          I am a Privacy & Safety policy section. I am a great place to inform
           your customers about how you use, store, and protect their personal
           information. Add details such as how you use third-party banking to
           verify payment, the way you collect data or when will you contact
@@ -37,13 +37,13 @@ export default function TermsPage() {
         </p>
         <h2 className="text-3xl py-5 mt-10">WHOLESALE INQUIRIES</h2>
         <p>
-          I’m a wholesale inquiries section. I’m a great place to inform other
+          I am a wholesale inquiries section. I am a great place to inform other
           retailers about how they can sell your stunning products. Use plain
           language and give as much information as possible in order to promote
           your business and take it to the next level.
         </p>
         <p>
-          I'm the second paragraph in your Wholesale Inquiries section. Include
+          I am the second paragraph in your Wholesale Inquiries section. Include
           your own text and edit me. Add information about wholesale such as
           prices or contact details. Think of the questions customers might have
           when they inquire about a product before finalizing their order.

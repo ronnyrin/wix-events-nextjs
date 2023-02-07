@@ -4,6 +4,7 @@ import { TicketsTable } from '@app/components/Table/Table.client';
 import { getWixClient } from '@app/hooks/useWixClientServer';
 import { events as api } from '@wix/events';
 import { Schedule } from '@app/components/Schedule/Schedule';
+import { TicketDefinitionExtended } from '@app/types/ticket';
 
 export default async function EventPage({ params }: any) {
   const wixClient = await getWixClient();
@@ -17,16 +18,17 @@ export default async function EventPage({ params }: any) {
     query: { filter: { slug: params.slug }, paging: { limit: 1, offset: 0 } },
   });
   const event = events?.length ? events![0] : null;
+
   const tickets =
     event &&
-    (
+    ((
       await wixClient.checkout.queryAvailableTickets({
         filter: { eventId: event._id },
         offset: 0,
         limit: 100,
         sort: 'orderIndex:asc',
       })
-    ).definitions;
+    ).definitions as TicketDefinitionExtended[]);
   const schedule =
     event &&
     (await wixClient.schedule.listScheduleItems({
@@ -87,10 +89,10 @@ export default async function EventPage({ params }: any) {
             <h2 className="mt-7">TIME & LOCATION</h2>
             <p className="font-helvetica">{event.scheduling?.formatted}</p>
             <p className="font-helvetica">{event.location?.address}</p>
-            {event.about ? (
+            {event.about !== '<p></p>' ? (
               <>
                 <h2 className=" mt-7">ABOUT THE EVENT</h2>
-                <p
+                <div
                   className="font-helvetica"
                   dangerouslySetInnerHTML={{ __html: event.about ?? '' }}
                 />

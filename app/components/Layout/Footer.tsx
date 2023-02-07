@@ -15,7 +15,7 @@ const Footer = () => (
       </p>
       <a href="/terms">TERMS & CONDITIONS</a>
       <a href="/shipping">SHIPPING & RETURNS</a>
-      <a href="/faq">FAQ'S</a>
+      <a href="/faq">FAQ&apos;S</a>
     </div>
   </footer>
 );

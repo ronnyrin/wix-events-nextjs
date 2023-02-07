@@ -634,17 +634,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/api-client@npm:^1.1.26":
-  version: 1.1.26
-  resolution: "@wix/api-client@npm:1.1.26"
+"@wix/api-client@npm:^1.1.28":
+  version: 1.1.28
+  resolution: "@wix/api-client@npm:1.1.28"
   dependencies:
     "@babel/runtime": ^7.20.13
-    "@wix/identity": ^1.0.5
+    "@wix/identity": ^1.0.6
     "@wix/image-kit": ^1.28.0
-    "@wix/sdk-types": ^1.1.26
+    "@wix/sdk-types": ^1.1.28
     querystring: ^0.2.1
     type-fest: ^2.19.0
-  checksum: d7e9e63970738089848c0229f347bfcbfc850d8a56cda22d3ea1cc09a7b9729926612c234b49cd5d5c34b8e367cf8baa83cd3c379b990cd4953aa38b47a03070
+  checksum: 9d46b224d47ede97e33fc8c4e0f07794171365080ded03126826d6b9879cfe4a261324f642792f70b2a1fa4bb0a2210833a80c61b1e11782a694417d5bbcf498
   languageName: node
   linkType: hard
 
@@ -681,14 +681,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/identity@npm:^1.0.5":
-  version: 1.0.5
-  resolution: "@wix/identity@npm:1.0.5"
+"@wix/identity@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "@wix/identity@npm:1.0.6"
   dependencies:
     "@wix/metro-runtime": ^1.0.0
     "@wix/motion-edm-autogen-query-wrapper": ^1.0.0
     "@wix/sdk-types": ^1.0.0
-  checksum: 7537aed103aa10cf994644bce330d6ba1ad7a51c590b5aa9ddc9d40ed71edf6ebdc2436dcb085f5b7f6127bbb54a8ecffe46257e7d16636265035933da704758
+  checksum: 27fc8f0c5259b9c44c6977bba414dea7d8f172d9962ac342f127f3250ddbb6b7d4568b023e648b66abc391b20edd2280d5e6557b20ca55ea6917cb0a28861da6
   languageName: node
   linkType: hard
 
@@ -813,12 +813,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/sdk-types@npm:^1.1.26":
-  version: 1.1.26
-  resolution: "@wix/sdk-types@npm:1.1.26"
+"@wix/sdk-types@npm:^1.1.28":
+  version: 1.1.28
+  resolution: "@wix/sdk-types@npm:1.1.28"
   dependencies:
     "@babel/runtime": ^7.20.13
-  checksum: 43651f3b4f6da15d16eb295d7329fb7fe4d34c3c973a5ef7db921b30ea7944fb62ba3734f6984fad7ff7581e3014b16111db0272735333045193353810eb5346
+  checksum: 6d692e9d6174b7140e042b55ca227c824cea29452232d237b414d3d25bbcc4dbcbf9e3eb7aa44a6a8e51bbab492c9f059cc71b87a82416099ffe855be290ea9b
   languageName: node
   linkType: hard
 
@@ -5058,7 +5058,7 @@ __metadata:
     "@types/node": 18.11.8
     "@types/react": 18.0.24
     "@types/react-dom": 18.0.8
-    "@wix/api-client": ^1.1.26
+    "@wix/api-client": ^1.1.28
     "@wix/ecom": ^1.0.78
     "@wix/events": ^1.0.18
     "@wix/stores": ^1.0.16

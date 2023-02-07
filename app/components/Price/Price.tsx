@@ -1,5 +1,5 @@
 import { formatCurrency } from '@app/utils/price-formtter';
-import { Flowbite, Label, TextInput } from 'flowbite-react';
+import { Flowbite, TextInput } from 'flowbite-react';
 import React from 'react';
 import { WIX_SERVICE_FEE } from '@app/constants';
 import {
@@ -7,6 +7,7 @@ import {
   events as eventsApi,
   ticketDefinitions,
 } from '@wix/events';
+import { TicketDefinitionExtended } from '@app/types/ticket';
 
 export function Price({
   ticket,
@@ -16,7 +17,7 @@ export function Price({
   disabled,
   option,
 }: {
-  ticket: api.TicketDefinition;
+  ticket: TicketDefinitionExtended;
   setTickets: Function;
   event: eventsApi.Event;
   disabled: boolean;

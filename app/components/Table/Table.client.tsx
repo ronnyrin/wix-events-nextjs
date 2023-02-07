@@ -11,13 +11,14 @@ import {
 } from '@wix/events';
 import { useWixClient } from '@app/hooks/useWixClient';
 import { Badge } from 'flowbite-react';
-import { formatDate, formatDateWithTime } from '@app/utils/date-formatter';
+import { formatDateWithTime } from '@app/utils/date-formatter';
+import { TicketDefinitionExtended } from '@app/types/ticket';
 
 export function TicketsTable({
   tickets,
   event,
 }: {
-  tickets: api.TicketDefinition[];
+  tickets: TicketDefinitionExtended[];
   event: eventsApi.Event;
 }) {
   const wixClient = useWixClient();
@@ -172,188 +173,183 @@ export function TicketsTable({
   return (
     <>
       <div className="flex full-w flex-col">
-        {tickets.map((ticket: api.TicketDefinition) => (
-          <>
-            <div
-              className="dark:bg-gray-800 flex mt-6 border p-6"
-              key={ticket._id}
-            >
-              <div className="basis-1/2 border-r-2">
-                <span className="block text-[12px] mb-1">Ticket type</span>
-                {ticket.name}
-                {ticket.salePeriod &&
-                  new Date(ticket.salePeriod.endDate!) > new Date() &&
-                  new Date(ticket.salePeriod.startDate!) < new Date() && (
-                    <div className="mt-2 text-xs">
-                      <p>Sale ends</p>
-                      <p>
-                        {formatDateWithTime(
-                          new Date(ticket.salePeriod.endDate!),
-                          event.scheduling?.config?.timeZoneId!
-                        )}
-                      </p>
-                    </div>
-                  )}
-                {expendTicketDescription[ticket._id!] && (
-                  <p className="text-xs">{ticket.description}</p>
-                )}
-                {ticket.description && (
-                  <div className="whitespace-nowrap mt-2">
-                    <div className="flex justify-between">
-                      <button
-                        className="text-xs text-purple-400 underline"
-                        onClick={() =>
-                          setExpendTicketDescriptionForTicket(ticket._id!)
-                        }
-                      >
-                        {expendTicketDescription[ticket._id!] ? 'Less' : 'More'}{' '}
-                        info
-                      </button>
-                    </div>
+        {tickets.map((ticket: TicketDefinitionExtended) => (
+          <div
+            className="dark:bg-gray-800 flex mt-6 border p-6"
+            key={ticket._id}
+          >
+            <div className="basis-1/2 border-r-2">
+              <span className="block text-[12px] mb-1">Ticket type</span>
+              {ticket.name}
+              {ticket.salePeriod &&
+                new Date(ticket.salePeriod.endDate!) > new Date() &&
+                new Date(ticket.salePeriod.startDate!) < new Date() && (
+                  <div className="mt-2 text-xs">
+                    <p>Sale ends</p>
+                    <p>
+                      {formatDateWithTime(
+                        new Date(ticket.salePeriod.endDate!),
+                        event.scheduling?.config?.timeZoneId!
+                      )}
+                    </p>
                   </div>
                 )}
-              </div>
-              <div
-                className={`basis-1/2 pl-4 ${
-                  ticket.pricing?.pricingOptions?.options?.length ? '' : 'flex'
-                }`}
-              >
-                <div className="basis-1/2">
-                  <Price
-                    selectedTickets={selectedTickets}
-                    ticket={ticket}
-                    setTickets={setTickets}
-                    event={event}
-                    disabled={
-                      event.registration?.status !==
-                      eventsApi.RegistrationStatus.OPEN_TICKETS
-                    }
-                  />
+              {expendTicketDescription[ticket._id!] && (
+                <p className="text-xs">{ticket.description}</p>
+              )}
+              {ticket.description && (
+                <div className="whitespace-nowrap mt-2">
+                  <div className="flex justify-between">
+                    <button
+                      className="text-xs text-purple-400 underline"
+                      onClick={() =>
+                        setExpendTicketDescriptionForTicket(ticket._id!)
+                      }
+                    >
+                      {expendTicketDescription[ticket._id!] ? 'Less' : 'More'}{' '}
+                      info
+                    </button>
+                  </div>
                 </div>
-                {!ticket.pricing?.pricingOptions?.options?.length && (
-                  <div className="ml-auto">
-                    {ticket.limitPerCheckout! > 0 &&
-                      (!ticket.salePeriod ||
-                        (new Date(ticket.salePeriod.endDate!) > new Date() &&
-                          new Date(ticket.salePeriod.startDate!) <
-                            new Date())) && (
+              )}
+            </div>
+            <div
+              className={`basis-1/2 pl-4 ${
+                ticket.pricing?.pricingOptions?.options?.length ? '' : 'flex'
+              }`}
+            >
+              <div className="basis-1/2">
+                <Price
+                  selectedTickets={selectedTickets}
+                  ticket={ticket}
+                  setTickets={setTickets}
+                  event={event}
+                  disabled={
+                    event.registration?.status !==
+                    eventsApi.RegistrationStatus.OPEN_TICKETS
+                  }
+                />
+              </div>
+              {!ticket.pricing?.pricingOptions?.options?.length && (
+                <div className="ml-auto">
+                  {ticket.limitPerCheckout! > 0 &&
+                    (!ticket.salePeriod ||
+                      (new Date(ticket.salePeriod.endDate!) > new Date() &&
+                        new Date(ticket.salePeriod.startDate!) <
+                          new Date())) && (
+                      <>
+                        <span className="block text-[12px] mb-1">Quantity</span>
+
+                        <Counter
+                          onChange={setTickets}
+                          ticketId={ticket._id!}
+                          limit={ticket.limitPerCheckout!}
+                          initialCount={
+                            selectedTickets[ticket._id!]?.quantity ?? 0
+                          }
+                          price={
+                            selectedTickets[ticket._id!]?.price ||
+                            Number.parseFloat(ticket.price?.value!)
+                          }
+                        />
+                      </>
+                    )}
+                  {ticket.limitPerCheckout! === 0 && (
+                    <Badge color="gray">Sold Out</Badge>
+                  )}
+                  {ticket.salePeriod &&
+                    new Date(ticket.salePeriod.startDate!) > new Date() && (
+                      <div className="mt-2 text-sm">
+                        <p>Goes on sale</p>
+                        <p>
+                          {formatDateWithTime(
+                            new Date(ticket.salePeriod.startDate!),
+                            event.scheduling?.config?.timeZoneId!
+                          )}
+                        </p>
+                      </div>
+                    )}
+                  {ticket.salePeriod &&
+                    new Date(ticket.salePeriod.endDate!) < new Date() && (
+                      <Badge color="gray">Sale ended</Badge>
+                    )}
+                </div>
+              )}
+              {ticket.pricing?.pricingOptions?.options
+                ?.slice(
+                  0,
+                  expendPricingOptions[ticket._id!]
+                    ? ticket.pricing?.pricingOptions?.options?.length
+                    : 3
+                )
+                .map((option) => (
+                  <div
+                    className="dark:bg-gray-800 flex mt-4 border-t-2 pt-4"
+                    key={option._id}
+                  >
+                    <div className="basis-1/2">
+                      <span className="whitespace-nowrap block text-12">
+                        {option.name}
+                      </span>
+                      <span className="block">
+                        <Price
+                          selectedTickets={selectedTickets}
+                          ticket={ticket}
+                          setTickets={setTickets}
+                          event={event}
+                          option={option}
+                          disabled={
+                            event.registration?.status !==
+                            eventsApi.RegistrationStatus.OPEN_TICKETS
+                          }
+                        />
+                      </span>
+                    </div>
+                    <div className="ml-auto">
+                      {ticket.limitPerCheckout! > 0 ? (
                         <>
                           <span className="block text-[12px] mb-1">
                             Quantity
                           </span>
-
                           <Counter
                             onChange={setTickets}
                             ticketId={ticket._id!}
+                            optionId={option._id!}
                             limit={ticket.limitPerCheckout!}
                             initialCount={
-                              selectedTickets[ticket._id!]?.quantity ?? 0
+                              selectedTickets[`${ticket._id!}|${option._id}`]
+                                ?.quantity ?? 0
                             }
                             price={
-                              selectedTickets[ticket._id!]?.price ||
-                              Number.parseFloat(ticket.price?.value!)
+                              selectedTickets[`${ticket._id!}|${option._id}`]
+                                ?.price ||
+                              Number.parseFloat(option.price?.value!)
                             }
                           />
                         </>
+                      ) : (
+                        <Badge color="gray">Sold Out</Badge>
                       )}
-                    {ticket.limitPerCheckout! === 0 && (
-                      <Badge color="gray">Sold Out</Badge>
-                    )}
-                    {ticket.salePeriod &&
-                      new Date(ticket.salePeriod.startDate!) > new Date() && (
-                        <div className="mt-2 text-sm">
-                          <p>Goes on sale</p>
-                          <p>
-                            {formatDateWithTime(
-                              new Date(ticket.salePeriod.startDate!),
-                              event.scheduling?.config?.timeZoneId!
-                            )}
-                          </p>
-                        </div>
-                      )}
-                    {ticket.salePeriod &&
-                      new Date(ticket.salePeriod.endDate!) < new Date() && (
-                        <Badge color="gray">Sale ended</Badge>
-                      )}
+                    </div>
                   </div>
-                )}
-                {ticket.pricing?.pricingOptions?.options
-                  ?.slice(
-                    0,
-                    expendPricingOptions[ticket._id!]
-                      ? ticket.pricing?.pricingOptions?.options?.length
-                      : 3
-                  )
-                  .map((option) => (
-                    <div
-                      className="dark:bg-gray-800 flex mt-4 border-t-2 pt-4"
-                      key={option._id}
+                ))}
+              {ticket.pricing?.pricingOptions?.options!.length! > 3 && (
+                <div className="whitespace-nowrap mt-6">
+                  <div className="flex justify-between">
+                    <button
+                      className="text-sm text-purple-400 underline"
+                      onClick={() =>
+                        setExpendPricingOptionsForTicket(ticket._id!)
+                      }
                     >
-                      <div className="basis-1/2">
-                        <span className="whitespace-nowrap block text-12">
-                          {option.name}
-                        </span>
-                        <span className="block">
-                          <Price
-                            selectedTickets={selectedTickets}
-                            ticket={ticket}
-                            setTickets={setTickets}
-                            event={event}
-                            option={option}
-                            disabled={
-                              event.registration?.status !==
-                              eventsApi.RegistrationStatus.OPEN_TICKETS
-                            }
-                          />
-                        </span>
-                      </div>
-                      <div className="ml-auto">
-                        {ticket.limitPerCheckout! > 0 ? (
-                          <>
-                            <span className="block text-[12px] mb-1">
-                              Quantity
-                            </span>
-                            <Counter
-                              onChange={setTickets}
-                              ticketId={ticket._id!}
-                              optionId={option._id!}
-                              limit={ticket.limitPerCheckout!}
-                              initialCount={
-                                selectedTickets[`${ticket._id!}|${option._id}`]
-                                  ?.quantity ?? 0
-                              }
-                              price={
-                                selectedTickets[`${ticket._id!}|${option._id}`]
-                                  ?.price ||
-                                Number.parseFloat(option.price?.value!)
-                              }
-                            />
-                          </>
-                        ) : (
-                          <Badge color="gray">Sold Out</Badge>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                {ticket.pricing?.pricingOptions?.options!.length! > 3 && (
-                  <div className="whitespace-nowrap mt-6">
-                    <div className="flex justify-between">
-                      <button
-                        className="text-sm text-purple-400 underline"
-                        onClick={() =>
-                          setExpendPricingOptionsForTicket(ticket._id!)
-                        }
-                      >
-                        View{' '}
-                        {expendPricingOptions[ticket._id!] ? 'less' : 'more'}{' '}
-                        price options
-                      </button>
-                    </div>
+                      View {expendPricingOptions[ticket._id!] ? 'less' : 'more'}{' '}
+                      price options
+                    </button>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
-          </>
+          </div>
         ))}
       </div>
       <div className="w-[35%] ml-auto mt-10">
