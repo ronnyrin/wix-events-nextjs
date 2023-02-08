@@ -22,7 +22,7 @@ export const CartBag = () => {
       aria-label={`Cart items: ${itemsCount}`}
     >
       <svg
-        className="w-6 h-6"
+        className="w-8 h-8"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -36,7 +36,7 @@ export const CartBag = () => {
         ></path>
       </svg>
       {itemsCount! > 0 && (
-        <span className="font-bold text-xs text-black rounded-full px-[7px] py-[2px] absolute top-3.5 right-3.5">
+        <span className="font-bold text-xs  absolute top-[13px] right-[15px]">
           {itemsCount}
         </span>
       )}

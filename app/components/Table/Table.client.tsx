@@ -5,14 +5,15 @@ import { formatCurrency } from '@app/utils/price-formtter';
 import { Price } from '@app/components/Price/Price';
 import { WIX_SERVICE_FEE } from '@app/constants';
 import {
-  ticketDefinitions as api,
-  events as eventsApi,
   checkout as checkoutApi,
+  events as eventsApi,
+  ticketDefinitions as api,
 } from '@wix/events';
 import { useWixClient } from '@app/hooks/useWixClient';
 import { Badge } from 'flowbite-react';
 import { formatDateWithTime } from '@app/utils/date-formatter';
 import { TicketDefinitionExtended } from '@app/types/ticket';
+import { Type } from '@wix/events/build/cjs/src/events-v1-ticket-definition.universal';
 
 export function TicketsTable({
   tickets,
@@ -148,15 +149,21 @@ export function TicketsTable({
     const ticketQuantities: checkoutApi.TicketReservationQuantity[] =
       Object.keys(ticketsGrouped).map((key) => {
         const [ticketId] = key.split('|');
+        const ticket = tickets.find((t) => t._id === ticketId);
         return {
           ticketDefinitionId: ticketId,
           quantity: ticketsGrouped[ticketId].quantity,
           ...(ticketsGrouped[ticketId].ticketDetails && {
             ticketDetails: ticketsGrouped[ticketId].ticketDetails,
           }),
-          ...(ticketsGrouped[ticketId].price && {
-            priceOverride: ticketsGrouped[ticketId].price.toString(),
-          }),
+          ...(ticketsGrouped[ticketId].price &&
+            ticket!.pricing.pricingType === Type.DONATION && {
+              ticketDetails: [
+                {
+                  priceOverride: ticketsGrouped[ticketId].price.toString(),
+                },
+              ],
+            }),
         };
       });
     const { _id: id } = await wixClient.checkout.createReservation(event._id!, {
@@ -229,6 +236,18 @@ export function TicketsTable({
                     eventsApi.RegistrationStatus.OPEN_TICKETS
                   }
                 />
+                {ticket.salePeriod &&
+                  new Date(ticket.salePeriod.startDate!) > new Date() && (
+                    <div className="mt-2 text-[12px]">
+                      <p>Goes on sale</p>
+                      <span>
+                        {formatDateWithTime(
+                          new Date(ticket.salePeriod.startDate!),
+                          event.scheduling?.config?.timeZoneId!
+                        )}
+                      </span>
+                    </div>
+                  )}
               </div>
               {!ticket.pricing?.pricingOptions?.options?.length && (
                 <div className="ml-auto">
@@ -257,18 +276,6 @@ export function TicketsTable({
                   {ticket.limitPerCheckout! === 0 && (
                     <Badge color="gray">Sold Out</Badge>
                   )}
-                  {ticket.salePeriod &&
-                    new Date(ticket.salePeriod.startDate!) > new Date() && (
-                      <div className="mt-2 text-sm">
-                        <p>Goes on sale</p>
-                        <p>
-                          {formatDateWithTime(
-                            new Date(ticket.salePeriod.startDate!),
-                            event.scheduling?.config?.timeZoneId!
-                          )}
-                        </p>
-                      </div>
-                    )}
                   {ticket.salePeriod &&
                     new Date(ticket.salePeriod.endDate!) < new Date() && (
                       <Badge color="gray">Sale ended</Badge>

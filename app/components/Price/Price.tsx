@@ -129,7 +129,7 @@ export function Price({
                 textInput: {
                   field: {
                     input: {
-                      base: 'bg-transparent text-white rounded-none',
+                      base: 'bg-transparent text-black rounded-none',
                     },
                   },
                 },

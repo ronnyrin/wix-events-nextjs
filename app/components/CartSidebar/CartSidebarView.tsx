@@ -58,7 +58,7 @@ export const CartSidebarView: FC = () => {
             Your cart is empty
           </h2>
           <p className="text-accent-3 px-10 text-center pt-2">
-            Biscuit oat cake wafer icing ice cream tiramisu pudding cupcake.
+            Add products to your cart in <a href="/shop">here</a>
           </p>
         </div>
       ) : (
@@ -111,7 +111,10 @@ export const CartSidebarView: FC = () => {
               </li>
             </ul>
             <div>
-              <button className="btn-main w-full" onClick={goToCheckout}>
+              <button
+                className="btn-main w-full text-xl"
+                onClick={goToCheckout}
+              >
                 Proceed to Checkout
               </button>
             </div>
