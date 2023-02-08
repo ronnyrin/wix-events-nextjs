@@ -171,9 +171,7 @@ export function TicketsTable({
     });
 
     if (id) {
-      window.location.replace(
-        `https://ronnyr34.editorx.io/events-headless/event-details/${event.slug}/ticket-form?reservationId=${id}`
-      );
+      window.location.href = `https://ronnyr34.editorx.io/events-headless/event-details/${event.slug}/ticket-form?reservationId=${id}`;
     }
   };
 
