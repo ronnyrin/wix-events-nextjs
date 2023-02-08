@@ -1,10 +1,8 @@
 'use client';
 import Link from 'next/link';
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { usePrice } from '@app/hooks/use-price';
 import { CartItem } from '@app/components/CartItem/CartItem';
-import { Button } from 'flowbite-react';
-import { SidebarLayout } from '@app/components/Sidebar/SidebarLayout';
 import { useCart } from '@app/hooks/useCart';
 import { useUI } from '../Provider/context';
 
@@ -37,7 +35,7 @@ export const CartSidebarView: FC = () => {
   };
 
   return (
-    <SidebarLayout handleClose={handleClose}>
+    <>
       {!isLoading && data?.lineItems!.length === 0 ? (
         <div className="flex-1 px-4 flex flex-col justify-center items-center">
           <span className="border border-dashed border-primary rounded-full flex items-center justify-center w-16 h-16 p-12 text-secondary">
@@ -65,22 +63,47 @@ export const CartSidebarView: FC = () => {
         </div>
       ) : (
         <>
-          <div className="px-4 sm:px-6 flex-1">
-            <Link href="/cart">
-              <span className="font-bold text-2xl">My Cart</span>
-            </Link>
-            <ul className="py-4 space-y-6 sm:py-0 sm:space-y-0 sm:divide-y sm:divide-accent-2 border-accent-2">
-              {data!.lineItems!.map((item) => (
+          <div className="flex-1">
+            <div className="relative">
+              <button
+                onClick={handleClose}
+                aria-label="Close"
+                className="hover:text-accent-5 absolute transition ease-in-out duration-150 focus:outline-none mr-6 top-[32px]"
+              >
+                <svg
+                  className="w-6 h-6 text-site ml-6"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                  ></path>
+                </svg>
+              </button>
+              <Link href="/cart">
+                <span className="font-bold text-2xl text-center block bg-black text-white p-6">
+                  Cart
+                </span>
+              </Link>
+            </div>
+            <ul className="sm:px-6 p-4 space-y-6 sm:py-0 sm:space-y-0 sm:divide-y sm:divide-accent-2 border-accent-2">
+              {data?.lineItems?.map((item) => (
                 <CartItem
                   key={item._id}
                   item={item}
-                  currencyCode={data!.currency!}
+                  currencyCode={data?.currency!}
                 />
               ))}
             </ul>
           </div>
 
-          <div className="flex-shrink-0 px-6 py-6 sm:px-6 sticky z-20 bottom-0 w-full right-0 left-0 bg-blue-800 border-t text-sm">
+          <div className="flex-shrink-0 px-6 py-6 sm:px-6 sticky z-20 bottom-0 w-full right-0 left-0 border-t text-md">
             <ul className="pb-2">
               <li className="flex justify-between py-1">
                 <span>Subtotal</span>
@@ -88,11 +111,13 @@ export const CartSidebarView: FC = () => {
               </li>
             </ul>
             <div>
-              <Button onClick={goToCheckout}>Proceed to Checkout</Button>
+              <button className="btn-main w-full" onClick={goToCheckout}>
+                Proceed to Checkout
+              </button>
             </div>
           </div>
         </>
       )}
-    </SidebarLayout>
+    </>
   );
 };

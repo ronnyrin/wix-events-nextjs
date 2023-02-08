@@ -74,7 +74,7 @@ export const CartItem = ({
     <li className="flex flex-col py-4" {...rest}>
       <div className="flex flex-row space-x-4 py-4">
         <div className="w-16 h-16 bg-violet relative overflow-hidden cursor-pointer z-0">
-          <Link href={`/stores-product/${slug}`}>
+          <Link href={`/product-page/${slug}`}>
             <Image
               onClick={() => closeSidebarIfPresent()}
               className="absolute w-full h-full"
@@ -87,7 +87,7 @@ export const CartItem = ({
           </Link>
         </div>
         <div className="flex-1 flex flex-col text-base">
-          <Link href={`/stores-product/${slug}`}>
+          <Link href={`/product-page/${slug}`}>
             <span
               className="font-medium cursor-pointer pb-1"
               onClick={() => closeSidebarIfPresent()}

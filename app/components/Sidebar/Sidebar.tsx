@@ -46,7 +46,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ children, onClose }) => {
           onClick={onClose}
         />
         <section className="absolute inset-y-0 right-0 w-full md:w-auto max-w-full flex outline-none md:pl-10">
-          <div className="h-full w-full md:w-screen md:max-w-md bg-blue-800">
+          <div className="h-full w-full md:w-screen md:max-w-sm bg-site">
             <div
               className="h-full flex flex-col text-base bg-accent-0 shadow-xl overflow-y-auto overflow-x-hidden"
               ref={contentRef}

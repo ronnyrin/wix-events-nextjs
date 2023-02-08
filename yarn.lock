@@ -634,17 +634,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/api-client@npm:^1.1.28":
-  version: 1.1.28
-  resolution: "@wix/api-client@npm:1.1.28"
+"@wix/api-client@npm:^1.1.30":
+  version: 1.1.30
+  resolution: "@wix/api-client@npm:1.1.30"
   dependencies:
     "@babel/runtime": ^7.20.13
     "@wix/identity": ^1.0.6
     "@wix/image-kit": ^1.28.0
-    "@wix/sdk-types": ^1.1.28
+    "@wix/sdk-types": ^1.1.30
     querystring: ^0.2.1
     type-fest: ^2.19.0
-  checksum: 9d46b224d47ede97e33fc8c4e0f07794171365080ded03126826d6b9879cfe4a261324f642792f70b2a1fa4bb0a2210833a80c61b1e11782a694417d5bbcf498
+  checksum: 49128d5a1e2879fe863395fa5520cd436d42668336e7284720e394a0f9f511210935c7f4ca840039604a513122ed045af0d19c09aead101d7daa6891831fd60f
   languageName: node
   linkType: hard
 
@@ -813,12 +813,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/sdk-types@npm:^1.1.28":
-  version: 1.1.28
-  resolution: "@wix/sdk-types@npm:1.1.28"
+"@wix/sdk-types@npm:^1.1.30":
+  version: 1.1.30
+  resolution: "@wix/sdk-types@npm:1.1.30"
   dependencies:
     "@babel/runtime": ^7.20.13
-  checksum: 6d692e9d6174b7140e042b55ca227c824cea29452232d237b414d3d25bbcc4dbcbf9e3eb7aa44a6a8e51bbab492c9f059cc71b87a82416099ffe855be290ea9b
+  checksum: b0892b5830020d13b3cc4c674c6ed37713275c7dcb6f81e6eb52d7e6c191aa969a251711bdedaadeb0fa8d2a50b90ed3feee51258e3411b908f3757f0d47cf43
   languageName: node
   linkType: hard
 
@@ -3087,6 +3087,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"js-cookie@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "js-cookie@npm:3.0.1"
+  checksum: bb48de67e2a6bd1ae3dfd6b2d5a167c33dd0c5a37e909206161eb0358c98f17cb55acd55827a58e9eea3630d89444e7479f7938ef4420dda443218b8c434a4c3
+  languageName: node
+  linkType: hard
+
 "js-sdsl@npm:^4.1.4":
   version: 4.2.0
   resolution: "js-sdsl@npm:4.2.0"
@@ -5058,7 +5065,7 @@ __metadata:
     "@types/node": 18.11.8
     "@types/react": 18.0.24
     "@types/react-dom": 18.0.8
-    "@wix/api-client": ^1.1.28
+    "@wix/api-client": ^1.1.30
     "@wix/ecom": ^1.0.78
     "@wix/events": ^1.0.18
     "@wix/stores": ^1.0.16
@@ -5072,6 +5079,7 @@ __metadata:
     eslint-plugin-prettier: ^4.2.1
     flowbite: ^1.5.4
     flowbite-react: ^0.3.5
+    js-cookie: ^3.0.1
     jsurl: ^0.1.5
     next: 13.0.0
     postcss: ^8.4.19

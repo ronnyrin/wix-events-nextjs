@@ -8,6 +8,7 @@ export const getWixClient = async () => {
     modules: { products, collections, events, checkout, schedule, orders },
     auth: OAuthStrategy({ clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID! }),
   });
-  await wixClient.auth.generateVisitorTokens();
+  const tokens = await wixClient.auth.generateVisitorTokens();
+  wixClient.auth.setTokens(tokens);
   return wixClient;
 };
