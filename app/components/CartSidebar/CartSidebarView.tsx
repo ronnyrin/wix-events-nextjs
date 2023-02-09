@@ -1,14 +1,19 @@
 'use client';
 import Link from 'next/link';
-import React, { FC } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { usePrice } from '@app/hooks/use-price';
 import { CartItem } from '@app/components/CartItem/CartItem';
 import { useCart } from '@app/hooks/useCart';
 import { useUI } from '../Provider/context';
+import { useWixClient } from '@app/hooks/useWixClient';
+import { useCheckout } from '@app/hooks/useCheckout';
 
 export const CartSidebarView: FC = () => {
+  const wixClient = useWixClient();
   const { closeSidebar } = useUI();
   const { data, isLoading } = useCart();
+  const { data: checkout, isLoading: checkoutLoading } = useCheckout();
+  const [redirecting, setRedirecting] = useState<boolean>(false);
   const subTotal = usePrice(
     data && {
       // @ts-ignore
@@ -16,27 +21,24 @@ export const CartSidebarView: FC = () => {
       currencyCode: data.currency!,
     }
   );
-  const total = usePrice(
-    data && {
-      // @ts-ignore
-      amount: Number(data.subtotal!.amount!),
-      currencyCode: data.currency!,
-    }
-  );
   const handleClose = () => closeSidebar();
-  const goToCheckout = () => {
+  const goToCheckout = useCallback(async () => {
     closeSidebar();
-    window.open(
-      `https://ronnyr34.wixsite.com/my-site-178/checkout?appSectionParams={"checkoutId":"${
-        data!.checkoutId
-      }", "successUrl": "https://localhost:3000/stores-success"}`,
-      '_top'
-    );
-  };
+    setRedirecting(true);
+    try {
+      const { redirectSession } =
+        await wixClient.redirects.createRedirectSession({
+          ecomCheckout: { checkoutId: checkout!.checkoutId! },
+        });
+      window.location.href = redirectSession!.fullUrl!;
+    } catch (e) {
+      setRedirecting(false);
+    }
+  }, [checkout]);
 
   return (
     <>
-      {!isLoading && data?.lineItems!.length === 0 ? (
+      {!isLoading && !checkoutLoading && data?.lineItems!.length === 0 ? (
         <div className="flex-1 px-4 flex flex-col justify-center items-center">
           <span className="border border-dashed border-primary rounded-full flex items-center justify-center w-16 h-16 p-12 text-secondary">
             <svg
@@ -114,6 +116,7 @@ export const CartSidebarView: FC = () => {
               <button
                 className="btn-main w-full text-xl"
                 onClick={goToCheckout}
+                disabled={redirecting}
               >
                 Proceed to Checkout
               </button>

@@ -41,7 +41,7 @@ export function NavBar() {
     () => setIsMenuShown(!isMenuShown),
     [isMenuShown]
   );
-  console.log(linkRef);
+
   return (
     <>
       <button className="relative z-50 mt-2" onClick={toggleOpen}>
