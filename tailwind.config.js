@@ -18,11 +18,15 @@ module.exports = {
       fontSize: {
         12: '12px',
       },
-      gridTemplateColumns: {
-        'auto-sm': 'repeat(auto-fill,minmax(120px,1fr))',
+      keyframes: {
+        fade: {
+          '0%': { opacity: 0 },
+          '50%': { opacity: 0.5 },
+          '100%': { opacity: 1 },
+        },
       },
-      backgroundImage: {
-        'site-background': "url('/site-background.jpeg')",
+      animation: {
+        'fade-in': 'fade 3s ease-in-out',
       },
     },
   },

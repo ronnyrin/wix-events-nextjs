@@ -153,7 +153,7 @@ export function Price({
 
   return (
     <>
-      <span className="block text-[12px] mb-1">
+      <span className="block text-12 mb-1">
         {ticket.pricing?.pricingType === ticketDefinitions.Type.DONATION
           ? donationText
           : 'Price'}

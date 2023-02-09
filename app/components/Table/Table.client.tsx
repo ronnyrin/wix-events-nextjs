@@ -184,7 +184,7 @@ export function TicketsTable({
             key={ticket._id}
           >
             <div className="basis-1/2 border-r-2">
-              <span className="block text-[12px] mb-1">Ticket type</span>
+              <span className="block text-12 mb-1">Ticket type</span>
               {ticket.name}
               {ticket.salePeriod &&
                 new Date(ticket.salePeriod.endDate!) > new Date() &&
@@ -236,7 +236,7 @@ export function TicketsTable({
                 />
                 {ticket.salePeriod &&
                   new Date(ticket.salePeriod.startDate!) > new Date() && (
-                    <div className="mt-2 text-[12px]">
+                    <div className="mt-2 text-12">
                       <p>Goes on sale</p>
                       <span>
                         {formatDateWithTime(
@@ -255,7 +255,7 @@ export function TicketsTable({
                         new Date(ticket.salePeriod.startDate!) <
                           new Date())) && (
                       <>
-                        <span className="block text-[12px] mb-1">Quantity</span>
+                        <span className="block text-12 mb-1">Quantity</span>
 
                         <Counter
                           onChange={setTickets}
@@ -313,9 +313,7 @@ export function TicketsTable({
                     <div className="ml-auto">
                       {ticket.limitPerCheckout! > 0 ? (
                         <>
-                          <span className="block text-[12px] mb-1">
-                            Quantity
-                          </span>
+                          <span className="block text-12 mb-1">Quantity</span>
                           <Counter
                             onChange={setTickets}
                             ticketId={ticket._id!}

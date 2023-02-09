@@ -37,7 +37,7 @@ export default async function Home() {
     <div className="max-w-full-content mx-auto relative">
       <div className="relative">
         <div className="flex">
-          <div className="basis-1/2 px-14 py-6">
+          <div className="basis-1/2 px-14 py-6 animate-fade-in">
             <h1 className="text-[120px] leading-none">
               USA
               <br /> SUMMER
