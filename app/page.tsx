@@ -36,8 +36,8 @@ export default async function Home() {
   return (
     <div className="max-w-full-content mx-auto relative">
       <div className="relative">
-        <div className="flex">
-          <div className="basis-1/2 px-14 py-6 animate-fade-in">
+        <div className="flex sm:flex-row flex-col">
+          <div className="basis-1/2 px-14 py-6 animate-fade-in text-center sm:text-left">
             <h1 className="text-[120px] leading-none">
               USA
               <br /> SUMMER
@@ -111,9 +111,9 @@ export default async function Home() {
           </div>
         </div>
         <Image
-          className="absolute inset-x-2/4 -translate-x-2/4 -translate-y-[20%] bottom-0 top-[20%]"
+          className="absolute inset-x-2/4 -translate-x-2/4 -translate-y-[20%] bottom-0 top-[20%] hidden sm:block"
           src="https://static.wixstatic.com/media/c22c23_14f3a617cd684341b51dd1a3962c856e~mv2.png/v1/fill/w_202,h_245,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/c22c23_14f3a617cd684341b51dd1a3962c856e~mv2.png"
-          alt=""
+          alt="TALI$A"
           width={202}
           height={245}
         />
