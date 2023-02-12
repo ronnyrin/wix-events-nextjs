@@ -122,25 +122,25 @@ export default async function Home() {
           <h1 className="uppercase text-4xl sm:text-7xl text-center sm:text-left">
             SHOWS
           </h1>
-          <div className="py-10 px-2 sm:px-44">
+          <div className="py-10 sm:px-44">
             {events!.map((event) => (
               <div
-                className="flex border-b last:border-0 items-center gap-4 sm:gap-8 flex-col sm:flex-row py-4 sm:py-0"
+                className="flex border-b last:border-0 gap-4 sm:gap-8 flex-col sm:flex-row py-4 sm:py-0"
                 key={event._id}
               >
                 <a
                   href={`/events/${event.slug}`}
-                  className="flex flex-1 items-center gap-8 flex-col sm:flex-row"
+                  className="flex flex-1 sm:items-center gap-4 sm:gap-8 flex-col sm:flex-row"
                 >
                   <div className="flex flex-col sm:flex-row gap-8 relative">
-                    <div className="w-[315px] h-[171px] sm:w-[80px] sm:h-[80px] overflow-hidden">
+                    <div className="w-[310px] h-[171px] sm:w-[80px] sm:h-[80px] overflow-hidden">
                       <WixMediaImage
                         media={event.mainImage}
                         width={300}
                         height={300}
                       />
                     </div>
-                    <div className="flex gap-4 items-center absolute bottom-2 left-2 sm:relative">
+                    <div className="flex gap-4 items-center absolute bottom-2 left-2 sm:bottom-auto sm:left-auto sm:relative">
                       <span className="text-4xl">
                         {getDatePart(
                           new Date(event.scheduling?.config?.startDate!),
@@ -166,9 +166,7 @@ export default async function Home() {
                       </div>
                     </div>
                   </div>
-                  <span className="text-2xl grow text-left sm:text-center">
-                    {event.title}
-                  </span>
+                  <span className="text-2xl grow text-left">{event.title}</span>
                 </a>
                 <a
                   className="btn-main my-2 sm:my-10 rounded-2xl w-full text-center sm:w-auto"
