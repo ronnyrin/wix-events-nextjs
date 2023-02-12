@@ -16,7 +16,7 @@ export default async function StoresCategoryPage({ params }: any) {
     currencyCode: product.price!.currency!,
   });
   return (
-    <div className="max-w-full-content mx-auto px-14">
+    <div className="mx-auto px-14">
       {product ? (
         <div className="full-w overflow-hidden max-w-7xl mx-auto text-center">
           <div className="flex">

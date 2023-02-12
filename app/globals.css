@@ -18,14 +18,6 @@
 }
 
 @layer components {
-  .dot-md-center {
-    @apply h-1;
-    @apply w-1;
-    @apply rounded-md;
-    top: 80%;
-    left: calc(50% - 2px);
-  }
-
   .btn-main {
     @apply text-white;
     @apply text-sm;

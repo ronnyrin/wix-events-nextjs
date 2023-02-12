@@ -12,7 +12,7 @@ export default async function Success({ searchParams }: any) {
   // const data = await wixClient.orders.getOrder(searchParams.orderId);
   // return (
   //   data && (
-  //     <div className="max-w-full-content mx-auto px-14">
+  //     <div className="mx-auto px-14">
   //       <h2>
   //         Thank you for purchasing {data.billingInfo!.contactDetails!.firstName}{' '}
   //         {data.billingInfo!.contactDetails!.lastName}

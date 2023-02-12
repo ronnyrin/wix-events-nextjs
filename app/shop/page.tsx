@@ -5,7 +5,7 @@ export default async function StoresCategoryPage() {
   const wixClient = await getWixClient();
   const { items } = await wixClient.products.queryProducts().limit(10).find();
   return (
-    <div className="max-w-full-content mx-auto">
+    <div className="mx-auto">
       <div className="bg-black text-custom-1 text-center py-20 h-[560px]">
         <h1 className="uppercase text-6xl">Merch</h1>
         <p className="text-xl mx-auto max-w-[60%] my-10">

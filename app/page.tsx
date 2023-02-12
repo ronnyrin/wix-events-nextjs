@@ -1,4 +1,3 @@
-import './page.css';
 import Image from 'next/image';
 import { getWixClient } from '@app/hooks/useWixClientServer';
 import { events as api } from '@wix/events';
@@ -34,20 +33,20 @@ export default async function Home() {
     },
   });
   return (
-    <div className="max-w-full-content mx-auto relative">
+    <div className="mx-auto relative">
       <div className="relative">
         <div className="flex sm:flex-row flex-col">
-          <div className="basis-1/2 px-14 py-6 animate-fade-in text-center sm:text-left">
-            <h1 className="text-[120px] leading-none">
+          <div className="basis-1/2 px-10 sm:px-14 py-6 animate-fade-in text-center sm:text-left">
+            <h1 className="text-5xl sm:text-[120px] leading-none">
               USA
               <br /> SUMMER
               <br /> TOUR
             </h1>
-            <h3 className="text-2xl py-6">
+            <h3 className="text-base sm:text-2xl py-6">
               A NEW ALBUM BY{' '}
               <span className="text-purple-500">TALI$A KIDD</span>
             </h3>
-            <div className="flex text-gray-700 gap-4">
+            <div className="flex text-gray-700 gap-4 justify-center sm:justify-start">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 320 512"
@@ -104,7 +103,7 @@ export default async function Home() {
             <Image
               src="https://static.wixstatic.com/media/503ea4_ed9a38760ae04aab86b47e82525fdcac~mv2.jpg/v1/fill/w_918,h_585,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/503ea4_ed9a38760ae04aab86b47e82525fdcac~mv2.jpg"
               alt="TALI$A"
-              className="w-full"
+              className="w-full px-10 sm:px-0"
               width={1000}
               height={600}
             />
@@ -118,25 +117,30 @@ export default async function Home() {
           height={245}
         />
       </div>
-      <div className="bg-zinc-900 text-site py-20 mt-[-75px]">
-        <div className="px-14">
-          <h1 className="uppercase text-7xl">SHOWS</h1>
-          <div className="py-10 px-44">
+      <div className="bg-zinc-900 text-site pt-24 sm:py-20 mt-[-75px]">
+        <div className="px-8 sm:px-14">
+          <h1 className="uppercase text-4xl sm:text-7xl text-center sm:text-left">
+            SHOWS
+          </h1>
+          <div className="py-10 px-2 sm:px-44">
             {events!.map((event) => (
-              <div className="flex border-b items-center gap-8" key={event._id}>
+              <div
+                className="flex border-b last:border-0 items-center gap-4 sm:gap-8 flex-col sm:flex-row py-4 sm:py-0"
+                key={event._id}
+              >
                 <a
                   href={`/events/${event.slug}`}
-                  className="flex flex-1 items-center gap-8"
+                  className="flex flex-1 items-center gap-8 flex-col sm:flex-row"
                 >
-                  <div className="flex gap-8 transition duration-300 hover:max-w-0 max-w-lg transition-[max-width]">
-                    <div className="w-[80px] h-[80px]">
+                  <div className="flex flex-col sm:flex-row gap-8 relative">
+                    <div className="w-[315px] h-[171px] sm:w-[80px] sm:h-[80px] overflow-hidden">
                       <WixMediaImage
                         media={event.mainImage}
-                        width={80}
-                        height={80}
+                        width={300}
+                        height={300}
                       />
                     </div>
-                    <div className="flex gap-4 items-center">
+                    <div className="flex gap-4 items-center absolute bottom-2 left-2 sm:relative">
                       <span className="text-4xl">
                         {getDatePart(
                           new Date(event.scheduling?.config?.startDate!),
@@ -145,7 +149,7 @@ export default async function Home() {
                         )}
                       </span>
                       <div className="flex flex-col text-xs">
-                        <span className="text-gray-600">
+                        <span className="text-white sm:text-gray-600">
                           {getDatePart(
                             new Date(event.scheduling?.config?.startDate!),
                             'weekday',
@@ -162,10 +166,12 @@ export default async function Home() {
                       </div>
                     </div>
                   </div>
-                  <span className="text-2xl grow">{event.title}</span>
+                  <span className="text-2xl grow text-left sm:text-center">
+                    {event.title}
+                  </span>
                 </a>
                 <a
-                  className="btn-main my-10 rounded-2xl"
+                  className="btn-main my-2 sm:my-10 rounded-2xl w-full text-center sm:w-auto"
                   href={`/events/${event.slug}`}
                 >
                   Buy Tickets
@@ -175,9 +181,11 @@ export default async function Home() {
           </div>
         </div>
       </div>
-      <div className="flex gap-14 px-14">
-        <div className="text-custom-1 text-left py-20 basis-1/2 bg-site">
-          <h1 className="uppercase text-7xl text-black">Merch</h1>
+      <div className="flex gap-2 sm:gap-14 px-14 flex-col sm:flex-row">
+        <div className="text-custom-1 text-center sm:text-left pt-10 sm:py-20 basis-1/2 bg-site">
+          <h1 className="uppercase text-4xl sm:text-7xl text-center sm:text-left text-black">
+            Merch
+          </h1>
           <p className="text-lg my-10 text-black">
             I’m a paragraph. I’m a great space to write about what makes the
             products special and explain how customers can benefit from these
@@ -189,7 +197,7 @@ export default async function Home() {
           >
             Get Merch
           </a>
-          <div className="mt-[300px]">
+          <div className="mt-10 sm:mt-[300px]">
             <a href="/shop">
               <Image
                 src={
@@ -204,13 +212,13 @@ export default async function Home() {
                 }
               />
             </a>
-            <span className="font-bold text-5xl block text-center mt-[-30px] text-black">
+            <span className="font-bold text-2xl sm:text-5xl block text-center mt-[-15px] sm:mt-[-30px] text-black">
               <a href="/shop">{productsForCategories[1].category}</a>
             </span>
           </div>
         </div>
         <div>
-          <div className="mt-[220px]">
+          <div className="mt-10 sm:mt-[220px]">
             <a href="/shop">
               <Image
                 src={
@@ -225,11 +233,11 @@ export default async function Home() {
                 }
               />
             </a>
-            <span className="font-bold text-5xl block text-center mt-[-30px]">
+            <span className="font-bold text-2xl sm:text-5xl block text-center mt-[-15px] sm:mt-[-30px]">
               <a href="/shop">{productsForCategories[0].category}</a>
             </span>
           </div>
-          <div className="mt-40">
+          <div className="mt-10 sm:mt-40">
             <a href="/shop">
               <Image
                 src={
@@ -244,7 +252,7 @@ export default async function Home() {
                 }
               />
             </a>
-            <span className="font-bold text-5xl block text-center mt-[-30px]">
+            <span className="font-bold text-2xl sm:text-5xl block text-center mt-[-15px] sm:mt-[-30px]">
               <a href="/shop">{productsForCategories[2].category}</a>
             </span>
           </div>

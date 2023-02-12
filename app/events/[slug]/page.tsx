@@ -37,7 +37,7 @@ export default async function EventPage({ params }: any) {
     }));
 
   return (
-    <div className="max-w-full-content mx-auto px-14">
+    <div className="mx-auto px-14">
       {event ? (
         <div className="full-w overflow-hidden max-w-6xl mx-auto">
           <div className="flex flex-row bg-zinc-900 text-white max-w-5xl items-center mx-auto">

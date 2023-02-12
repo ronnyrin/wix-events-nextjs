@@ -1,6 +1,6 @@
 export default function TermsPage() {
   return (
-    <div className="max-w-full-content mx-auto text-center">
+    <div className="mx-auto text-center">
       <div className="bg-black text-white py-12">
         <h1 className="text-5xl uppercase">Terms & Conditions</h1>
       </div>
