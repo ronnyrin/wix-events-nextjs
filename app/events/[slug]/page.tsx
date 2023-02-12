@@ -28,7 +28,14 @@ export default async function EventPage({ params }: any) {
         limit: 100,
         sort: 'orderIndex:asc',
       })
-    ).definitions as TicketDefinitionExtended[]);
+    ).definitions?.map((ticket) => ({
+      ...ticket,
+      canPurchase:
+        ticket.limitPerCheckout! > 0 &&
+        (!ticket.salePeriod ||
+          (new Date(ticket.salePeriod.endDate!) > new Date() &&
+            new Date(ticket.salePeriod.startDate!) < new Date())),
+    })) as TicketDefinitionExtended[]);
   const schedule =
     event &&
     (await wixClient.schedule.listScheduleItems({
@@ -37,14 +44,14 @@ export default async function EventPage({ params }: any) {
     }));
 
   return (
-    <div className="mx-auto px-14">
+    <div className="mx-auto px-4 sm:px-14">
       {event ? (
         <div className="full-w overflow-hidden max-w-6xl mx-auto">
-          <div className="flex flex-row bg-zinc-900 text-white max-w-5xl items-center mx-auto">
-            <div className="my-10 basis-1/2">
+          <div className="flex flex-col sm:flex-row gap-4 bg-zinc-900 text-white max-w-6xl sm:max-w-5xl items-lef sm:items-center mx-auto">
+            <div className="basis-1/2">
               <WixMediaImage media={event.mainImage} />
             </div>
-            <div className="basis-1/2 text-left px-5">
+            <div className="basis-1/2 text-left px-5 pb-4">
               <span>
                 {formatDate(
                   new Date(event.scheduling?.config?.startDate!),
@@ -52,18 +59,21 @@ export default async function EventPage({ params }: any) {
                 ) || event.scheduling?.formatted}{' '}
                 | {event.location?.name}
               </span>
-              <h1 className="text-5xl my-2">{event.title}</h1>
-              <h3 className="my-6">{event.description}</h3>
+              <h1 className="text-3xl sm:text-5xl my-2">{event.title}</h1>
+              <h3 className="my-4 sm:my-6">{event.description}</h3>
               {event.registration?.status ===
                 api.RegistrationStatus.OPEN_TICKETS && (
-                <a className="btn-main inline-block" href="#tickets">
+                <a
+                  className="btn-main inline-block w-full sm:w-auto text-center"
+                  href="#tickets"
+                >
                   Buy Tickets
                 </a>
               )}
               {event.registration?.status ===
                 api.RegistrationStatus.OPEN_EXTERNAL && (
                 <a
-                  className="btn-main inline-block"
+                  className="btn-main inline-block w-full sm:w-auto text-center"
                   href={event.registration.external!.registration}
                 >
                   Buy Tickets
@@ -85,13 +95,13 @@ export default async function EventPage({ params }: any) {
               )}
             </div>
           </div>
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-3xl mx-auto text-[14px] sm:text-base px-3 sm:px-0">
             <h2 className="mt-7">TIME & LOCATION</h2>
             <p className="font-helvetica">{event.scheduling?.formatted}</p>
             <p className="font-helvetica">{event.location?.address}</p>
             {event.about !== '<p></p>' ? (
               <>
-                <h2 className=" mt-7">ABOUT THE EVENT</h2>
+                <h2 className="mt-7">ABOUT THE EVENT</h2>
                 <div
                   className="font-helvetica"
                   dangerouslySetInnerHTML={{ __html: event.about ?? '' }}
@@ -99,7 +109,7 @@ export default async function EventPage({ params }: any) {
               </>
             ) : null}
             {schedule?.items?.length ? (
-              <div className="mb-14">
+              <div className="mb-4 sm:mb-14">
                 <h2 className="mt-7">SCHEDULE</h2>
                 <Schedule items={schedule.items} slug={event.slug!} />
               </div>
@@ -116,12 +126,12 @@ export default async function EventPage({ params }: any) {
               api.RegistrationStatus.CLOSED_MANUALLY,
               api.RegistrationStatus.OPEN_TICKETS,
             ].includes(event.registration?.status!) && (
-              <div className="my-10">
+              <div className="my-4 sm:my-10">
                 <h2 className="mt-7">TICKETS</h2>
                 <TicketsTable tickets={tickets!} event={event} />
               </div>
             )}
-            <div className="my-10">
+            <div className="my-4">
               <h2 className="mt-7">Share this event</h2>
               <div className="my-4 flex gap-2">
                 <a

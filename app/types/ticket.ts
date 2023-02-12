@@ -2,6 +2,7 @@ import { ticketDefinitions as api } from '@wix/events';
 
 export type TicketDefinitionExtended = api.TicketDefinition & {
   pricing: TicketPricing;
+  canPurchase: boolean;
 };
 
 export interface TicketPricing extends TicketPricingPriceOneOf {

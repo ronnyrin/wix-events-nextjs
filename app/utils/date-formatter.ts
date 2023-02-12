@@ -1,4 +1,4 @@
-const LOCALE = 'en-ie';
+const LOCALE = 'en-US';
 
 export function formatDate(date: Date, timeZone: string): string {
   return Intl.DateTimeFormat(LOCALE, {

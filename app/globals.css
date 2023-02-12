@@ -54,7 +54,8 @@
 
   h2 {
     @apply font-default;
-    @apply text-xl;
+    @apply text-base;
+    @apply sm:text-xl;
   }
 
   .h-header {

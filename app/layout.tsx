@@ -26,7 +26,7 @@ export default function RootLayout({
           <main className="bg-site min-h-[600px]">{children}</main>
           <SidebarUI />
         </ClientProvider>
-        <div className="mt-20">
+        <div className="mt-10 sm:mt-20">
           <Footer />
         </div>
       </body>

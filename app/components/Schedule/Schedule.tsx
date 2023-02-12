@@ -23,7 +23,7 @@ export const Schedule = ({
     <div className="text-sm">
       {itemsWithDuration.slice(0, isFull ? 100 : 2).map((item) => (
         <div
-          className="flex gap-8 items-center border-b py-8 border-black"
+          className="flex gap-3 sm:gap-8 items-left sm:items-center border-b py-5 sm:py-8 border-black flex-col sm:flex-row"
           key={item._id}
         >
           <div className="basis-1/4">
@@ -70,13 +70,13 @@ export const Schedule = ({
         </div>
       ))}
       {items.length > 2 && !isFull && (
-        <div className="flex justify-end gap-4 items-center py-4">
+        <div className="flex flex-col-reverse sm:flex-row justify-end gap-4 items-center py-4">
           <span className="text-xs">
             {items.length - 2} more items available
           </span>
           <a
             href={`/schedule/${slug}`}
-            className="text-purple-500 border py-2 px-4 border-purple-500"
+            className="text-purple-500 border py-2 px-4 border-purple-500 w-full sm:w-auto text-center"
           >
             See All
           </a>

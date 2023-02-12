@@ -31,7 +31,10 @@ export function Counter({
       theme={{
         theme: {
           dropdown: {
-            inlineWrapper: `${theme.dropdown.inlineWrapper} border px-5 py-1 w-24 justify-between border-black`,
+            floating: {
+              target: 'w-full sm:w-fit',
+            },
+            inlineWrapper: `${theme.dropdown.inlineWrapper} border px-5 py-1 justify-between border-black w-full sm:w-24`,
             content: `${theme.dropdown.content} overflow-y-auto max-h-48 px-5 py-1`,
           },
         },

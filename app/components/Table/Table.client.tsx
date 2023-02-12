@@ -180,12 +180,12 @@ export function TicketsTable({
       <div className="flex full-w flex-col">
         {tickets.map((ticket: TicketDefinitionExtended) => (
           <div
-            className="dark:bg-gray-800 flex mt-6 border p-6"
+            className="dark:bg-gray-800 flex flex-col sm:flex-row mt-6 border p-4 sm:p-6"
             key={ticket._id}
           >
-            <div className="basis-1/2 border-r-2">
-              <span className="block text-12 mb-1">Ticket type</span>
-              {ticket.name}
+            <div className="basis-1/2 sm:border-r-2">
+              <span className="block text-12">Ticket type</span>
+              <span className="text-base">{ticket.name}</span>
               {ticket.salePeriod &&
                 new Date(ticket.salePeriod.endDate!) > new Date() &&
                 new Date(ticket.salePeriod.startDate!) < new Date() && (
@@ -203,7 +203,7 @@ export function TicketsTable({
                 <p className="text-xs">{ticket.description}</p>
               )}
               {ticket.description && (
-                <div className="whitespace-nowrap mt-2">
+                <div className="whitespace-nowrap my-1">
                   <div className="flex justify-between">
                     <button
                       className="text-xs text-purple-400 underline"
@@ -219,11 +219,13 @@ export function TicketsTable({
               )}
             </div>
             <div
-              className={`basis-1/2 pl-4 ${
-                ticket.pricing?.pricingOptions?.options?.length ? '' : 'flex'
+              className={`basis-1/2 sm:pl-4 ${
+                ticket.pricing?.pricingOptions?.options?.length
+                  ? ''
+                  : 'flex flex-col sm:flex-row'
               }`}
             >
-              <div className="basis-1/2">
+              <div className="basis-1/2 mt-4 sm:mt-0">
                 <Price
                   selectedTickets={selectedTickets}
                   ticket={ticket}
@@ -248,29 +250,29 @@ export function TicketsTable({
                   )}
               </div>
               {!ticket.pricing?.pricingOptions?.options?.length && (
-                <div className="ml-auto">
-                  {ticket.limitPerCheckout! > 0 &&
-                    (!ticket.salePeriod ||
-                      (new Date(ticket.salePeriod.endDate!) > new Date() &&
-                        new Date(ticket.salePeriod.startDate!) <
-                          new Date())) && (
-                      <>
-                        <span className="block text-12 mb-1">Quantity</span>
+                <div
+                  className={`sm:ml-auto mt-4 sm:mt-0 ${
+                    !ticket.canPurchase ? 'w-fit' : ''
+                  }`}
+                >
+                  {ticket.canPurchase && (
+                    <>
+                      <span className="block text-12 mb-1">Quantity</span>
 
-                        <Counter
-                          onChange={setTickets}
-                          ticketId={ticket._id!}
-                          limit={ticket.limitPerCheckout!}
-                          initialCount={
-                            selectedTickets[ticket._id!]?.quantity ?? 0
-                          }
-                          price={
-                            selectedTickets[ticket._id!]?.price ||
-                            Number.parseFloat(ticket.price?.value!)
-                          }
-                        />
-                      </>
-                    )}
+                      <Counter
+                        onChange={setTickets}
+                        ticketId={ticket._id!}
+                        limit={ticket.limitPerCheckout!}
+                        initialCount={
+                          selectedTickets[ticket._id!]?.quantity ?? 0
+                        }
+                        price={
+                          selectedTickets[ticket._id!]?.price ||
+                          Number.parseFloat(ticket.price?.value!)
+                        }
+                      />
+                    </>
+                  )}
                   {ticket.limitPerCheckout! === 0 && (
                     <Badge color="gray">Sold Out</Badge>
                   )}
@@ -289,7 +291,7 @@ export function TicketsTable({
                 )
                 .map((option) => (
                   <div
-                    className="dark:bg-gray-800 flex mt-4 border-t-2 pt-4"
+                    className="dark:bg-gray-800 flex flex-col sm:flex-row mt-4 border-t-2 pt-4"
                     key={option._id}
                   >
                     <div className="basis-1/2">
@@ -310,7 +312,13 @@ export function TicketsTable({
                         />
                       </span>
                     </div>
-                    <div className="ml-auto">
+                    <div
+                      className={`ml-auto mt-2 sm:mt-0 ${
+                        ticket.limitPerCheckout! > 0
+                          ? 'w-full sm:w-fit'
+                          : 'w-fit'
+                      }`}
+                    >
                       {ticket.limitPerCheckout! > 0 ? (
                         <>
                           <span className="block text-12 mb-1">Quantity</span>
@@ -355,14 +363,14 @@ export function TicketsTable({
           </div>
         ))}
       </div>
-      <div className="w-[35%] ml-auto mt-10">
+      <div className="sm:w-[35%] ml-auto mt-4 sm:mt-10">
         {Object.keys(selectedTickets).length && subTotals ? (
           <div
             className="dark:border-gray-700 dark:bg-gray-800 flex"
             key="subtotal"
           >
-            <span className="whitespace-nowrap font-medium ">Subtotal</span>
-            <span className="whitespace-nowrap font-medium text-right ml-auto">
+            <span>Subtotal</span>
+            <span className="text-right ml-auto">
               {formatCurrency(subTotals, tickets[0]!.price!.currency)}
             </span>
           </div>
@@ -372,9 +380,7 @@ export function TicketsTable({
             className="dark:border-gray-700 dark:bg-gray-800 flex mt-2"
             key="tax"
           >
-            <div className="whitespace-nowrap font-medium ">
-              {event.registration?.ticketing?.config?.taxConfig?.name}
-            </div>
+            <div>{event.registration?.ticketing?.config?.taxConfig?.name}</div>
             <div className="text-right ml-auto">
               {formatCurrency(tax, tickets[0]!.price!.currency)}
             </div>
@@ -385,7 +391,7 @@ export function TicketsTable({
             className="dark:border-gray-700 dark:bg-gray-800 flex mt-2"
             key="fee"
           >
-            <span className="whitespace-nowrap font-medium">Service fee</span>
+            <span>Service fee</span>
             <span className="text-right ml-auto">
               {formatCurrency(
                 serviceFee.toString(),
@@ -395,11 +401,11 @@ export function TicketsTable({
           </div>
         ) : null}
         <div
-          className="dark:border-gray-700 dark:bg-gray-800 border-t flex mt-2 pt-2"
+          className="dark:border-gray-700 dark:bg-gray-800 border-t flex mt-2 pt-2 text-lg"
           key="total"
         >
-          <span className="whitespace-nowrap font-medium">Total</span>
-          <span className="whitespace-nowrap font-medium text-right ml-auto">
+          <span>Total</span>
+          <span className="text-right ml-auto">
             {formatCurrency(
               tax +
                 serviceFee +

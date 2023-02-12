@@ -153,12 +153,14 @@ export function Price({
 
   return (
     <>
-      <span className="block text-12 mb-1">
-        {ticket.pricing?.pricingType === ticketDefinitions.Type.DONATION
-          ? donationText
-          : 'Price'}
-      </span>
-      {price}
+      {!option && (
+        <span className="block text-12">
+          {ticket.pricing?.pricingType === ticketDefinitions.Type.DONATION
+            ? donationText
+            : 'Price'}
+        </span>
+      )}
+      <span className="text-base">{price}</span>
       {event.registration?.ticketing?.config?.taxConfig?.type ===
         eventsApi.TaxType.ADDED_AT_CHECKOUT &&
         !ticket.free &&
@@ -180,8 +182,7 @@ export function Price({
       {ticket.wixFeeConfig?.type === api.FeeType.FEE_ADDED_AT_CHECKOUT &&
         !ticket.free && (
           <>
-            <br />
-            <span className="text-xs text-black">
+            <span className="text-12 block mt-1 sm:text-xs text-black">
               +{fee ? formatCurrency(fee, ticket.price?.currency) + ' ' : ''}
               Service fee
             </span>
