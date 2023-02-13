@@ -18,10 +18,10 @@ export default async function StoresCategoryPage({ params }: any) {
   return (
     <div className="mx-auto px-14">
       {product ? (
-        <div className="full-w overflow-hidden max-w-7xl mx-auto text-center">
+        <div className="full-w overflow-hidden max-w-7xl mx-auto">
           <div className="flex">
             <div className="box-border flex flex-col basis-1/2">
-              <div className="">
+              <div>
                 <ImageGalleryClient items={product.media!.items!} />
               </div>
             </div>

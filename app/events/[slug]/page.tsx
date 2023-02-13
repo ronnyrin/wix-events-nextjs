@@ -49,7 +49,12 @@ export default async function EventPage({ params }: any) {
         <div className="full-w overflow-hidden max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row gap-4 bg-zinc-900 text-white max-w-6xl sm:max-w-5xl items-lef sm:items-center mx-auto">
             <div className="basis-1/2">
-              <WixMediaImage media={event.mainImage} />
+              <WixMediaImage
+                media={event.mainImage}
+                width={530}
+                height={530}
+                className="max-h-[320px] sm:h-[530px] sm:max-h-[530px]"
+              />
             </div>
             <div className="basis-1/2 text-left px-5 pb-4">
               <span>

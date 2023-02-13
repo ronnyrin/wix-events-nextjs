@@ -9,17 +9,19 @@ export function WixMediaImage({
   media,
   height = 320,
   width = 640,
+  className,
 }: {
   media?: string;
   width?: number;
   height?: number;
+  className?: string;
 }) {
   const imageUrl = getImageUrlForMedia(media || '', width, height);
   return (
     <div className={`flex items-center justify-center`}>
       <div className="overflow-hidden  cursor-pointer relative group w-full h-full">
         <Image
-          className="object-cover w-full group-hover:scale-110 transition duration-300 ease-in-out"
+          className={`object-cover w-full group-hover:scale-110 transition duration-300 ease-in-out ${className}`}
           src={imageUrl}
           width={width}
           height={height}
