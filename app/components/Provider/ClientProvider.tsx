@@ -18,7 +18,10 @@ const wixClient = createClient({
 });
 
 const refreshToken = Cookies.get(WIX_REFRESH_TOKEN);
-wixClient.auth.setTokens({ refreshToken, accessToken: '' });
+wixClient.auth.setTokens({
+  refreshToken,
+  accessToken: { accessToken: '', expiresAt: 0 },
+});
 
 export type WixClient = typeof wixClient;
 
