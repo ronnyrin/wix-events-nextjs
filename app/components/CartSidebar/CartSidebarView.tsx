@@ -16,8 +16,9 @@ export const CartSidebarView: FC = () => {
   const [redirecting, setRedirecting] = useState<boolean>(false);
   const subTotal = usePrice(
     data && {
-      // @ts-ignore
-      amount: Number(data.subtotal!.amount!),
+      amount: data!.lineItems!.reduce((acc, item) => {
+        return acc + Number.parseFloat(item.price?.amount!) * item.quantity!;
+      }, 0),
       currencyCode: data.currency!,
     }
   );
@@ -86,7 +87,7 @@ export const CartSidebarView: FC = () => {
             </ul>
             <div>
               <button
-                className="btn-main w-full text-xl"
+                className="btn-main w-full text-lg"
                 onClick={goToCheckout}
                 disabled={redirecting}
               >

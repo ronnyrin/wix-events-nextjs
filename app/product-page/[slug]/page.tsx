@@ -16,17 +16,17 @@ export default async function StoresCategoryPage({ params }: any) {
     currencyCode: product.price!.currency!,
   });
   return (
-    <div className="mx-auto px-14">
+    <div className="mx-auto px-14 mt-12">
       {product ? (
         <div className="full-w overflow-hidden max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row">
+          <div className="flex flex-col sm:flex-row gap-2">
             <div className="box-border flex flex-col basis-1/2">
               <div>
                 <ImageGalleryClient items={product.media!.items!} />
               </div>
             </div>
 
-            <div className="flex flex-col py-6 w-full h-full basis-1/2 text-left">
+            <div className="flex flex-col w-full h-full basis-1/2 text-left">
               <ProductTag
                 name={product.name!}
                 price={price}

@@ -49,16 +49,16 @@ export const ProductSidebar: FC<ProductSidebarProps> = ({ product }) => {
 
   return (
     <>
-      <div className="my-2">
+      <div className="mt-2">
         <ProductOptions
           options={product.productOptions!}
           selectedOptions={selectedOptions}
           setSelectedOptions={setSelectedOptions}
         />
       </div>
-      <div className="w-[150px] mb-6">
-        <span className="text-sm tracking-wide">Quantity</span>
-        <div className="my-3">
+      <div className="mb-6">
+        <span className="text-xs tracking-wide">Quantity</span>
+        <div className="mt-2">
           <Quantity
             value={quantity}
             handleChange={(e) => setQuantity(Number(e.target.value))}

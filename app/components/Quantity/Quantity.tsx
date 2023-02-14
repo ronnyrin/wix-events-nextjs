@@ -18,7 +18,7 @@ export const Quantity: FC<QuantityProps> = ({
     <div className="flex flex-row h-9 relative w-16">
       <label className="w-full border-gray-300 border">
         <input
-          className="bg-white px-4 w-full h-full border-0 focus:outline-none select-none pointer-events-auto"
+          className="bg-white px-2 text-sm w-full h-full border-0 focus:outline-none select-none pointer-events-auto"
           onChange={(e) =>
             Number(e.target.value) < max + 1 ? handleChange(e) : () => {}
           }

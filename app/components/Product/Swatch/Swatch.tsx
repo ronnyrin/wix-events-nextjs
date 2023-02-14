@@ -20,13 +20,11 @@ const Swatch: React.FC<
     <button
       role="option"
       color="light"
-      className={`${color ? 'w-[20px] h-[20px] p-1' : 'p-2'} ${
-        active && !color ? 'bg-gray-200' : ''
-      } rounded-full flex items-center justify-center border bg-white`}
+      className="rounded-full flex items-center justify-center border bg-white w-[20px] h-[20px] p-1"
       aria-selected={active}
       aria-label={variant && label ? `${variant} ${label}` : 'Variant Swatch'}
-      {...(label && color && { title: label })}
-      style={color ? { backgroundColor: color } : {}}
+      {...(label && { title: label })}
+      style={{ backgroundColor: color }}
       {...props}
     >
       {color && active && (
