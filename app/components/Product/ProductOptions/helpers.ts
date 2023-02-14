@@ -18,7 +18,7 @@ export function selectDefaultOptionFromProduct(
   product.productOptions?.forEach((option) => {
     updater((choices) => ({
       ...choices,
-      [option.name!]: option.choices![0].value!,
+      [option.name!]: option.choices![0].description!,
     }));
   });
 }

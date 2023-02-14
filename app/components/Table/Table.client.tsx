@@ -35,6 +35,7 @@ export function TicketsTable({
   const [expendTicketDescription, setExpendTicketDescription] = useState(
     {} as Record<string, boolean>
   );
+  const [redirecting, setRedirecting] = useState<boolean>(false);
 
   const setExpendPricingOptionsForTicket = (ticketId: string) => {
     setExpendPricingOptions({
@@ -170,8 +171,19 @@ export function TicketsTable({
       ticketQuantities,
     });
 
-    if (id) {
-      window.location.href = `https://ronnyr34.editorx.io/events-headless/event-details/${event.slug}/ticket-form?reservationId=${id}`;
+    try {
+      setRedirecting(true);
+      const { redirectSession } =
+        await wixClient.redirects.createRedirectSession({
+          eventsCheckout: { reservationId: id, eventSlug: event.slug! },
+          options: { useTemplateSite: false },
+        });
+      if (id) {
+        window.location.href = redirectSession!.fullUrl!;
+      }
+    } catch (e) {
+      console.error(e);
+      setRedirecting(false);
     }
   };
 
@@ -426,7 +438,9 @@ export function TicketsTable({
           <div className="whitespace-nowrap font-medium">
             <button
               onClick={createReservation}
-              disabled={Object.keys(selectedTickets).length === 0}
+              disabled={
+                Object.keys(selectedTickets).length === 0 || redirecting
+              }
               className="btn-main w-full disabled:text-gray-500 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:hover:bg-gray-200 disabled:hover:text-gray-500 hover:border-white"
             >
               Checkout

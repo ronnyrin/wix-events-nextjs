@@ -202,3 +202,18 @@ export default async function EventPage({ params }: any) {
     </div>
   );
 }
+
+export async function generateStaticParams() {
+  const wixClient = await getWixClient();
+  const { events } = await wixClient.events.queryEventsV2({
+    fieldset: [api.EventFieldset.FULL],
+    query: {
+      paging: { limit: 10, offset: 0 },
+      sort: [{ fieldName: 'start', order: api.SortOrder.ASC }],
+    },
+  });
+
+  return events!.map((event) => ({
+    slug: event.slug,
+  }));
+}

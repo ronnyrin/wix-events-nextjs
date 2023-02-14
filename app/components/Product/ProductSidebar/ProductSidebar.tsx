@@ -23,7 +23,7 @@ export const ProductSidebar: FC<ProductSidebarProps> = ({ product }) => {
   const [loading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedOptions, setSelectedOptions] = useState<any>({});
-  // console.log(selectedOptions);
+
   useEffect(() => {
     selectDefaultOptionFromProduct(product, setSelectedOptions);
   }, [product]);
@@ -61,7 +61,6 @@ export const ProductSidebar: FC<ProductSidebarProps> = ({ product }) => {
         <div className="my-3">
           <Quantity
             value={quantity}
-            hideRemove={true}
             handleChange={(e) => setQuantity(Number(e.target.value))}
             increase={() => setQuantity(1 + quantity)}
             decrease={() => setQuantity(quantity - 1)}
@@ -74,18 +73,9 @@ export const ProductSidebar: FC<ProductSidebarProps> = ({ product }) => {
           className="btn-main w-full my-1 rounded-2xl"
           type="button"
           onClick={addToCart}
-          // disabled={variant?.availableForSale === false}
+          disabled={loading}
         >
           {!variant ? 'Not Available' : 'Add To Cart'}
-        </button>
-        <button
-          aria-label="Buy Now"
-          className="btn-main w-full my-1 rounded-2xl"
-          type="button"
-          onClick={addToCart}
-          // disabled={variant?.availableForSale === false}
-        >
-          {!variant ? 'Not Available' : 'Buy Now'}
         </button>
       </div>
       <p className="pb-4 break-words w-full max-w-xl mt-6">

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button, ButtonProps } from 'flowbite-react';
 interface SwatchProps {
   active?: boolean;
   children?: any;
@@ -8,13 +7,9 @@ interface SwatchProps {
   label?: string | null;
 }
 
-const Swatch: React.FC<Omit<ButtonProps, 'variant'> & SwatchProps> = ({
-  active,
-  color = '',
-  label = null,
-  variant = 'size',
-  ...props
-}) => {
+const Swatch: React.FC<
+  Omit<React.ButtonHTMLAttributes<any>, 'variant'> & SwatchProps
+> = ({ active, color = '', label = null, variant = 'size', ...props }) => {
   variant = variant?.toLowerCase();
 
   if (label) {
@@ -22,16 +17,14 @@ const Swatch: React.FC<Omit<ButtonProps, 'variant'> & SwatchProps> = ({
   }
 
   return (
-    <Button
+    <button
       role="option"
-      size="sm"
       color="light"
-      className={`${color ? 'w-[20px]' : ''} ${
+      className={`${color ? 'w-[20px] h-[20px] p-1' : 'p-2'} ${
         active && !color ? 'bg-gray-200' : ''
-      }`}
+      } rounded-full flex items-center justify-center border bg-white`}
       aria-selected={active}
       aria-label={variant && label ? `${variant} ${label}` : 'Variant Swatch'}
-      pill={true}
       {...(label && color && { title: label })}
       style={color ? { backgroundColor: color } : {}}
       {...props}
@@ -55,7 +48,7 @@ const Swatch: React.FC<Omit<ButtonProps, 'variant'> & SwatchProps> = ({
         </span>
       )}
       {!color ? label : null}
-    </Button>
+    </button>
   );
 };
 

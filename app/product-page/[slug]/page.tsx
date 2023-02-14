@@ -19,7 +19,7 @@ export default async function StoresCategoryPage({ params }: any) {
     <div className="mx-auto px-14">
       {product ? (
         <div className="full-w overflow-hidden max-w-7xl mx-auto">
-          <div className="flex">
+          <div className="flex flex-col sm:flex-row">
             <div className="box-border flex flex-col basis-1/2">
               <div>
                 <ImageGalleryClient items={product.media!.items!} />
@@ -46,7 +46,6 @@ export default async function StoresCategoryPage({ params }: any) {
 }
 
 export async function generateStaticParams() {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const wixClient = await getWixClient();
   const { items } = await wixClient.products.queryProducts().limit(10).find();
 

@@ -12,14 +12,10 @@ import { useRemoveItemFromCart } from '@app/hooks/useRemoveItemFromCart';
 
 export const CartItem = ({
   item,
-  variant = 'default',
   currencyCode,
-  hideButtons = false,
   ...rest
 }: {
-  variant?: 'default' | 'display';
   item: cart.LineItem;
-  hideButtons?: boolean;
   currencyCode: string;
 }) => {
   const { closeSidebarIfPresent } = useUI();
@@ -56,12 +52,7 @@ export const CartItem = ({
     }
   };
 
-  const options = Object.entries(item.catalogReference?.options?.options).map(
-    ([name, value]) => ({ name, value } as { name: string; value: string })
-  );
-
   useEffect(() => {
-    // Reset the quantity state if the item quantity changes
     if (item.quantity !== Number(quantity)) {
       setQuantity(item.quantity!);
     }
@@ -86,59 +77,42 @@ export const CartItem = ({
             />
           </Link>
         </div>
-        <div className="flex-1 flex flex-col text-base">
-          <Link href={`/product-page/${slug}`}>
-            <span
-              className="font-medium cursor-pointer pb-1"
-              onClick={() => closeSidebarIfPresent()}
-            >
-              {item.productName?.translated}
-            </span>
-          </Link>
-          {options && options.length > 0 && (
-            <div className="flex items-center pb-1">
-              {options.map(
-                (option: { name: string; value: string }, i: number) => (
-                  <div
-                    key={`${item._id}-${option.name}`}
-                    className="text-sm font-semibold text-accent-7 inline-flex items-center justify-center"
-                  >
-                    {option.name}
-                    {option.name === 'Color' ? (
-                      <span
-                        className="mx-2 rounded-full bg-transparent border w-5 h-5 p-1 text-accent-9 inline-flex items-center justify-center overflow-hidden"
-                        style={{
-                          backgroundColor: `${option.value}`,
-                        }}
-                      ></span>
-                    ) : (
-                      <span className="mx-2 rounded-full bg-transparent border h-5 p-1 text-accent-9 inline-flex items-center justify-center overflow-hidden">
-                        {option.value}
-                      </span>
-                    )}
-                    {i === options.length - 1 ? '' : <span className="mr-3" />}
-                  </div>
-                )
-              )}
-            </div>
-          )}
-          {variant === 'display' && (
-            <div className="text-sm tracking-wider">{quantity}x</div>
-          )}
-        </div>
-        <div className="flex flex-col justify-between space-y-2 text-sm">
+        <div className="flex-1">
+          <div className="flex-1 flex flex-col text-base">
+            <Link href={`/product-page/${slug}`}>
+              <span className="cursor-pointer pb-1 text-gray-500">
+                {item.productName?.translated}
+              </span>
+            </Link>
+          </div>
           <span>{price}</span>
+          <div className="mt-2">
+            <Quantity
+              value={quantity}
+              handleChange={handleChange}
+              increase={() => increaseQuantity(1)}
+              decrease={() => increaseQuantity(-1)}
+            />
+          </div>
         </div>
+        <button className="flex" onClick={() => handleRemove()}>
+          <svg
+            fill="none"
+            className="w-4 h-4"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
       </div>
-      {variant === 'default' && !hideButtons && (
-        <Quantity
-          value={quantity}
-          handleRemove={handleRemove}
-          handleChange={handleChange}
-          increase={() => increaseQuantity(1)}
-          decrease={() => increaseQuantity(-1)}
-        />
-      )}
     </li>
   );
 };
