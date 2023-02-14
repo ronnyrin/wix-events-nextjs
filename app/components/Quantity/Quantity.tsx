@@ -5,6 +5,7 @@ export interface QuantityProps {
   decrease: () => any;
   handleChange: React.ChangeEventHandler<HTMLInputElement>;
   max?: number;
+  size?: 'sm' | 'md';
 }
 
 export const Quantity: FC<QuantityProps> = ({
@@ -13,12 +14,19 @@ export const Quantity: FC<QuantityProps> = ({
   decrease,
   handleChange,
   max = 9999,
+  size = 'md',
 }) => {
   return (
-    <div className="flex flex-row h-9 relative w-16">
-      <label className="w-full border-gray-300 border">
+    <div
+      className={`${
+        size === 'sm' ? 'h-7' : 'h-9'
+      } flex flex-row relative w-16 border-gray-300 border  bg-white`}
+    >
+      <label className="w-full">
         <input
-          className="bg-white px-2 text-sm w-full h-full border-0 focus:outline-none select-none pointer-events-auto"
+          className={`${
+            size === 'sm' ? 'text-xs' : 'text-sm'
+          } px-2 w-full h-full border-0 focus:outline-none select-none pointer-events-auto`}
           onChange={(e) =>
             Number(e.target.value) < max + 1 ? handleChange(e) : () => {}
           }
@@ -38,7 +46,7 @@ export const Quantity: FC<QuantityProps> = ({
           disabled={value < 1 || value >= max}
         >
           <svg
-            className="w-3 h-3"
+            className={`${size === 'sm' ? 'w-2 h-2' : 'w-3 h-3'}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -58,7 +66,7 @@ export const Quantity: FC<QuantityProps> = ({
           disabled={value <= 1}
         >
           <svg
-            className="w-3 h-3"
+            className={`${size === 'sm' ? 'w-2 h-2' : 'w-3 h-3'}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

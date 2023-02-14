@@ -63,8 +63,8 @@ export const CartItem = ({
 
   return (
     <li className="flex flex-col py-4" {...rest}>
-      <div className="flex flex-row space-x-4 py-4">
-        <div className="w-16 h-16 bg-violet relative overflow-hidden cursor-pointer z-0">
+      <div className="flex flex-row gap-4 py-4">
+        <div className="w-20 h-20 bg-violet relative overflow-hidden cursor-pointer z-0">
           <Link href={`/product-page/${slug}`}>
             <Image
               onClick={() => closeSidebarIfPresent()}
@@ -88,6 +88,7 @@ export const CartItem = ({
           <span>{price}</span>
           <div className="mt-2">
             <Quantity
+              size="sm"
               value={quantity}
               handleChange={handleChange}
               increase={() => increaseQuantity(1)}
