@@ -4,7 +4,7 @@ import { formatDate } from '@app/utils/date-formatter';
 
 export default async function SchedulePage({ params }: any) {
   const wixClient = await getWixClient();
-  const { events } = await wixClient.events.queryEventsV2({
+  const { events } = await wixClient.wixEvents.queryEventsV2({
     query: { filter: { slug: params.slug }, paging: { limit: 1, offset: 0 } },
   });
   const event = events?.length ? events![0] : null;

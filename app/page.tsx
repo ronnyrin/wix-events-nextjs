@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { getWixClient } from '@app/hooks/useWixClientServer';
-import { events as api } from '@wix/events';
+import { wixEvents } from '@wix/events';
 import { WixMediaImage } from '@app/components/Image/WixMediaImage';
 import { getDatePart } from '@app/utils/date-formatter';
 
@@ -25,11 +25,11 @@ export default async function Home() {
     )
   );
 
-  const { events } = await wixClient.events.queryEventsV2({
-    fieldset: [api.EventFieldset.FULL, api.EventFieldset.DETAILS],
+  const { events } = await wixClient.wixEvents.queryEventsV2({
+    fieldset: [wixEvents.EventFieldset.FULL, wixEvents.EventFieldset.DETAILS],
     query: {
       paging: { limit: 10, offset: 0 },
-      sort: [{ fieldName: 'start', order: api.SortOrder.ASC }],
+      sort: [{ fieldName: 'start', order: wixEvents.SortOrder.ASC }],
     },
   });
   return (

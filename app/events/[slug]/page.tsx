@@ -2,18 +2,18 @@ import { WixMediaImage } from '@app/components/Image/WixMediaImage';
 import { formatDate } from '@app/utils/date-formatter';
 import { TicketsTable } from '@app/components/Table/Table.client';
 import { getWixClient } from '@app/hooks/useWixClientServer';
-import { events as api } from '@wix/events';
+import { wixEvents } from '@wix/events';
 import { Schedule } from '@app/components/Schedule/Schedule';
 import { TicketDefinitionExtended } from '@app/types/ticket';
 
 export default async function EventPage({ params }: any) {
   const wixClient = await getWixClient();
-  const { events } = await wixClient.events.queryEventsV2({
+  const { events } = await wixClient.wixEvents.queryEventsV2({
     fieldset: [
-      api.EventFieldset.FULL,
-      api.EventFieldset.DETAILS,
-      api.EventFieldset.TEXTS,
-      api.EventFieldset.REGISTRATION,
+      wixEvents.EventFieldset.FULL,
+      wixEvents.EventFieldset.DETAILS,
+      wixEvents.EventFieldset.TEXTS,
+      wixEvents.EventFieldset.REGISTRATION,
     ],
     query: { filter: { slug: params.slug }, paging: { limit: 1, offset: 0 } },
   });
@@ -67,7 +67,7 @@ export default async function EventPage({ params }: any) {
               <h1 className="text-3xl sm:text-5xl my-2">{event.title}</h1>
               <h3 className="my-4 sm:my-6">{event.description}</h3>
               {event.registration?.status ===
-                api.RegistrationStatus.OPEN_TICKETS && (
+                wixEvents.RegistrationStatus.OPEN_TICKETS && (
                 <a
                   className="btn-main inline-block w-full sm:w-auto text-center"
                   href="#tickets"
@@ -76,7 +76,7 @@ export default async function EventPage({ params }: any) {
                 </a>
               )}
               {event.registration?.status ===
-                api.RegistrationStatus.OPEN_EXTERNAL && (
+                wixEvents.RegistrationStatus.OPEN_EXTERNAL && (
                 <a
                   className="btn-main inline-block w-full sm:w-auto text-center"
                   href={event.registration.external!.registration}
@@ -85,8 +85,8 @@ export default async function EventPage({ params }: any) {
                 </a>
               )}
               {[
-                api.RegistrationStatus.CLOSED_MANUALLY,
-                api.RegistrationStatus.CLOSED,
+                wixEvents.RegistrationStatus.CLOSED_MANUALLY,
+                wixEvents.RegistrationStatus.CLOSED,
               ].includes(event.registration?.status!) && (
                 <div>
                   <p className="border-2 inline-block p-3">
@@ -128,8 +128,8 @@ export default async function EventPage({ params }: any) {
               </a>
             )}
             {[
-              api.RegistrationStatus.CLOSED_MANUALLY,
-              api.RegistrationStatus.OPEN_TICKETS,
+              wixEvents.RegistrationStatus.CLOSED_MANUALLY,
+              wixEvents.RegistrationStatus.OPEN_TICKETS,
             ].includes(event.registration?.status!) && (
               <div className="my-4 sm:my-10">
                 <h2 className="mt-7">TICKETS</h2>
@@ -205,11 +205,11 @@ export default async function EventPage({ params }: any) {
 
 export async function generateStaticParams() {
   const wixClient = await getWixClient();
-  const { events } = await wixClient.events.queryEventsV2({
-    fieldset: [api.EventFieldset.FULL],
+  const { events } = await wixClient.wixEvents.queryEventsV2({
+    fieldset: [wixEvents.EventFieldset.FULL],
     query: {
       paging: { limit: 10, offset: 0 },
-      sort: [{ fieldName: 'start', order: api.SortOrder.ASC }],
+      sort: [{ fieldName: 'start', order: wixEvents.SortOrder.ASC }],
     },
   });
 

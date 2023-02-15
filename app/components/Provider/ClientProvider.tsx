@@ -5,7 +5,7 @@ import { ManagedUIContext } from '@app/components/Provider/context';
 import { createClient, OAuthStrategy } from '@wix/api-client';
 import { collections, products } from '@wix/stores';
 import { currentCart } from '@wix/ecom';
-import { events, checkout } from '@wix/events';
+import { wixEvents, checkout } from '@wix/events';
 import { redirects } from '@wix/redirects-api';
 // @ts-ignore
 import Cookies from 'js-cookie';
@@ -13,7 +13,14 @@ import { WIX_REFRESH_TOKEN } from '../../../src/constants';
 const queryClient = new QueryClient();
 
 const wixClient = createClient({
-  modules: { products, collections, currentCart, events, checkout, redirects },
+  modules: {
+    products,
+    collections,
+    currentCart,
+    wixEvents,
+    checkout,
+    redirects,
+  },
   auth: OAuthStrategy({ clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID! }),
 });
 

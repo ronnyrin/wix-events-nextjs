@@ -6,21 +6,20 @@ import { Price } from '@app/components/Price/Price';
 import { WIX_SERVICE_FEE } from '@app/constants';
 import {
   checkout as checkoutApi,
-  events as eventsApi,
+  wixEvents,
   ticketDefinitions as api,
 } from '@wix/events';
 import { useWixClient } from '@app/hooks/useWixClient';
 import { Badge } from 'flowbite-react';
 import { formatDateWithTime } from '@app/utils/date-formatter';
 import { TicketDefinitionExtended } from '@app/types/ticket';
-import { Type } from '@wix/events/build/cjs/src/events-v1-ticket-definition.universal';
 
 export function TicketsTable({
   tickets,
   event,
 }: {
   tickets: TicketDefinitionExtended[];
-  event: eventsApi.Event;
+  event: wixEvents.Event;
 }) {
   const wixClient = useWixClient();
   const [selectedTickets, setSelectedTickets] = useState<
@@ -104,7 +103,7 @@ export function TicketsTable({
 
     if (
       event.registration?.ticketing?.config?.taxConfig?.type ===
-      eventsApi.TaxType.ADDED_AT_CHECKOUT
+      wixEvents.TaxType.ADDED_AT_CHECKOUT
     ) {
       setTax(
         Object.keys(selectedTickets).reduce(
@@ -158,7 +157,7 @@ export function TicketsTable({
             ticketDetails: ticketsGrouped[ticketId].ticketDetails,
           }),
           ...(ticketsGrouped[ticketId].price &&
-            ticket!.pricing.pricingType === Type.DONATION && {
+            ticket!.pricing.pricingType === api.Type.DONATION && {
               ticketDetails: [
                 {
                   priceOverride: ticketsGrouped[ticketId].price.toString(),
@@ -245,7 +244,7 @@ export function TicketsTable({
                   event={event}
                   disabled={
                     event.registration?.status !==
-                    eventsApi.RegistrationStatus.OPEN_TICKETS
+                    wixEvents.RegistrationStatus.OPEN_TICKETS
                   }
                 />
                 {ticket.salePeriod &&
@@ -319,7 +318,7 @@ export function TicketsTable({
                           option={option}
                           disabled={
                             event.registration?.status !==
-                            eventsApi.RegistrationStatus.OPEN_TICKETS
+                            wixEvents.RegistrationStatus.OPEN_TICKETS
                           }
                         />
                       </span>

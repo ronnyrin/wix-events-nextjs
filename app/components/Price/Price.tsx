@@ -4,7 +4,7 @@ import React from 'react';
 import { WIX_SERVICE_FEE } from '@app/constants';
 import {
   ticketDefinitions as api,
-  events as eventsApi,
+  wixEvents,
   ticketDefinitions,
 } from '@wix/events';
 import { TicketDefinitionExtended } from '@app/types/ticket';
@@ -19,7 +19,7 @@ export function Price({
 }: {
   ticket: TicketDefinitionExtended;
   setTickets: Function;
-  event: eventsApi.Event;
+  event: wixEvents.Event;
   disabled: boolean;
   option?: api.PricingOption;
   selectedTickets: Record<string, { quantity: number; price: number }>;
@@ -62,7 +62,7 @@ export function Price({
   const defaultPriceWithTax =
     defaultPrice +
     ((event.registration?.ticketing?.config?.taxConfig?.type ===
-    eventsApi.TaxType.ADDED_AT_CHECKOUT
+    wixEvents.TaxType.ADDED_AT_CHECKOUT
       ? tax
       : 0) || 0);
 
@@ -162,7 +162,7 @@ export function Price({
       )}
       <span className="text-base">{price}</span>
       {event.registration?.ticketing?.config?.taxConfig?.type ===
-        eventsApi.TaxType.ADDED_AT_CHECKOUT &&
+        wixEvents.TaxType.ADDED_AT_CHECKOUT &&
         !ticket.free &&
         (ticket.pricing?.pricingType === api.Type.STANDARD ||
           event.registration?.ticketing?.config.taxConfig
