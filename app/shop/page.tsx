@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { getWixClient } from '@app/hooks/useWixClientServer';
 import { products } from '@wix/stores';
+import { PLACEHOLDER_IMAGE } from '../../src/constants';
 
 export default async function StoresCategoryPage() {
   const wixClient = await getWixClient();
@@ -27,10 +28,10 @@ export default async function StoresCategoryPage() {
               <li key={item._id} className="">
                 <a href={`/product-page/${item.slug}`}>
                   <Image
-                    src={item.media!.mainMedia!.image!.url!}
+                    src={item.media?.mainMedia?.image?.url || PLACEHOLDER_IMAGE}
                     width={566}
                     height={0}
-                    alt={item.media!.mainMedia!.image!.altText!}
+                    alt={item.media?.mainMedia?.image?.altText || 'main image'}
                   />
                   <div className="p-2 text-left">
                     <span>{item.name}</span>

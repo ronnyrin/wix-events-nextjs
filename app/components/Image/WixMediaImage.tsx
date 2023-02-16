@@ -1,5 +1,6 @@
 import { media as wixMedia } from '@wix/api-client';
 import Image from 'next/image';
+import { PLACEHOLDER_IMAGE } from '../../../src/constants';
 
 function getImageUrlForMedia(media: string, width: number, height: number) {
   return wixMedia.getScaledToFillImageUrl(media, width, height, {});
@@ -16,7 +17,9 @@ export function WixMediaImage({
   height?: number;
   className?: string;
 }) {
-  const imageUrl = getImageUrlForMedia(media || '', width, height);
+  const imageUrl = media
+    ? getImageUrlForMedia(media || '', width, height)
+    : PLACEHOLDER_IMAGE;
   return (
     <div className={`flex items-center justify-center`}>
       <div className="overflow-hidden  cursor-pointer relative group w-full h-full">
