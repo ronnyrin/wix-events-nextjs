@@ -86,7 +86,20 @@ export const CartItem = ({
             </Link>
           </div>
           <span>{price}</span>
-          <div className="mt-2">
+          {item.descriptionLines?.length ? (
+            <div className="mt-1">
+              {item.descriptionLines?.map((line) => (
+                <span
+                  key={line.name?.translated}
+                  className="text-12 leading-tight text-gray-500 block"
+                >
+                  {line.name?.translated}:{' '}
+                  {line.colorInfo?.translated || line.plainText?.translated}
+                </span>
+              ))}
+            </div>
+          ) : null}
+          <div className="mt-3">
             <Quantity
               size="sm"
               value={quantity}

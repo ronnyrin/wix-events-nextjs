@@ -3,5 +3,7 @@ import { useWixClient } from '@app/hooks/useWixClient';
 
 export const useCart = () => {
   const wixClient = useWixClient();
-  return useQuery(['cart'], () => wixClient.currentCart.getCurrentCart());
+  return useQuery(['cart'], () => wixClient.currentCart.getCurrentCart(), {
+    retry: false,
+  });
 };

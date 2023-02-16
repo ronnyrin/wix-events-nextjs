@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { cart } from '@wix/ecom';
+import { currentCart } from '@wix/ecom';
 import { useWixClient } from '@app/hooks/useWixClient';
 import { WixClient } from '@app/components/Provider/ClientProvider';
 
@@ -8,7 +8,7 @@ export const useUpdateCart = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (item: cart.LineItemQuantityUpdate) =>
+    mutationFn: (item: currentCart.LineItemQuantityUpdate) =>
       updateLineItemQuantity(wixClient, item),
     onSuccess: () => {
       return queryClient.invalidateQueries({ queryKey: ['cart'] });
@@ -17,9 +17,12 @@ export const useUpdateCart = () => {
   return mutation.mutate;
 };
 
-function updateLineItemQuantity(
+async function updateLineItemQuantity(
   wixClient: WixClient,
-  item: cart.LineItemQuantityUpdate
+  item: currentCart.LineItemQuantityUpdate
 ) {
-  return wixClient.currentCart.updateCurrentCartLineItemQuantity([item]);
+  await wixClient.currentCart.updateCurrentCartLineItemQuantity([item]);
+  await wixClient.currentCart.createCheckoutFromCurrentCart({
+    channelType: currentCart.ChannelType.OTHER_PLATFORM,
+  });
 }

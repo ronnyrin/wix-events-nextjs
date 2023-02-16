@@ -1,18 +1,17 @@
 'use client';
-import Link from 'next/link';
 import React, { FC, useCallback, useState } from 'react';
 import { usePrice } from '@app/hooks/use-price';
 import { CartItem } from '@app/components/CartItem/CartItem';
 import { useCart } from '@app/hooks/useCart';
 import { useUI } from '../Provider/context';
 import { useWixClient } from '@app/hooks/useWixClient';
-import { useCheckout } from '@app/hooks/useCheckout';
+import { Spinner } from 'flowbite-react';
+import { cart } from '@wix/ecom';
 
 export const CartSidebarView: FC = () => {
   const wixClient = useWixClient();
   const { closeSidebar } = useUI();
   const { data, isLoading } = useCart();
-  const { data: checkout, isLoading: checkoutLoading } = useCheckout();
   const [redirecting, setRedirecting] = useState<boolean>(false);
   const subTotal = usePrice(
     data && {
@@ -29,16 +28,21 @@ export const CartSidebarView: FC = () => {
     try {
       const { redirectSession } =
         await wixClient.redirects.createRedirectSession({
-          ecomCheckout: { checkoutId: checkout!.checkoutId! },
+          ecomCheckout: { checkoutId: data!.checkoutId! },
         });
       window.location.href = redirectSession!.fullUrl!;
     } catch (e) {
       setRedirecting(false);
     }
-  }, [checkout]);
+  }, [cart]);
   return (
     <>
-      {!isLoading && !checkoutLoading && data?.lineItems?.length! > 0 ? (
+      {isLoading ? (
+        <div className="flex-1 flex items-center justify-center">
+          <Spinner aria-label="Loading Cart" />
+        </div>
+      ) : null}
+      {!isLoading && data?.lineItems?.length! > 0 ? (
         <>
           <div className="flex-1">
             <div className="relative">
@@ -78,7 +82,7 @@ export const CartSidebarView: FC = () => {
             </ul>
           </div>
 
-          <div className="flex-shrink-0 px-6 py-6 sm:px-6 sticky z-20 bottom-0 w-full right-0 left-0 border-t text-md">
+          <div className="flex-shrink-0 px-6 py-6 sm:px-6 sticky z-20 bottom-0 w-full right-0 left-0 border-t text-md bg-site">
             <ul className="pb-2">
               <li className="flex justify-between py-1">
                 <span>Subtotal</span>
