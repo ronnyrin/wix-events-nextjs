@@ -4,6 +4,7 @@ import { wixEvents } from '@wix/events';
 import { products } from '@wix/stores';
 import { WixMediaImage } from '@app/components/Image/WixMediaImage';
 import { getDatePart } from '@app/utils/date-formatter';
+import { Events } from '@app/components/Events/Events';
 
 export default async function Home() {
   const wixClient = await getWixClient();
@@ -132,68 +133,7 @@ export default async function Home() {
       </div>
       {events?.length ? (
         <div className="bg-zinc-900 text-site pt-24 sm:py-20 mt-[-75px]">
-          <div className="px-8 sm:px-14">
-            <h1 className="uppercase text-4xl sm:text-7xl text-center sm:text-left">
-              SHOWS
-            </h1>
-            <div className="py-10 sm:px-44">
-              {events!.map((event) => (
-                <div
-                  className="flex border-b last:border-0 gap-4 sm:gap-8 flex-col sm:flex-row py-4 sm:py-0"
-                  key={event._id}
-                >
-                  <a
-                    href={`/events/${event.slug}`}
-                    className="flex flex-1 sm:items-center gap-4 sm:gap-8 flex-col sm:flex-row"
-                  >
-                    <div className="flex flex-col sm:flex-row gap-8 relative">
-                      <div className="w-[310px] h-[171px] sm:w-[80px] sm:h-[80px] overflow-hidden">
-                        <WixMediaImage
-                          media={event.mainImage}
-                          width={300}
-                          height={300}
-                        />
-                      </div>
-                      <div className="flex gap-4 items-center absolute bottom-2 left-2 sm:bottom-auto sm:left-auto sm:relative">
-                        <span className="text-4xl">
-                          {getDatePart(
-                            new Date(event.scheduling?.config?.startDate!),
-                            'day',
-                            event!.scheduling!.config!.timeZoneId!
-                          )}
-                        </span>
-                        <div className="flex flex-col text-xs">
-                          <span className="text-white sm:text-gray-600">
-                            {getDatePart(
-                              new Date(event.scheduling?.config?.startDate!),
-                              'weekday',
-                              event!.scheduling!.config!.timeZoneId!
-                            )}
-                          </span>
-                          <span>
-                            {getDatePart(
-                              new Date(event.scheduling?.config?.startDate!),
-                              'month',
-                              event!.scheduling!.config!.timeZoneId!
-                            )}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <span className="text-2xl grow text-left">
-                      {event.title}
-                    </span>
-                  </a>
-                  <a
-                    className="btn-main my-2 sm:my-10 rounded-2xl w-full text-center sm:w-auto"
-                    href={`/events/${event.slug}`}
-                  >
-                    Buy Tickets
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
+          <Events events={events} />
         </div>
       ) : null}
       {productsForCategories.length ? (
