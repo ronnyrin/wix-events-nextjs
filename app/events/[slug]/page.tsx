@@ -7,6 +7,9 @@ import { Schedule } from '@app/components/Schedule/Schedule';
 import { TicketDefinitionExtended } from '@app/types/ticket';
 
 export default async function EventPage({ params }: any) {
+  if (!params.slug) {
+    return;
+  }
   const wixClient = await getWixClient();
   const { events } = await wixClient.wixEvents.queryEventsV2({
     fieldset: [
@@ -203,17 +206,23 @@ export default async function EventPage({ params }: any) {
   );
 }
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{ slug?: string }[]> {
   const wixClient = await getWixClient();
-  const { events } = await wixClient.wixEvents.queryEventsV2({
-    fieldset: [wixEvents.EventFieldset.FULL],
-    query: {
-      paging: { limit: 10, offset: 0 },
-      sort: [{ fieldName: 'start', order: wixEvents.SortOrder.ASC }],
-    },
-  });
-
-  return events!.map((event) => ({
-    slug: event.slug,
-  }));
+  return wixClient.wixEvents
+    .queryEventsV2({
+      fieldset: [wixEvents.EventFieldset.FULL],
+      query: {
+        paging: { limit: 10, offset: 0 },
+        sort: [{ fieldName: 'start', order: wixEvents.SortOrder.ASC }],
+      },
+    })
+    .then(({ events }) => {
+      return events!.map((event) => ({
+        slug: event.slug,
+      }));
+    })
+    .catch((err) => {
+      console.error(err);
+      return [];
+    });
 }

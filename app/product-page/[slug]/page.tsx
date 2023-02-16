@@ -36,7 +36,7 @@ export default async function StoresCategoryPage({ params }: any) {
   );
 }
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{ slug?: string }[]> {
   const wixClient = await getWixClient();
   return wixClient.products
     .queryProducts()
@@ -49,8 +49,6 @@ export async function generateStaticParams() {
     })
     .catch((err) => {
       console.error(err);
-    })
-    .finally(() => {
       return [];
     });
 }

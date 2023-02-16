@@ -1,9 +1,15 @@
 import Image from 'next/image';
 import { getWixClient } from '@app/hooks/useWixClientServer';
+import { products } from '@wix/stores';
 
 export default async function StoresCategoryPage() {
   const wixClient = await getWixClient();
-  const { items } = await wixClient.products.queryProducts().limit(10).find();
+  let items: products.Product[] = [];
+  try {
+    items = (await wixClient.products.queryProducts().limit(10).find()).items;
+  } catch (err) {
+    console.error(err);
+  }
   return (
     <div className="mx-auto">
       <div className="bg-black text-custom-1 text-center py-4 sm:py-10 sm:py-20 h-[450px] sm:h-[520px]">

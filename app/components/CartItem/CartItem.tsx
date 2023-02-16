@@ -13,10 +13,12 @@ import { useRemoveItemFromCart } from '@app/hooks/useRemoveItemFromCart';
 export const CartItem = ({
   item,
   currencyCode,
+  hideButtons,
   ...rest
 }: {
   item: cart.LineItem;
   currencyCode: string;
+  hideButtons?: boolean;
 }) => {
   const { closeSidebarIfPresent } = useUI();
   const [removing, setRemoving] = useState(false);
@@ -99,33 +101,37 @@ export const CartItem = ({
               ))}
             </div>
           ) : null}
-          <div className="mt-3">
-            <Quantity
-              size="sm"
-              value={quantity}
-              handleChange={handleChange}
-              increase={() => increaseQuantity(1)}
-              decrease={() => increaseQuantity(-1)}
-            />
-          </div>
+          {!hideButtons && (
+            <div className="mt-3">
+              <Quantity
+                size="sm"
+                value={quantity}
+                handleChange={handleChange}
+                increase={() => increaseQuantity(1)}
+                decrease={() => increaseQuantity(-1)}
+              />
+            </div>
+          )}
         </div>
-        <button className="flex" onClick={() => handleRemove()}>
-          <svg
-            fill="none"
-            className="w-4 h-4"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            ></path>
-          </svg>
-        </button>
+        {!hideButtons && (
+          <button className="flex" onClick={() => handleRemove()}>
+            <svg
+              fill="none"
+              className="w-4 h-4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
+        )}
       </div>
     </li>
   );
