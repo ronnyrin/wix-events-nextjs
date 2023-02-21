@@ -133,7 +133,7 @@ export default async function Home() {
         />
       </div>
       {events?.length ? (
-        <div className="bg-zinc-900 text-site pt-16 sm:pt-24 sm:py-20">
+        <div className="bg-zinc-900 text-site pt-16 sm:p-20">
           <Events events={events} />
         </div>
       ) : null}
