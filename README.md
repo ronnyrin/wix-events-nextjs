@@ -21,7 +21,7 @@ If for any reason, you did not select either of the apps, you can also add it fr
 5. Select `Wix Events` and click `Add to site`
 
 ### Step 2: You can now set up the business solutions with the relevant events and products
-See [Wix Stores Support article](https://support.wix.com/en/wix-stroes)
+See [Wix Stores Support article](https://support.wix.com/en/wix-stroes)  
 See [Wix Events Support article](https://support.wix.com/en/wix-events)
 
 ### Step 3: Consume APIs in the Template with an Oauth client ID
