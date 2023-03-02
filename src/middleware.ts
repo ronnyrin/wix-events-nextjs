@@ -21,5 +21,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  unstable_allowDynamic: ['/node_modules/lodash/**'],
+  unstable_allowDynamic: ['/node_modules/lodash/**', './node_modules/@wix/**'],
 };
