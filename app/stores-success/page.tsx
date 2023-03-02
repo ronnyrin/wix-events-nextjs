@@ -5,7 +5,7 @@ export default async function Success({ searchParams }: any) {
   const wixClient = await getWixClient();
 
   if (!searchParams.orderId) {
-    return;
+    return null;
   }
 
   const data = await wixClient.orders.getOrder(searchParams.orderId);
@@ -19,10 +19,10 @@ export default async function Success({ searchParams }: any) {
         <div className="flex-1 px-24 py-10 flex flex-col justify-center items-center">
           You just bought:
           <ul className="py-6 space-y-6 sm:py-0 sm:space-y-0 sm:divide-y sm:divide-accent-2 border-b">
-            {data.lineItems!.map((item: any) => (
+            {data.lineItems!.map((item) => (
               <CartItem
                 hideButtons={true}
-                key={item.id}
+                key={item._id}
                 item={item}
                 currencyCode={data.currency!}
               />

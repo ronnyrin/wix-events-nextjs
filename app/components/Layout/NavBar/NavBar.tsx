@@ -36,7 +36,7 @@ const StyledNavLink = ({
 export function NavBar() {
   const [isMenuShown, setIsMenuShown] = useState(false);
   const pathname = usePathname();
-  const [linkRef, setLinkRef] = useState<LinkProps['href']>(pathname);
+  const [linkRef, setLinkRef] = useState<LinkProps['href']>(pathname!);
   const toggleOpen = useCallback(
     () => setIsMenuShown(!isMenuShown),
     [isMenuShown]
