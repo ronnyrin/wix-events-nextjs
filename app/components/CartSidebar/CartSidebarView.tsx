@@ -29,6 +29,10 @@ export const CartSidebarView: FC = () => {
       const { redirectSession } =
         await wixClient.redirects.createRedirectSession({
           ecomCheckout: { checkoutId: data!.checkoutId! },
+          callbacks: {
+            postFlowUrl: window.location.origin,
+            thankYouPageUrl: `${window.location.origin}/stores-success`,
+          },
         });
       window.location.href = redirectSession!.fullUrl!;
     } catch (e) {

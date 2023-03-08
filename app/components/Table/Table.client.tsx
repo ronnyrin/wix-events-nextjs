@@ -177,6 +177,7 @@ export function TicketsTable({
           eventsCheckout: { reservationId: id, eventSlug: event.slug! },
           options: { useTemplateSite: false },
           callbacks: {
+            postFlowUrl: window.location.origin,
             thankYouPageUrl: `${window.location.origin}/events-success`,
           },
         });
