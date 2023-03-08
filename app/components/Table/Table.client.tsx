@@ -176,6 +176,10 @@ export function TicketsTable({
         await wixClient.redirects.createRedirectSession({
           eventsCheckout: { reservationId: id, eventSlug: event.slug! },
           options: { useTemplateSite: false },
+          callbacks: {
+            thankYouPageUrl:
+              'https://wix-events-nextjs.vercel.app/events-success',
+          },
         });
       if (id) {
         window.location.href = redirectSession!.fullUrl!;
