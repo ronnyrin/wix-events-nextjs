@@ -177,8 +177,7 @@ export function TicketsTable({
           eventsCheckout: { reservationId: id, eventSlug: event.slug! },
           options: { useTemplateSite: false },
           callbacks: {
-            thankYouPageUrl:
-              'https://wix-events-nextjs.vercel.app/events-success',
+            thankYouPageUrl: `${window.location.origin}/events-success`,
           },
         });
       if (id) {
