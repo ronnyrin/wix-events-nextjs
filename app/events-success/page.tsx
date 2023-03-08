@@ -1,4 +1,4 @@
-export default async function Success({ searchParams }: any) {
+export default function Success({ searchParams }: any) {
   if (!searchParams.reservationId) {
     return null;
   }
