@@ -1,4 +1,3 @@
-'use client';
 export default function Success({ searchParams }: any) {
   if (!searchParams.reservationId) {
     return null;
@@ -10,3 +9,6 @@ export default function Success({ searchParams }: any) {
     </div>
   );
 }
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
