@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient, OAuthStrategy } from '@wix/api-client';
 import { cart } from '@wix/ecom';
-import { WIX_REFRESH_TOKEN } from './constants';
+import { WIX_REFRESH_TOKEN } from './src/constants';
 
 export async function middleware(request: NextRequest) {
   const cookies = request.cookies;
