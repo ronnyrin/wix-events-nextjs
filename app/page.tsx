@@ -144,7 +144,7 @@ export default async function Home() {
               Merch
             </h1>
             <p className="text-lg my-10 text-black">
-              I’m a paragraph. I’m a great space to write about what makes the
+              I am a paragraph. I’m a great space to write about what makes the
               products special and explain how customers can benefit from these
               items.
             </p>
