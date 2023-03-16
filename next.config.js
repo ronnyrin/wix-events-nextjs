@@ -7,10 +7,10 @@ const nextConfig = {
     appDir: true,
   },
   eslint: {
-    dirs: ['app', 'src'],
+    dirs: ['app'],
   },
   images: {
-    domains: ['fakeimg.pl', 'static.wixstatic.com'],
+    domains: ['static.wixstatic.com'],
     formats: ['image/webp'],
   },
 };
