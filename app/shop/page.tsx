@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { getWixClient } from '../hooks/useWixClientServer';
 import { products } from '@wix/stores';
-import { PLACEHOLDER_IMAGE } from '../../constants';
+import { PLACEHOLDER_IMAGE } from '@app/constants';
 
 export default async function StoresCategoryPage() {
   const wixClient = await getWixClient();

@@ -2,7 +2,7 @@
 import { Carousel, Flowbite, useTheme } from 'flowbite-react';
 import { products } from '@wix/stores';
 import Image from 'next/image';
-import { PLACEHOLDER_IMAGE } from '../../../constants';
+import { PLACEHOLDER_IMAGE } from '@app/constants';
 export function ImageGalleryClient({ items }: { items: products.MediaItem[] }) {
   const { theme } = useTheme();
   const images = items.length ? items : [{ image: { url: PLACEHOLDER_IMAGE } }];
