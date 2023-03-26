@@ -158,19 +158,19 @@ export default async function Home() {
               <a href="/shop">
                 <Image
                   src={
-                    productsForCategories[1]!.product!.media!.mainMedia!.image!
+                    productsForCategories[1]?.product!.media!.mainMedia!.image!
                       .url!
                   }
                   width={800}
                   height={0}
                   alt={
-                    productsForCategories[1]!.product!.media!.mainMedia!.image!
+                    productsForCategories[1]?.product!.media!.mainMedia!.image!
                       .altText!
                   }
                 />
               </a>
               <span className="font-bold text-2xl sm:text-5xl block text-center mt-[-15px] sm:mt-[-30px] text-black">
-                <a href="/shop">{productsForCategories[1].category}</a>
+                <a href="/shop">{productsForCategories[1]?.category}</a>
               </span>
             </div>
           </div>
@@ -179,38 +179,38 @@ export default async function Home() {
               <a href="/shop">
                 <Image
                   src={
-                    productsForCategories[0]!.product!.media!.mainMedia!.image!
+                    productsForCategories[0]?.product!.media!.mainMedia!.image!
                       .url!
                   }
                   width={800}
                   height={0}
                   alt={
-                    productsForCategories[0]!.product!.media!.mainMedia!.image!
+                    productsForCategories[0]?.product!.media!.mainMedia!.image!
                       .altText!
                   }
                 />
               </a>
               <span className="font-bold text-2xl sm:text-5xl block text-center mt-[-15px] sm:mt-[-30px]">
-                <a href="/shop">{productsForCategories[0].category}</a>
+                <a href="/shop">{productsForCategories[0]?.category}</a>
               </span>
             </div>
             <div className="mt-10 sm:mt-40">
               <a href="/shop">
                 <Image
                   src={
-                    productsForCategories[2]!.product!.media!.mainMedia!.image!
+                    productsForCategories[2]?.product!.media!.mainMedia!.image!
                       .url!
                   }
                   width={800}
                   height={0}
                   alt={
-                    productsForCategories[2]!.product!.media!.mainMedia!.image!
+                    productsForCategories[2]?.product!.media!.mainMedia!.image!
                       .altText!
                   }
                 />
               </a>
               <span className="font-bold text-2xl sm:text-5xl block text-center mt-[-15px] sm:mt-[-30px]">
-                <a href="/shop">{productsForCategories[2].category}</a>
+                <a href="/shop">{productsForCategories[2]?.category}</a>
               </span>
             </div>
           </div>
