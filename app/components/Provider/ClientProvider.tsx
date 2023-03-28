@@ -7,7 +7,6 @@ import { collections, products } from '@wix/stores';
 import { currentCart } from '@wix/ecom';
 import { wixEvents, checkout } from '@wix/events';
 import { redirects } from '@wix/redirects-api';
-// @ts-ignore
 import Cookies from 'js-cookie';
 import { WIX_REFRESH_TOKEN } from '@app/constants';
 const queryClient = new QueryClient();
