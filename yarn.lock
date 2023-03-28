@@ -51,21 +51,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.20.13":
-  version: 7.20.13
-  resolution: "@babel/runtime@npm:7.20.13"
-  dependencies:
-    regenerator-runtime: ^0.13.11
-  checksum: 09b7a97a05c80540db6c9e4ddf8c5d2ebb06cae5caf3a87e33c33f27f8c4d49d9c67a2d72f1570e796045288fad569f98a26ceba0c4f5fad2af84b6ad855c4fb
-  languageName: node
-  linkType: hard
-
 "@babel/runtime@npm:^7.20.6":
   version: 7.20.7
   resolution: "@babel/runtime@npm:7.20.7"
   dependencies:
     regenerator-runtime: ^0.13.11
   checksum: 4629ce5c46f06cca9cfb9b7fc00d48003335a809888e2b91ec2069a2dcfbfef738480cff32ba81e0b7c290f8918e5c22ddcf2b710001464ee84ba62c7e32a3a3
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.21.0":
+  version: 7.21.0
+  resolution: "@babel/runtime@npm:7.21.0"
+  dependencies:
+    regenerator-runtime: ^0.13.11
+  checksum: 7b33e25bfa9e0e1b9e8828bb61b2d32bdd46b41b07ba7cb43319ad08efc6fda8eb89445193e67d6541814627df0ca59122c0ea795e412b99c5183a0540d338ab
   languageName: node
   linkType: hard
 
@@ -648,17 +648,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/api-client@npm:^1.1.33":
-  version: 1.1.33
-  resolution: "@wix/api-client@npm:1.1.33"
+"@wix/api-client@npm:^1.1.37":
+  version: 1.1.37
+  resolution: "@wix/api-client@npm:1.1.37"
   dependencies:
-    "@babel/runtime": ^7.20.13
-    "@wix/identity": ^1.0.10
-    "@wix/image-kit": ^1.28.0
-    "@wix/sdk-types": ^1.1.33
+    "@babel/runtime": ^7.21.0
+    "@wix/identity": ^1.0.22
+    "@wix/image-kit": ^1.31.0
+    "@wix/redirects-api": ^1.0.17
+    "@wix/sdk-types": ^1.1.37
+    pkce-challenge: ^3.0.0
     querystring: ^0.2.1
     type-fest: ^2.19.0
-  checksum: e143d6c377977559ddc33f9d66620776720450761ddf63fd70d86ff0bda22d7e83fcb99449c0325381a05ee94e1a0dabbfe6b5665201491ca0691fb072a21852
+  checksum: eb52af56cdef5ec8bdf540a9b638c37b4a10370e3c5a3a7056370ebbb5f93ceba76e305b0e04ab38f20ec1d1e0a9944e61dc2e40f4b3c71ad36e65b545b37902
   languageName: node
   linkType: hard
 
@@ -695,24 +697,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/identity@npm:^1.0.10":
-  version: 1.0.10
-  resolution: "@wix/identity@npm:1.0.10"
+"@wix/identity@npm:^1.0.22":
+  version: 1.0.22
+  resolution: "@wix/identity@npm:1.0.22"
   dependencies:
     "@wix/metro-runtime": ^1.0.0
     "@wix/motion-edm-autogen-query-wrapper": ^1.0.0
     "@wix/sdk-types": ^1.0.0
-  checksum: aed797bf9105b0505270ae57f5794f7e5f27975f9fd69999939a89c53b82545161acd0611681e13a32e8d8ecd920d04bb3c54f1348f28c66ea42744d95fdde16
+  checksum: 59b17d21065e5a5ca2daaffc678c6ad9e048eb13c436183922ad415d661fa21e25c8c1fdd35ee594adf33dc463496516e5083786617f6ffe846fd04b2c9ea715
   languageName: node
   linkType: hard
 
-"@wix/image-kit@npm:^1.28.0":
-  version: 1.28.0
-  resolution: "@wix/image-kit@npm:1.28.0"
+"@wix/image-kit@npm:^1.31.0":
+  version: 1.31.0
+  resolution: "@wix/image-kit@npm:1.31.0"
   dependencies:
     "@babel/runtime": ^7.0.0
     tslib: ^2.0.0
-  checksum: 5762dae8c0bd581ad065bd87bded7287958615721c6591aeefdd0ce5742bb2887fbaeb28c8986dff0ac7941b7756fdbfbb3d22654b379a002efa3a7484adffc1
+  checksum: 10f543648e3b683b97626b08b68ce04dc82fda30b7a9c972c145836ac28c7e837c5f49a48b387416939d28e97d289adf1a6c2050b848f120fbe9507d9722ec37
   languageName: node
   linkType: hard
 
@@ -818,14 +820,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/redirects-api@npm:^1.0.12":
-  version: 1.0.12
-  resolution: "@wix/redirects-api@npm:1.0.12"
+"@wix/redirects-api@npm:^1.0.17":
+  version: 1.0.17
+  resolution: "@wix/redirects-api@npm:1.0.17"
   dependencies:
     "@wix/metro-runtime": ^1.0.0
     "@wix/motion-edm-autogen-query-wrapper": ^1.0.0
     "@wix/sdk-types": ^1.0.0
-  checksum: 43005c5354282946ef36bf27d8b395ecabd74173f1ab29e52ee01019fa61b13624c6dd4f399dedb0488c634cd3fb84397e4458f6ee49e601fa07d21bf36ddc51
+  checksum: 365de170d67d47118532825f426bfe1461b8d0c49cec411d60fdee8b5e652abece3e4d1737af8f7b6b2513c0e1da568ff94a8afe894c15eb333a38fe96401386
   languageName: node
   linkType: hard
 
@@ -838,12 +840,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/sdk-types@npm:^1.1.33":
-  version: 1.1.33
-  resolution: "@wix/sdk-types@npm:1.1.33"
+"@wix/sdk-types@npm:^1.1.37":
+  version: 1.1.37
+  resolution: "@wix/sdk-types@npm:1.1.37"
   dependencies:
-    "@babel/runtime": ^7.20.13
-  checksum: d25f135f404d077d3db41abc55579ae9c956ec099d47203c03877595982a1043d19275f1d4569cbb5f521d1b9fd4b9b32a475c88840e814b60aaa8198f24b509
+    "@babel/runtime": ^7.21.0
+  checksum: d8bf47300c9bc879dc6e4eba43da8c3ee198499d3394ddf488b94f2339e063ac6371699e30367d1abeff8822577ead7ed1ce347a5ca5bf28dfb49443cf3c80f6
   languageName: node
   linkType: hard
 
@@ -1594,6 +1596,13 @@ __metadata:
     shebang-command: ^2.0.0
     which: ^2.0.1
   checksum: 671cc7c7288c3a8406f3c69a3ae2fc85555c04169e9d611def9a675635472614f1c0ed0ef80955d5b6d4e724f6ced67f0ad1bb006c2ea643488fcfef994d7f52
+  languageName: node
+  linkType: hard
+
+"crypto-js@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "crypto-js@npm:4.1.1"
+  checksum: b3747c12ee3a7632fab3b3e171ea50f78b182545f0714f6d3e7e2858385f0f4101a15f2517e033802ce9d12ba50a391575ff4638c9de3dd9b2c4bc47768d5425
   languageName: node
   linkType: hard
 
@@ -4088,6 +4097,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pkce-challenge@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "pkce-challenge@npm:3.0.0"
+  dependencies:
+    crypto-js: ^4.1.1
+  checksum: ebe66c26ad86cfe7b3ae233542a1dcff100b6bffb1fab55ed306bfe9aacb15aa781f8c032bb88a770164103c416752d0b7f4a126e3755448718ce055300ada38
+  languageName: node
+  linkType: hard
+
 "postcss-import@npm:^14.1.0":
   version: 14.1.0
   resolution: "postcss-import@npm:14.1.0"
@@ -5215,10 +5233,10 @@ __metadata:
     "@types/node": 18.11.8
     "@types/react": 18.0.24
     "@types/react-dom": 18.0.8
-    "@wix/api-client": ^1.1.33
+    "@wix/api-client": ^1.1.37
     "@wix/ecom": ^1.0.78
     "@wix/events": ^1.0.35
-    "@wix/redirects-api": ^1.0.12
+    "@wix/redirects-api": ^1.0.17
     "@wix/stores": ^1.0.16
     autoprefixer: ^10.4.13
     body-scroll-lock: ^4.0.0-beta.0
@@ -5233,6 +5251,7 @@ __metadata:
     js-cookie: ^3.0.1
     jsurl: ^0.1.5
     next: ^13.2.3
+    pkce-challenge: ^3.0.0
     postcss: ^8.4.19
     prettier: ^2.8.0
     react: ^18.2.0
