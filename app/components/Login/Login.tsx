@@ -6,7 +6,7 @@ export const Login = () => {
   const wixClient = useWixClient();
   const onLoginClick = async () => {
     const state = await wixClient.auth.generateOauthRedirectState(
-      `${window.location.href}`
+      `${window.location.href}callback`
     );
     Cookies.set('oauthState', JSON.stringify(state), {
       expires: 1,
