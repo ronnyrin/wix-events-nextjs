@@ -1,5 +1,6 @@
 'use client';
 import { useWixClient } from '@app/hooks/useWixClient';
+import Cookies from 'js-cookie';
 
 export const Login = () => {
   const wixClient = useWixClient();
@@ -7,6 +8,9 @@ export const Login = () => {
     const state = await wixClient.auth.generateOauthRedirectState(
       `${window.location.href}`
     );
+    Cookies.set('oauthState', JSON.stringify(state), {
+      expires: 1,
+    });
     return wixClient.auth.signInWithRedirect(state);
   };
   return (
