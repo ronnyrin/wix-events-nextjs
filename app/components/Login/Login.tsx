@@ -14,7 +14,7 @@ const LoginComp = () => {
       window.location.href = url;
       return;
     }
-    const state = await wixClient.auth.generateOauthRedirectState(
+    const state = wixClient.auth.generateOauthRedirectState(
       `${window.location.href}callback`,
       window.location.href
     );

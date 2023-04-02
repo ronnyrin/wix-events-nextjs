@@ -14,7 +14,6 @@ const Callback = () => {
     wixClient.auth
       .getMemberTokens(window.location.hash, oAuthState)
       .then((tokens) => {
-        console.log(tokens);
         Cookies.set('wixMemberSession', JSON.stringify(tokens.refreshToken), {
           expires: 2,
         });
