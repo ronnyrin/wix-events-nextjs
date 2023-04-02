@@ -1,8 +1,9 @@
 'use client';
 import { useWixClient } from '@app/hooks/useWixClient';
 import Cookies from 'js-cookie';
+import dynamic from 'next/dynamic';
 
-export const Login = () => {
+const LoginComp = () => {
   const wixClient = useWixClient();
   const memberSession = Cookies.get('wixMemberSession');
   const isLoggedIn = JSON.parse(memberSession || '{}').value;
@@ -28,3 +29,7 @@ export const Login = () => {
     </button>
   );
 };
+
+export const Login = dynamic(() => Promise.resolve(LoginComp), {
+  ssr: false,
+});

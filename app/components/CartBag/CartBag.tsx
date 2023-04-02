@@ -2,8 +2,9 @@
 import { useUI } from '../Provider/context';
 import { useCart } from '../../hooks/useCart';
 import { cart } from '@wix/ecom';
+import dynamic from 'next/dynamic';
 
-export const CartBag = () => {
+const CartBagComp = () => {
   const { setSidebarView, toggleSidebar } = useUI();
   const { data, isLoading } = useCart();
   const itemsCount = !isLoading
@@ -43,3 +44,7 @@ export const CartBag = () => {
     </button>
   );
 };
+
+export const CartBag = dynamic(() => Promise.resolve(CartBagComp), {
+  ssr: false,
+});
