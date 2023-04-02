@@ -5,9 +5,8 @@ import Cookies from 'js-cookie';
 export const Login = () => {
   const wixClient = useWixClient();
   const memberSession = Cookies.get('wixMemberSession');
-  const isLoggedIn = JSON.parse(memberSession || '{}');
   const onLoginClick = async () => {
-    if (isLoggedIn) {
+    if (memberSession) {
       Cookies.remove('wixMemberSession');
       const { url } = await wixClient.auth.logout(window.location.href);
       window.location.href = url;
@@ -23,7 +22,7 @@ export const Login = () => {
   };
   return (
     <button onClick={onLoginClick} className="flex relative">
-      {isLoggedIn ? 'Log Out' : 'Log In'}
+      {memberSession ? 'Log Out' : 'Log In'}
     </button>
   );
 };
