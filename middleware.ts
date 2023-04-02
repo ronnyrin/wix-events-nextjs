@@ -5,7 +5,7 @@ import { WIX_REFRESH_TOKEN } from '@app/constants';
 
 export async function middleware(request: NextRequest) {
   const cookies = request.cookies;
-  if (cookies.get(WIX_REFRESH_TOKEN)) {
+  if (cookies.get(WIX_REFRESH_TOKEN) || cookies.get('wixMemberSession')) {
     return NextResponse.next();
   }
   const res = NextResponse.next();

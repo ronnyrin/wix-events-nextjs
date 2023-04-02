@@ -7,6 +7,12 @@ export const Login = () => {
   const memberSession = Cookies.get('wixMemberSession');
   const isLoggedIn = !!JSON.parse(memberSession || '{}').accessToken;
   const onLoginClick = async () => {
+    if (isLoggedIn) {
+      Cookies.remove('wixMemberSession');
+      const { url } = await wixClient.auth.logout(window.location.href);
+      window.location.href = url;
+      return;
+    }
     const state = await wixClient.auth.generateOauthRedirectState(
       `${window.location.href}callback`
     );
@@ -17,7 +23,7 @@ export const Login = () => {
   };
   return (
     <button onClick={onLoginClick} className="flex relative">
-      {isLoggedIn ? 'Logout' : 'Login'}
+      {isLoggedIn ? 'Log Out' : 'Log In'}
     </button>
   );
 };
