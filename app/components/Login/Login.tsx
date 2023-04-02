@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 export const Login = () => {
   const wixClient = useWixClient();
   const memberSession = Cookies.get('wixMemberSession');
-  const isLoggedIn = !!JSON.parse(memberSession || '{}').refreshToken;
+  const isLoggedIn = !!JSON.parse(memberSession || '{}');
   const onLoginClick = async () => {
     if (isLoggedIn) {
       Cookies.remove('wixMemberSession');
