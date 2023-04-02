@@ -13,7 +13,7 @@ const Callback = () => {
     wixClient.auth
       .getMemberTokens(window.location.hash, oAuthState)
       .then((tokens) => {
-        Cookies.set('wixMemberSession', JSON.stringify(tokens));
+        Cookies.set('wixMemberSession', JSON.stringify(tokens.refreshToken));
         // Cookies.remove('oauthState');
         window.location.href = 'https://wix-events-nextjs.vercel.app/';
       });
