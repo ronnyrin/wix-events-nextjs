@@ -9,7 +9,7 @@ const Callback = () => {
   useEffect(() => {
     const state = Cookies.get('oauthState');
     const oAuthState = JSON.parse(state!);
-    console.log(oAuthState);
+
     wixClient.auth
       .getMemberTokens(window.location.hash, oAuthState)
       .then((tokens) => {
