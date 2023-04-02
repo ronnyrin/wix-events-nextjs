@@ -15,7 +15,7 @@ const Callback = () => {
       .then((tokens) => {
         Cookies.set('wixMemberSession', JSON.stringify(tokens));
         // Cookies.remove('oauthState');
-        // window.location.href = oAuthState.origin;
+        window.location.href = 'https://wix-events-nextjs.vercel.app/';
       });
   }, []);
 };
