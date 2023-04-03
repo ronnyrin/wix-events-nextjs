@@ -11,6 +11,11 @@ const Callback = () => {
     const state = Cookies.get('oauthState');
     const oAuthState: OauthRedirectState = JSON.parse(state!);
 
+    if (window.location.search.includes('error=')) {
+      window.location.href = oAuthState.origin;
+      return;
+    }
+
     wixClient.auth.getMemberTokens(oAuthState).then((tokens) => {
       Cookies.set('wixMemberSession', JSON.stringify(tokens.refreshToken), {
         expires: 2,
