@@ -2,24 +2,25 @@
 import { useWixClient } from '@app/hooks/useWixClient';
 import Cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
+import { OAUTH_COOKIE_STATE, WIX_MEMBER_TOKEN } from '@app/constants';
 
 const LoginComp = () => {
   const wixClient = useWixClient();
-  const memberSession = Cookies.get('wixMemberSession');
+  const memberSession = Cookies.get(WIX_MEMBER_TOKEN);
   const isLoggedIn = JSON.parse(memberSession || '{}').value;
   const onLoginClick = async () => {
     if (isLoggedIn) {
-      Cookies.remove('wixMemberSession');
+      Cookies.remove(WIX_MEMBER_TOKEN);
       const { url } = await wixClient.auth.logout(window.location.href);
       window.location.href = url;
       return;
     }
     const state = wixClient.auth.generateOauthRedirectState(
-      `${window.location.href}callback`,
+      `${window.location.origin}/callback`,
       window.location.href
     );
-    Cookies.set('oauthState', JSON.stringify(state), {
-      expires: 0.1,
+    Cookies.set(OAUTH_COOKIE_STATE, JSON.stringify(state), {
+      expires: 0.01,
     });
     return wixClient.auth.signInWithRedirect(state);
   };
