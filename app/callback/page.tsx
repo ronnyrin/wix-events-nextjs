@@ -11,15 +11,13 @@ const Callback = () => {
     const state = Cookies.get('oauthState');
     const oAuthState: OauthRedirectState = JSON.parse(state!);
 
-    wixClient.auth
-      .getMemberTokens(window.location.hash, oAuthState)
-      .then((tokens) => {
-        Cookies.set('wixMemberSession', JSON.stringify(tokens.refreshToken), {
-          expires: 2,
-        });
-        Cookies.remove('oauthState');
-        window.location.href = oAuthState.origin;
+    wixClient.auth.getMemberTokens(oAuthState).then((tokens) => {
+      Cookies.set('wixMemberSession', JSON.stringify(tokens.refreshToken), {
+        expires: 2,
       });
+      Cookies.remove('oauthState');
+      window.location.href = oAuthState.origin;
+    });
   }, []);
 };
 
