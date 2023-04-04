@@ -15,14 +15,15 @@ const LoginComp = () => {
       window.location.href = url;
       return;
     }
-    const state = wixClient.auth.generateOauthRedirectState(
+    const oauthState = wixClient.auth.generateOauthRedirectState(
       `${window.location.origin}/callback`,
       window.location.href
     );
-    Cookies.set(OAUTH_COOKIE_STATE, JSON.stringify(state), {
+    Cookies.set(OAUTH_COOKIE_STATE, JSON.stringify(oauthState), {
       expires: 0.01,
     });
-    return wixClient.auth.signInWithRedirect(state);
+    const { url } = await wixClient.auth.authorizationUrl(oauthState);
+    window.location.href = url;
   };
   return (
     <button onClick={onLoginClick} className="flex relative">

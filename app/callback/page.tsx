@@ -9,20 +9,22 @@ const Callback = () => {
   const wixClient = useWixClient();
 
   useEffect(() => {
-    const state = Cookies.get(OAUTH_COOKIE_STATE);
-    const oAuthState: OauthRedirectState = JSON.parse(state!);
+    const oAuthStateCookie = Cookies.get(OAUTH_COOKIE_STATE);
+    const oAuthState: OauthRedirectState = JSON.parse(oAuthStateCookie!);
 
     if (window.location.search.includes('error=')) {
-      window.location.href = oAuthState.origin;
+      window.location.href = oAuthState.originalUrl;
       return;
     }
 
-    wixClient.auth.getMemberTokens(oAuthState).then((tokens) => {
+    const { state, code } = wixClient.auth.parseFromUrl();
+
+    wixClient.auth.getMemberTokens(code, state, oAuthState).then((tokens) => {
       Cookies.remove(OAUTH_COOKIE_STATE);
       Cookies.set(WIX_MEMBER_TOKEN, JSON.stringify(tokens.refreshToken), {
         expires: 2,
       });
-      window.location.href = oAuthState.origin;
+      window.location.href = oAuthState.originalUrl;
     });
   }, []);
 };

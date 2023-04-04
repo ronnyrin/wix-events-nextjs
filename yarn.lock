@@ -655,19 +655,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/api-client@npm:^1.1.49":
-  version: 1.1.49
-  resolution: "@wix/api-client@npm:1.1.49"
+"@wix/api-client@npm:^1.1.51":
+  version: 1.1.51
+  resolution: "@wix/api-client@npm:1.1.51"
   dependencies:
     "@babel/runtime": ^7.21.0
     "@wix/identity": ^1.0.22
     "@wix/image-kit": ^1.31.0
-    "@wix/redirects-api": ^1.0.19
-    "@wix/sdk-types": ^1.1.49
+    "@wix/redirects-api": ^1.0.20
+    "@wix/sdk-types": ^1.1.51
     pkce-challenge: ^3.1.0
     querystring: ^0.2.1
     type-fest: ^2.19.0
-  checksum: 80efc3b02ab6c5c3baecb9236f63403b32ff608355b9ff779eb6be5605758a3bf8a4d7fb87bde53c66f8c8df402aabe5002053579866c44319e06567ee0a71c6
+  checksum: 440b2a24dea31b5d25ba3b55f6fef071937d525276c57109aa25713b0a94961eef28cb4a029abec7d8043e57b8c5c3c7177e93b7d4af8d217bff2bd4eaf5ae6e
   languageName: node
   linkType: hard
 
@@ -838,14 +838,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/redirects-api@npm:^1.0.19":
-  version: 1.0.19
-  resolution: "@wix/redirects-api@npm:1.0.19"
+"@wix/redirects-api@npm:^1.0.20":
+  version: 1.0.21
+  resolution: "@wix/redirects-api@npm:1.0.21"
   dependencies:
     "@wix/metro-runtime": ^1.0.0
     "@wix/motion-edm-autogen-query-wrapper": ^1.0.0
     "@wix/sdk-types": ^1.0.0
-  checksum: 53f4301b5d8991f78c31513cd79c019bff3dc9f6b0472661a617b2aeee1fb3ef53501bdeabdf8c18b4bedc4708c35fdbedcce4921a38a3ae9d3ba535cbe409e6
+  checksum: ed765440aba142e8729d6c61b81173f566cf2d478d66e6205c3c7e307004d5740e6bf501c96a6942daee8932ab9d2d6f53731637cdad2ce54e60b0e4ee2196ce
   languageName: node
   linkType: hard
 
@@ -858,12 +858,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wix/sdk-types@npm:^1.1.49":
-  version: 1.1.49
-  resolution: "@wix/sdk-types@npm:1.1.49"
+"@wix/sdk-types@npm:^1.1.51":
+  version: 1.1.51
+  resolution: "@wix/sdk-types@npm:1.1.51"
   dependencies:
     "@babel/runtime": ^7.21.0
-  checksum: ac5311c850aa795ca34ad141f8be6659aeb179830f155458ee9aa0ccf9eb600b1bc88a87461bf97c47dec55513ec053735acd48b1316242734d51444bdc70928
+  checksum: de485efe71c4b303ebb46616f094d3b9278dae76abc83c28ead7a5c317bd531d4fa91a3343998ec14088aaa579b89ece66c2c1fecf5455363d2b69569692f92c
   languageName: node
   linkType: hard
 
@@ -5261,7 +5261,7 @@ __metadata:
     "@types/node": 18.11.8
     "@types/react": 18.0.24
     "@types/react-dom": 18.0.8
-    "@wix/api-client": ^1.1.49
+    "@wix/api-client": ^1.1.51
     "@wix/ecom": ^1.0.78
     "@wix/events": ^1.0.35
     "@wix/redirects-api": ^1.0.17
