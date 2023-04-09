@@ -3,6 +3,7 @@ import Footer from './components/Layout/Footer';
 import Header from './components/Layout/Header';
 import { ClientProvider } from './components/Provider/ClientProvider';
 import { SidebarUI } from './components/Sidebar/SidebarUI';
+import { NotPremium } from '@app/components/NotPremium/NotPremium';
 
 export default function RootLayout({
   children,
@@ -25,6 +26,7 @@ export default function RootLayout({
           <Header />
           <main className="bg-site min-h-[600px]">{children}</main>
           <SidebarUI />
+          <NotPremium />
         </ClientProvider>
         <div className="mt-10 sm:mt-20">
           <Footer />
