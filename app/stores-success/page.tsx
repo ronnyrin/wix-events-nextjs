@@ -6,6 +6,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function Success({ searchParams }: any) {
   const wixClient = await getWixClient();
+  try {
+    await wixClient.currentCart.deleteCurrentCart();
+  } catch (e) {}
 
   if (!searchParams.orderId) {
     return null;
