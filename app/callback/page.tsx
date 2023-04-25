@@ -2,7 +2,7 @@
 import Cookies from 'js-cookie';
 import { useWixClient } from '@app/hooks/useWixClient';
 import { useEffect } from 'react';
-import { OauthRedirectState } from '@wix/api-client';
+import { OauthData } from '@wix/api-client';
 import { OAUTH_COOKIE_STATE, WIX_MEMBER_TOKEN } from '@app/constants';
 
 const Callback = () => {
@@ -10,10 +10,10 @@ const Callback = () => {
 
   useEffect(() => {
     const oAuthStateCookie = Cookies.get(OAUTH_COOKIE_STATE);
-    const oAuthState: OauthRedirectState = JSON.parse(oAuthStateCookie!);
+    const oAuthState: OauthData = JSON.parse(oAuthStateCookie!);
 
     if (window.location.search.includes('error=')) {
-      window.location.href = oAuthState.originalUrl;
+      window.location.href = oAuthState.originalUri;
       return;
     }
 
@@ -24,7 +24,7 @@ const Callback = () => {
       Cookies.set(WIX_MEMBER_TOKEN, JSON.stringify(tokens.refreshToken), {
         expires: 2,
       });
-      window.location.href = oAuthState.originalUrl;
+      window.location.href = oAuthState.originalUri;
     });
   }, []);
 };
