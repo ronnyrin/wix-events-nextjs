@@ -14,6 +14,12 @@ export const Gallery = () => {
     try {
       items = (await wixClient.products.queryProducts().limit(10).find()).items;
       setItems(items);
+      const { items: collectionsItems } = await wixClient.collections
+        .queryCollections()
+        .ne('_id', '00000000-000000-000000-000000000001')
+        .limit(3)
+        .find();
+      console.log(collectionsItems);
     } catch (err) {
       console.error(err);
     }
